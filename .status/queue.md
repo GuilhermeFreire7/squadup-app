@@ -172,6 +172,22 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 > auditoria) vive em [`progress.md`](progress.md) — esta seção só guarda a observação mais
 > recente, para servir de ponto de retomada rápido no início da próxima sessão.
 
+- **Checkpointer — Sessão 37 (2026-10-26, branch `chore/render-api-url`):** o trial do Railway
+  expirou (2026-09) e `squadup-api.up.railway.app` passou a responder `404 Application not
+  found` — **a build `fa25bd21` não funciona mais**. Backend migrado para **Render (API, free) +
+  Neon (Postgres, free)** (`squadup-back` PRs #63 e #64 — o #64 fixa `sqlmodel<0.0.43`, cuja
+  versão nova rejeitava datetime naive e quebraria a produção). Nova URL de produção:
+  **`https://squadup-api-yu40.onrender.com`** (`/health` 200, migrations aplicadas no Neon, banco
+  vazio). `eas.json` (`preview`/`production`), `.env` e `.env.example` reapontados.
+  - **Plano free do Render hiberna após ~15 min**: a primeira requisição levou ~42 s. O
+    `apiClient` não tem timeout, então o app só demora (não dá erro) — antes da demo/gravação,
+    abrir `/health` no navegador ~2 min antes.
+  - **Ambiente local:** `node_modules` estava desatualizado (faltava `expo-location`, 5 suítes não
+    rodavam) — resolvido com `npm install`. `npm run lint` acusa ~7,7 mil erros **só de CRLF**
+    (`core.autocrlf=true` converte o working tree; o repositório está em LF) — zero erros reais.
+    309/309 testes, `tsc` limpo.
+  - **Próxima tarefa:** gerar build EAS nova (`eas build --platform android --profile preview`) e
+    retomar o teste ponta a ponta (T1/item 8 da Fase 14). Decidir sobre seed/admin em produção.
 - **Checkpointer — Sessão 35 (2026-07-30, branch `chore/tech-debt-cleanup`, aguardando
   revisão/merge em `dev`):** limpeza de dívidas técnicas de baixa prioridade, a pedido do usuário
   ("quero tratar as dívidas técnicas uma a uma"). Resolvidas: **D4** (`.editorconfig`), **D13**

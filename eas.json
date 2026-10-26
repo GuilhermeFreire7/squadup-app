@@ -17,13 +17,13 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://squadup-api.up.railway.app"
+        "EXPO_PUBLIC_API_URL": "https://squadup-api-yu40.onrender.com"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://squadup-api.up.railway.app"
+        "EXPO_PUBLIC_API_URL": "https://squadup-api-yu40.onrender.com"
       }
     }
   },
