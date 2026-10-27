@@ -109,10 +109,36 @@ cada uma só depende do respectivo contrato de backend estar mergeado.
 | # | Tarefa | Status |
 |---|--------|--------|
 | 15.1 | Auditoria visual por tela + proposta de tokens | 🟢 |
-| 15.2 | Tokens: slate único, tipografia semântica, 3 raios, 2 sombras, semânticas AA | 🟡 |
-| 15.3 | Componentes com os tokens + estados (pressionado/desabilitado/carregando/erro/foco) | ⚪ |
-| 15.4 | Telas prioritárias (Welcome, Login, Cadastro, Home, Detalhes, Criar, Perfil, Chat) | ⚪ |
-| 15.5 | Regenerar screenshots do TCC + resumo dos tokens em `.status/design-tokens.md` | ⚪ |
+| 15.2 | Tokens: slate único, tipografia semântica, 3 raios, 2 sombras, semânticas AA | 🟢 `6373615` |
+| 15.3 | Componentes com os tokens + estados (pressionado/desabilitado/carregando/erro/foco) | 🟢 `e4e1aa5` |
+| 15.4 | Telas prioritárias (Welcome, Login, Cadastro, Home, Detalhes, Criar, Perfil, Chat) | 🟢 `9374316` |
+| 15.5 | Regenerar screenshots do TCC + resumo dos tokens em `.status/design-tokens.md` | 🟢 |
+
+**Resultado (sessão 38, 2026-10-26):** 314/314 testes (309 + 5 novos: `SlotsBar`,
+`LoadingState`), `tsc` e lint sem erros reais. Tokens documentados em
+[`design-tokens.md`](design-tokens.md). Os 13 PNGs de `tcc/assets/app/` foram regenerados com o
+visual final (backend local + seed; usuário de teste promovido a `ADMIN` só durante a captura e
+revertido em seguida). Branch não mergeada nem enviada ao remoto.
+
+Bugs visuais corrigidos que não eram só estilo:
+- `Badge` e pílulas de status de denúncia aplicavam a cor do texto na `View`; em React Native
+  ela não herda para o `Text`, então "Lotada", "Intermediário" etc. saíam em preto.
+- `MatchCard` desenhava divisor e rodapé vazios quando a partida não tinha tags.
+- `MatchDetailScreen`: o rodapé de ações era `absolute` com `paddingBottom: 160` fixo no scroll,
+  menor que o rodapé real (~290 px) — "Sobre a partida" ficava coberto. Agora o rodapé é irmão
+  do `ScrollView` numa coluna flex.
+
+Observações para decidir depois (fora do escopo "só visual"):
+- `WelcomeScreen` exibe "10k+ jogadores / 500+ partidas/mês", números que não refletem o uso
+  real — pode soar inventado para a banca. Texto de produto, não alterado.
+- O botão "Painel administrativo" aparece no `MyProfileScreen` para qualquer usuário (o
+  comentário no código já diz "sem RBAC real"); um usuário comum vê o painel vazio.
+- Ambiente local: o `squadup.db` do back estava 3 migrations atrás (sem `matches.latitude`,
+  `GET /matches` dava 500). Aplicada a migration de coordenadas e `alembic stamp head`
+  (`push_tokens` já existia via `create_all`). Backup do banco anterior ficou fora do repo.
+- Na primeira rodada de `npm run test` da sessão, 5 suítes de tela falharam e passaram isoladas
+  e na rodada seguinte (cache de transformação frio no Windows) — instabilidade de ambiente,
+  não regressão.
 
 ---
 
