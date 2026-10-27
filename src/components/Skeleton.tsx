@@ -53,7 +53,7 @@ export const Skeleton = memo(SkeletonBase);
 function MatchCardSkeletonBase() {
   return (
     <View
-      className="bg-white rounded-2xl border border-neutral-100 p-4"
+      className="bg-white rounded-2xl border border-secondary-100 p-4"
       style={shadows.card}
       accessibilityLabel="Carregando partida"
     >

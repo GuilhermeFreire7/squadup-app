@@ -86,8 +86,8 @@ export default function MatchChatScreen() {
             className="flex-1 items-center justify-center py-16"
             style={{ transform: [{ scaleY: -1 }] }}
           >
-            <Text className="text-neutral-500 text-sm font-medium">Nenhuma mensagem ainda.</Text>
-            <Text className="text-neutral-500 text-sm mt-0.5">Seja o primeiro a escrever!</Text>
+            <Text className="text-secondary-500 text-sm font-medium">Nenhuma mensagem ainda.</Text>
+            <Text className="text-secondary-500 text-sm mt-0.5">Seja o primeiro a escrever!</Text>
           </View>
         }
       />

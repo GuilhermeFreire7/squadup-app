@@ -29,7 +29,7 @@ function MessageBubble({ message, isOwn }: Readonly<MessageBubbleProps>) {
           <View className="bg-primary-500 rounded-3xl rounded-br-md px-4 py-2.5">
             <Text className="text-white text-sm leading-5">{message.text}</Text>
           </View>
-          <Text className="text-xs text-neutral-500 mt-1 text-right">
+          <Text className="text-xs text-secondary-500 mt-1 text-right">
             {formatMessageTime(message.createdAt)}
           </Text>
         </View>
@@ -41,14 +41,16 @@ function MessageBubble({ message, isOwn }: Readonly<MessageBubbleProps>) {
     <View className="flex-row items-end px-4 mb-2.5 gap-2">
       <Avatar name={message.senderName} photoUrl={message.senderPhotoUrl} size="xs" />
       <View className="max-w-[75%]">
-        <Text className="text-xs font-medium text-neutral-500 mb-1 ml-1">{message.senderName}</Text>
+        <Text className="text-xs font-medium text-secondary-500 mb-1 ml-1">
+          {message.senderName}
+        </Text>
         <View
-          className="bg-white rounded-3xl rounded-bl-md px-4 py-2.5 border border-neutral-100"
+          className="bg-white rounded-3xl rounded-bl-md px-4 py-2.5 border border-secondary-100"
           style={shadows.card}
         >
           <Text className="text-secondary-900 text-sm leading-5">{message.text}</Text>
         </View>
-        <Text className="text-xs text-neutral-500 mt-1 ml-1">
+        <Text className="text-xs text-secondary-500 mt-1 ml-1">
           {formatMessageTime(message.createdAt)}
         </Text>
       </View>

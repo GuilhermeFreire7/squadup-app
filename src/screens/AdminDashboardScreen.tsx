@@ -45,7 +45,7 @@ export default function AdminDashboardScreen() {
         onPress={() => navigation.navigate("ReportDetail", { reportId: item.id })}
         accessibilityRole="button"
         accessibilityLabel={`Denúncia contra ${item.reportedUser.name}`}
-        className="bg-white rounded-2xl border border-neutral-100 p-4 mb-3 flex-row items-center gap-3 active:opacity-90"
+        className="bg-white rounded-2xl border border-secondary-100 p-4 mb-3 flex-row items-center gap-3 active:opacity-90"
         style={shadows.card}
       >
         <Avatar name={item.reportedUser.name} photoUrl={item.reportedUser.photoUrl} size="md" />
@@ -53,7 +53,7 @@ export default function AdminDashboardScreen() {
           <Text className="text-sm font-bold text-secondary-900" numberOfLines={1}>
             {item.reportedUser.name}
           </Text>
-          <Text className="text-xs text-neutral-500 mt-0.5" numberOfLines={1}>
+          <Text className="text-xs text-secondary-500 mt-0.5" numberOfLines={1}>
             {REASON_LABELS[item.reason]} · {formatReportDate(item.createdAt)}
           </Text>
         </View>
@@ -72,9 +72,9 @@ export default function AdminDashboardScreen() {
         <MaterialCommunityIcons
           name="shield-alert-outline"
           size={16}
-          color={pendingCount > 0 ? colors.warning : colors.neutral[500]}
+          color={pendingCount > 0 ? colors.warning : colors.secondary[500]}
         />
-        <Text className="text-sm font-medium text-neutral-500">{pendingText}</Text>
+        <Text className="text-sm font-medium text-secondary-500">{pendingText}</Text>
       </View>
 
       <FlatList

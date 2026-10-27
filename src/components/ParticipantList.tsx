@@ -26,7 +26,7 @@ function ParticipantList({ participants, onPress, onApprove }: ParticipantListPr
           onPress={() => onPress?.(user.id)}
           accessibilityRole="button"
           accessibilityLabel={`Ver perfil de ${user.name}`}
-          className="flex-row items-center gap-3 py-3 border-b border-neutral-100 active:opacity-70"
+          className="flex-row items-center gap-3 py-3 border-b border-secondary-100 active:opacity-70"
         >
           <Avatar name={user.name} photoUrl={user.photoUrl} size="sm" />
           <View className="flex-1">
@@ -46,7 +46,7 @@ function ParticipantList({ participants, onPress, onApprove }: ParticipantListPr
             <RatingStars rating={user.averageRating} size="sm" showValue={false} />
           </View>
           <View className="flex-row items-center gap-1">
-            <Text className="text-xs text-neutral-500">{user.matchesPlayed} partidas</Text>
+            <Text className="text-xs text-secondary-500">{user.matchesPlayed} partidas</Text>
             <MaterialCommunityIcons name="chevron-right" size={16} color="#CBD5E1" />
           </View>
         </Pressable>
@@ -54,7 +54,7 @@ function ParticipantList({ participants, onPress, onApprove }: ParticipantListPr
       {pending.map(({ user }) => (
         <View
           key={user.id}
-          className={`flex-row items-center gap-3 py-3 border-b border-neutral-100 ${
+          className={`flex-row items-center gap-3 py-3 border-b border-secondary-100 ${
             onApprove ? "" : "opacity-60"
           }`}
         >

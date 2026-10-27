@@ -25,8 +25,8 @@ const statusStyle: Record<MatchStatus, string> = {
   open: "bg-primary-100 text-primary-700",
   full: "bg-error/10 text-error",
   pending_approval: "bg-warning/10 text-warning",
-  closed: "bg-neutral-200 text-neutral-600",
-  cancelled: "bg-neutral-200 text-neutral-500",
+  closed: "bg-secondary-200 text-secondary-600",
+  cancelled: "bg-secondary-200 text-secondary-500",
 };
 
 function Badge({ label, variant = "custom", sport, level, status }: Readonly<BadgeProps>) {
@@ -35,13 +35,10 @@ function Badge({ label, variant = "custom", sport, level, status }: Readonly<Bad
     const meta = SPORT_META[sport];
     return (
       <View
-        className="self-start flex-row items-center gap-1 rounded-full px-3 py-1"
-        style={{ backgroundColor: meta.bg }}
+        className={`self-start flex-row items-center gap-1 rounded-full px-3 py-1 ${meta.bgClass}`}
       >
         <MaterialCommunityIcons name={meta.icon} size={12} color={meta.color} />
-        <Text className="text-xs font-semibold" style={{ color: meta.color }}>
-          {label}
-        </Text>
+        <Text className={`text-xs font-semibold ${meta.textClass}`}>{label}</Text>
       </View>
     );
   }

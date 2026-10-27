@@ -33,7 +33,7 @@ function SectionCard({ title, subtitle, rightElement, children }: Readonly<Secti
         </View>
       ) : null}
       {subtitle ? (
-        <Text className={`text-xs text-neutral-500 mt-0.5 ${hasBody ? "mb-3" : ""}`}>
+        <Text className={`text-xs text-secondary-500 mt-0.5 ${hasBody ? "mb-3" : ""}`}>
           {subtitle}
         </Text>
       ) : null}

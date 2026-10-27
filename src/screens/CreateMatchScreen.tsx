@@ -52,7 +52,7 @@ function ToggleRow({
   return (
     <Pressable
       className={`flex-row items-center justify-between p-4 rounded-2xl border ${
-        value ? "bg-primary-50 border-primary-300" : "bg-white border-neutral-200"
+        value ? "bg-primary-50 border-primary-300" : "bg-white border-secondary-200"
       }`}
       onPress={onToggle}
       accessibilityRole="switch"
@@ -61,15 +61,15 @@ function ToggleRow({
     >
       <View className="flex-1 mr-3">
         <Text
-          className={`text-sm font-semibold ${value ? "text-primary-700" : "text-neutral-700"}`}
+          className={`text-sm font-semibold ${value ? "text-primary-700" : "text-secondary-700"}`}
         >
           {label}
         </Text>
-        <Text className="text-xs text-neutral-500 mt-0.5">{description}</Text>
+        <Text className="text-xs text-secondary-500 mt-0.5">{description}</Text>
       </View>
       <View
         className={`w-6 h-6 rounded-lg border-2 items-center justify-center ${
-          value ? "bg-primary-500 border-primary-500" : "border-neutral-300"
+          value ? "bg-primary-500 border-primary-500" : "border-secondary-300"
         }`}
       >
         {value && <MaterialCommunityIcons name="check-bold" size={14} color={colors.white} />}
@@ -265,9 +265,9 @@ export default function CreateMatchScreen() {
               <MaterialCommunityIcons
                 name="map-marker-off-outline"
                 size={14}
-                color={colors.neutral[400]}
+                color={colors.secondary[400]}
               />
-              <Text className="text-xs text-neutral-500">
+              <Text className="text-xs text-secondary-500">
                 Localização não disponível — partida será criada sem coordenadas
               </Text>
             </View>
@@ -327,12 +327,14 @@ export default function CreateMatchScreen() {
                     accessibilityState={{ selected }}
                     accessibilityLabel={LEVEL_META[l].label}
                     className={`flex-1 py-3.5 rounded-xl border items-center ${
-                      selected ? "bg-primary-500 border-primary-500" : "bg-white border-neutral-200"
+                      selected
+                        ? "bg-primary-500 border-primary-500"
+                        : "bg-white border-secondary-200"
                     }`}
                   >
                     <Text
                       className={`text-sm font-semibold ${
-                        selected ? "text-white" : "text-neutral-600"
+                        selected ? "text-white" : "text-secondary-600"
                       }`}
                     >
                       {LEVEL_META[l].label}

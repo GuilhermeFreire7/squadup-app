@@ -74,7 +74,7 @@ export default function SearchScreen() {
       {/* Results count */}
       {searchText.length > 0 && (
         <View className="px-5 pt-4">
-          <Text className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+          <Text className="text-xs font-semibold text-secondary-500 uppercase tracking-wide">
             {filteredMatches.length} resultado{filteredMatches.length === 1 ? "" : "s"}
           </Text>
         </View>

@@ -99,6 +99,23 @@ cada uma só depende do respectivo contrato de backend estar mergeado.
 
 ---
 
+## FASE 15 — Polimento visual (branch `feat/visual-polish`, a partir de `dev`)
+
+> Só visual: sem mudar regras de negócio, API, navegação nem textos de produto (exceto os
+> títulos "Criar Partida"/"Meu Perfil" → caixa de frase, autorizado pelo usuário). Auditoria
+> (Fase 1) e decisões na sessão 38: fonte do sistema mantida; tabs com o mesmo `Header` grande;
+> prints "antes" guardados fora do repositório.
+
+| # | Tarefa | Status |
+|---|--------|--------|
+| 15.1 | Auditoria visual por tela + proposta de tokens | 🟢 |
+| 15.2 | Tokens: slate único, tipografia semântica, 3 raios, 2 sombras, semânticas AA | 🟡 |
+| 15.3 | Componentes com os tokens + estados (pressionado/desabilitado/carregando/erro/foco) | ⚪ |
+| 15.4 | Telas prioritárias (Welcome, Login, Cadastro, Home, Detalhes, Criar, Perfil, Chat) | ⚪ |
+| 15.5 | Regenerar screenshots do TCC + resumo dos tokens em `.status/design-tokens.md` | ⚪ |
+
+---
+
 ## Dívidas técnicas
 
 | # | Item | Prioridade | Descrição |

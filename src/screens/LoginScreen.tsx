@@ -70,7 +70,7 @@ export default function LoginScreen() {
         <View className="items-center mb-8">
           <SquadUpLogo width={180} height={54} />
           <Text className="mt-5 text-3xl font-bold text-secondary-900">Bem-vindo de volta</Text>
-          <Text className="mt-1 text-base text-neutral-500 text-center">
+          <Text className="mt-1 text-base text-secondary-500 text-center">
             Entre com sua conta para continuar
           </Text>
         </View>
@@ -111,7 +111,7 @@ export default function LoginScreen() {
         </View>
 
         <View className="mt-6 flex-row justify-center">
-          <Text className="text-base text-neutral-500">Não tem uma conta? </Text>
+          <Text className="text-base text-secondary-500">Não tem uma conta? </Text>
           <Pressable onPress={() => navigation.navigate("Register")}>
             <Text className="text-base font-semibold text-primary-500">Criar conta</Text>
           </Pressable>

@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { memo } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
-import { colors, shadows, type IconName } from "../theme";
+import { colors, type IconName } from "../theme";
 
 type Variant = "primary" | "secondary" | "ghost" | "outline" | "danger";
 type Size = "sm" | "md" | "lg";
@@ -53,7 +53,7 @@ const textVariant: Record<Variant, string> = {
 const textDisabled: Record<Variant, string> = {
   primary: "text-white",
   secondary: "text-white",
-  ghost: "text-neutral-500",
+  ghost: "text-secondary-500",
   outline: "text-secondary-500",
   danger: "text-white",
 };
@@ -89,7 +89,6 @@ function Button({
   icon,
 }: Readonly<ButtonProps>) {
   const isDisabled = disabled || loading;
-  const hasCtaShadow = variant === "primary" && !isDisabled;
 
   const containerClass = [
     containerBase,
@@ -106,10 +105,7 @@ function Button({
   return (
     <Pressable
       className={containerClass}
-      style={({ pressed }) => [
-        hasCtaShadow && !pressed ? shadows.cta : undefined,
-        pressed ? { transform: [{ scale: 0.98 }] } : undefined,
-      ]}
+      style={({ pressed }) => (pressed ? { transform: [{ scale: 0.98 }] } : undefined)}
       onPress={onPress}
       disabled={isDisabled}
       accessibilityRole="button"

@@ -45,10 +45,10 @@ function SlotsBar({ confirmed, max }: Readonly<{ confirmed: number; max: number 
 
   return (
     <View>
-      <View className="h-2 bg-neutral-100 rounded-full overflow-hidden">
+      <View className="h-2 bg-secondary-100 rounded-full overflow-hidden">
         <View className={`h-full rounded-full ${fillColor}`} style={{ width: `${pct}%` }} />
       </View>
-      <Text className="text-sm font-medium text-neutral-500 mt-2">
+      <Text className="text-sm font-medium text-secondary-500 mt-2">
         {availabilityText}
         {" · "}
         {confirmed}/{max} confirmados
@@ -68,7 +68,7 @@ function InfoRow({
         <MaterialCommunityIcons name={icon} size={20} color={colors.primary[500]} />
       </View>
       <View className="flex-1">
-        <Text className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-0.5">
+        <Text className="text-xs font-semibold text-secondary-500 uppercase tracking-wide mb-0.5">
           {label}
         </Text>
         <Text className="text-sm font-medium text-secondary-900">{value}</Text>
@@ -96,7 +96,7 @@ export default function MatchDetailScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Carregando partida...</Text>
+        <Text className="text-secondary-500">Carregando partida...</Text>
       </View>
     );
   }
@@ -104,7 +104,7 @@ export default function MatchDetailScreen() {
   if (!match) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Partida não encontrada.</Text>
+        <Text className="text-secondary-500">Partida não encontrada.</Text>
       </View>
     );
   }
@@ -227,7 +227,7 @@ export default function MatchDetailScreen() {
           {/* Description */}
           {match.description ? (
             <SectionCard title="Sobre a partida">
-              <Text className="text-sm text-neutral-600 leading-5">{match.description}</Text>
+              <Text className="text-sm text-secondary-600 leading-5">{match.description}</Text>
             </SectionCard>
           ) : null}
 
@@ -255,7 +255,7 @@ export default function MatchDetailScreen() {
                   )}
                 </View>
                 <RatingStars rating={match.organizer.averageRating} size="sm" showValue />
-                <Text className="text-xs text-neutral-500 mt-0.5">
+                <Text className="text-xs text-secondary-500 mt-0.5">
                   {match.organizer.matchesPlayed} partidas
                 </Text>
               </View>
@@ -283,8 +283,8 @@ export default function MatchDetailScreen() {
 
       {/* Bottom action area */}
       <View
-        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4"
-        style={[shadows.floating, { paddingBottom: bottomPadding }]}
+        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4 border-t border-secondary-200"
+        style={[shadows.overlay, { paddingBottom: bottomPadding }]}
       >
         {bottomAction}
       </View>

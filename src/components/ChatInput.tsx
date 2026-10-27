@@ -20,12 +20,15 @@ function ChatInput({ onSend }: Readonly<ChatInputProps>) {
   }
 
   return (
-    <View className="flex-row items-end bg-white px-4 py-3 gap-2.5" style={shadows.floating}>
+    <View
+      className="flex-row items-end bg-white px-4 py-3 gap-2.5 border-t border-secondary-200"
+      style={shadows.overlay}
+    >
       <TextInput
         value={text}
         onChangeText={setText}
         placeholder="Mensagem..."
-        placeholderTextColor={colors.neutral[500]}
+        placeholderTextColor={colors.secondary[500]}
         multiline
         maxLength={500}
         onSubmitEditing={handleSend}

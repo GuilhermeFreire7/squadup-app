@@ -40,10 +40,10 @@ function SlotsBar({ confirmed, max }: Readonly<{ confirmed: number; max: number 
 
   return (
     <View className="mt-3.5">
-      <View className="h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+      <View className="h-1.5 bg-secondary-100 rounded-full overflow-hidden">
         <View className={`h-full rounded-full ${fillColor}`} style={{ width: `${pct}%` }} />
       </View>
-      <Text className="text-xs font-medium text-neutral-500 mt-1.5">
+      <Text className="text-xs font-medium text-secondary-500 mt-1.5">
         {availabilityText}
         {" · "}
         {confirmed}/{max} confirmados
@@ -66,8 +66,7 @@ function MatchCard({ match, onPress }: Readonly<MatchCardProps>) {
         {/* Header: sport tile + eyebrow + title + status */}
         <View className="flex-row gap-3">
           <View
-            className="w-12 h-12 items-center justify-center rounded-2xl"
-            style={{ backgroundColor: sportMeta.bg }}
+            className={`w-12 h-12 items-center justify-center rounded-2xl ${sportMeta.bgClass}`}
           >
             <MaterialCommunityIcons name={sportMeta.icon} size={26} color={sportMeta.color} />
           </View>
@@ -75,8 +74,7 @@ function MatchCard({ match, onPress }: Readonly<MatchCardProps>) {
           <View className="flex-1">
             <View className="flex-row items-center justify-between gap-2">
               <Text
-                className="text-xs font-bold tracking-wide uppercase flex-1"
-                style={{ color: sportMeta.color }}
+                className={`text-xs font-bold tracking-wide uppercase flex-1 ${sportMeta.textClass}`}
                 numberOfLines={1}
               >
                 {sportMeta.label} · {LEVEL_META[match.level].label}
@@ -97,7 +95,7 @@ function MatchCard({ match, onPress }: Readonly<MatchCardProps>) {
               size={15}
               color={colors.secondary[400]}
             />
-            <Text className="text-sm text-neutral-500 flex-1" numberOfLines={1}>
+            <Text className="text-sm text-secondary-500 flex-1" numberOfLines={1}>
               {match.location}
               {match.distanceKm != null ? ` · ${formatDistance(match.distanceKm)}` : ""}
             </Text>
@@ -108,7 +106,7 @@ function MatchCard({ match, onPress }: Readonly<MatchCardProps>) {
               size={15}
               color={colors.secondary[400]}
             />
-            <Text className="text-sm text-neutral-500">
+            <Text className="text-sm text-secondary-500">
               {formatMatchDate(match.date)} · {match.time}
             </Text>
           </View>
@@ -120,7 +118,7 @@ function MatchCard({ match, onPress }: Readonly<MatchCardProps>) {
         )}
 
         {/* Footer: tags */}
-        <View className="flex-row items-center gap-2 mt-3.5 pt-3.5 border-t border-neutral-100">
+        <View className="flex-row items-center gap-2 mt-3.5 pt-3.5 border-t border-secondary-100">
           {match.requiresApproval && (
             <View className="flex-row items-center gap-1 bg-secondary-100 rounded-full px-2.5 py-1">
               <MaterialCommunityIcons

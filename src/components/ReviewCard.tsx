@@ -41,7 +41,7 @@ function ReviewCard({ rating }: Readonly<ReviewCardProps>) {
           <Avatar name={raterUser.name} photoUrl={raterUser.photoUrl} size="sm" />
           <View className="flex-1">
             <Text className="text-sm font-semibold text-secondary-900">{raterUser.name}</Text>
-            <Text className="text-xs text-neutral-500">{formatDate(createdAt)}</Text>
+            <Text className="text-xs text-secondary-500">{formatDate(createdAt)}</Text>
           </View>
           <RatingStars rating={criteria.overall} size="sm" showValue />
         </View>
@@ -53,7 +53,7 @@ function ReviewCard({ rating }: Readonly<ReviewCardProps>) {
           </Text>
         </View>
 
-        {comment ? <Text className="text-sm text-neutral-600 leading-5">{comment}</Text> : null}
+        {comment ? <Text className="text-sm text-secondary-600 leading-5">{comment}</Text> : null}
       </View>
     </Card>
   );

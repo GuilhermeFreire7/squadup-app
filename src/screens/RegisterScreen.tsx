@@ -95,7 +95,7 @@ export default function RegisterScreen() {
         <View className="items-center mb-8">
           <SquadUpLogo width={180} height={54} />
           <Text className="mt-5 text-3xl font-bold text-secondary-900">Crie sua conta</Text>
-          <Text className="mt-1 text-base text-neutral-500 text-center">
+          <Text className="mt-1 text-base text-secondary-500 text-center">
             Junte-se ao SquadUp e encontre sua próxima partida
           </Text>
         </View>
@@ -157,7 +157,7 @@ export default function RegisterScreen() {
         </View>
 
         <View className="mt-6 flex-row justify-center">
-          <Text className="text-base text-neutral-500">Já tem uma conta? </Text>
+          <Text className="text-base text-secondary-500">Já tem uma conta? </Text>
           <Pressable onPress={() => navigation.navigate("Login")}>
             <Text className="text-base font-semibold text-primary-500">Entrar</Text>
           </Pressable>

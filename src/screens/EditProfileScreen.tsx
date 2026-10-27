@@ -182,12 +182,14 @@ function EditProfileForm({
                     accessibilityState={{ checked: selected }}
                     accessibilityLabel={LEVEL_META[lvl].label}
                     className={`flex-1 py-3.5 rounded-xl border items-center ${
-                      selected ? "bg-primary-500 border-primary-500" : "bg-white border-neutral-200"
+                      selected
+                        ? "bg-primary-500 border-primary-500"
+                        : "bg-white border-secondary-200"
                     }`}
                   >
                     <Text
                       className={`text-sm font-semibold ${
-                        selected ? "text-white" : "text-neutral-600"
+                        selected ? "text-white" : "text-secondary-600"
                       }`}
                     >
                       {LEVEL_META[lvl].label}

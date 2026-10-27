@@ -166,7 +166,7 @@ export default function HomeScreen() {
               <Text className="text-lg font-bold text-secondary-900 tracking-tight">
                 Partidas próximas
               </Text>
-              <Text className="text-xs font-medium text-neutral-500">
+              <Text className="text-xs font-medium text-secondary-500">
                 {filteredMatches.length}{" "}
                 {filteredMatches.length === 1 ? "encontrada" : "encontradas"}
               </Text>

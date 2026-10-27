@@ -96,7 +96,7 @@ export default function MyProfileScreen() {
           {/* Bio */}
           {user.bio ? (
             <SectionCard title="Sobre mim">
-              <Text className="text-sm text-neutral-600 leading-5">{user.bio}</Text>
+              <Text className="text-sm text-secondary-600 leading-5">{user.bio}</Text>
             </SectionCard>
           ) : null}
 

@@ -36,7 +36,7 @@ function StarRatingInput({ value, onChange, label, size = "md" }: Readonly<StarR
               <MaterialCommunityIcons
                 name={filled ? "star" : "star-outline"}
                 size={starPixelSize[size]}
-                color={filled ? colors.warning : colors.neutral[300]}
+                color={filled ? colors.warning : colors.secondary[300]}
               />
             </Pressable>
           );

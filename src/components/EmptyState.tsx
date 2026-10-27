@@ -19,7 +19,7 @@ function EmptyState({ icon = "magnify", title, description, action }: Readonly<E
       </View>
       <Text className="text-lg font-bold text-secondary-900 text-center mb-2">{title}</Text>
       {description ? (
-        <Text className="text-sm text-neutral-500 text-center leading-5 mb-6">{description}</Text>
+        <Text className="text-sm text-secondary-500 text-center leading-5 mb-6">{description}</Text>
       ) : null}
       {action ?? null}
     </View>

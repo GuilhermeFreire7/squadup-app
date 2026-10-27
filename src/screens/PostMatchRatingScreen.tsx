@@ -31,7 +31,7 @@ function ParticipantRow({
   const { user } = participant;
   return (
     <View
-      className="flex-row items-center gap-3 bg-white rounded-2xl border border-neutral-100 p-4 mb-3"
+      className="flex-row items-center gap-3 bg-white rounded-2xl border border-secondary-100 p-4 mb-3"
       style={shadows.card}
     >
       <Avatar name={user.name} photoUrl={user.photoUrl} size="md" />
@@ -49,7 +49,7 @@ function ParticipantRow({
             />
           )}
         </View>
-        <Text className="text-xs text-neutral-500">{LEVEL_META[user.level].label}</Text>
+        <Text className="text-xs text-secondary-500">{LEVEL_META[user.level].label}</Text>
         <RatingStars rating={user.averageRating} size="sm" showValue />
       </View>
       {alreadyRated ? (
@@ -98,7 +98,7 @@ export default function PostMatchRatingScreen() {
   if (!match) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Partida não encontrada.</Text>
+        <Text className="text-secondary-500">Partida não encontrada.</Text>
       </View>
     );
   }
@@ -138,7 +138,7 @@ export default function PostMatchRatingScreen() {
               />
             )}
             ListHeaderComponent={
-              <Text className="text-sm text-neutral-500 mb-4">
+              <Text className="text-sm text-secondary-500 mb-4">
                 Avalie os participantes desta partida — sua avaliação constrói a reputação da
                 comunidade.
               </Text>

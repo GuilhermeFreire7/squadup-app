@@ -45,10 +45,10 @@ function Chip({
   accessibilityRole = "radio",
   accessibilityLabel,
 }: Readonly<ChipProps>) {
-  const containerClass = selected ? selectedContainer[tone] : "bg-white border-neutral-200";
-  const textClass = selected ? selectedText[tone] : "text-neutral-600";
+  const containerClass = selected ? selectedContainer[tone] : "bg-white border-secondary-200";
+  const textClass = selected ? selectedText[tone] : "text-secondary-600";
 
-  let resolvedIconColor = iconColor ?? colors.neutral[500];
+  let resolvedIconColor = iconColor ?? colors.secondary[500];
   if (selected) resolvedIconColor = tone === "primary" ? colors.white : colors.error;
 
   return (
@@ -64,7 +64,9 @@ function Chip({
       <View>
         <Text className={`text-sm font-semibold ${textClass}`}>{label}</Text>
         {sublabel ? (
-          <Text className={`text-xs ${selected ? textClass : "text-neutral-500"}`}>{sublabel}</Text>
+          <Text className={`text-xs ${selected ? textClass : "text-secondary-500"}`}>
+            {sublabel}
+          </Text>
         ) : null}
       </View>
     </Pressable>

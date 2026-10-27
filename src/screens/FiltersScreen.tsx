@@ -128,7 +128,7 @@ export default function FiltersScreen() {
     >
       {/* Handle bar */}
       <View className="items-center pt-3 pb-1">
-        <View className="w-10 h-1 bg-neutral-200 rounded-full" />
+        <View className="w-10 h-1 bg-secondary-200 rounded-full" />
       </View>
 
       {/* Header */}
@@ -213,7 +213,9 @@ export default function FiltersScreen() {
         <SectionLabel>Disponibilidade</SectionLabel>
         <Pressable
           className={`flex-row items-center justify-between p-4 rounded-2xl border mb-6 ${
-            local.onlyAvailable ? "bg-primary-50 border-primary-300" : "bg-white border-neutral-200"
+            local.onlyAvailable
+              ? "bg-primary-50 border-primary-300"
+              : "bg-white border-secondary-200"
           }`}
           onPress={() => setLocal((prev) => ({ ...prev, onlyAvailable: !prev.onlyAvailable }))}
           accessibilityRole="switch"
@@ -227,7 +229,7 @@ export default function FiltersScreen() {
             />
             <Text
               className={`text-sm font-semibold ${
-                local.onlyAvailable ? "text-primary-700" : "text-neutral-600"
+                local.onlyAvailable ? "text-primary-700" : "text-secondary-600"
               }`}
             >
               Somente com vagas disponíveis
@@ -235,7 +237,7 @@ export default function FiltersScreen() {
           </View>
           <View
             className={`w-6 h-6 rounded-lg border-2 items-center justify-center ${
-              local.onlyAvailable ? "bg-primary-500 border-primary-500" : "border-neutral-300"
+              local.onlyAvailable ? "bg-primary-500 border-primary-500" : "border-secondary-300"
             }`}
           >
             {local.onlyAvailable && (
@@ -248,7 +250,7 @@ export default function FiltersScreen() {
         <SectionLabel>Proximidade</SectionLabel>
         <Pressable
           className={`flex-row items-center justify-between p-4 rounded-2xl border ${
-            local.nearMe ? "bg-primary-50 border-primary-300" : "bg-white border-neutral-200"
+            local.nearMe ? "bg-primary-50 border-primary-300" : "bg-white border-secondary-200"
           }`}
           onPress={toggleNearMe}
           accessibilityRole="switch"
@@ -262,7 +264,7 @@ export default function FiltersScreen() {
             />
             <Text
               className={`text-sm font-semibold ${
-                local.nearMe ? "text-primary-700" : "text-neutral-600"
+                local.nearMe ? "text-primary-700" : "text-secondary-600"
               }`}
             >
               Usar minha localização
@@ -270,7 +272,7 @@ export default function FiltersScreen() {
           </View>
           <View
             className={`w-6 h-6 rounded-lg border-2 items-center justify-center ${
-              local.nearMe ? "bg-primary-500 border-primary-500" : "border-neutral-300"
+              local.nearMe ? "bg-primary-500 border-primary-500" : "border-secondary-300"
             }`}
           >
             {local.nearMe && (
@@ -303,7 +305,10 @@ export default function FiltersScreen() {
       </ScrollView>
 
       {/* Apply button */}
-      <View className="px-5 pb-8 pt-4 bg-white" style={shadows.floating}>
+      <View
+        className="px-5 pb-8 pt-4 bg-white border-t border-secondary-200"
+        style={shadows.overlay}
+      >
         <Button label={applyLabel} onPress={handleApply} size="lg" fullWidth />
       </View>
     </KeyboardAvoidingView>

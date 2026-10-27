@@ -33,7 +33,7 @@ export default function PublicProfileScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Carregando perfil...</Text>
+        <Text className="text-secondary-500">Carregando perfil...</Text>
       </View>
     );
   }
@@ -41,7 +41,7 @@ export default function PublicProfileScreen() {
   if (!user) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Usuário não encontrado.</Text>
+        <Text className="text-secondary-500">Usuário não encontrado.</Text>
       </View>
     );
   }
@@ -116,7 +116,7 @@ export default function PublicProfileScreen() {
           {/* Bio */}
           {user.bio ? (
             <SectionCard title="Sobre">
-              <Text className="text-sm text-neutral-600 leading-5">{user.bio}</Text>
+              <Text className="text-sm text-secondary-600 leading-5">{user.bio}</Text>
             </SectionCard>
           ) : null}
 
@@ -149,7 +149,9 @@ export default function PublicProfileScreen() {
             </View>
           ) : (
             <SectionCard>
-              <Text className="text-sm text-neutral-500 text-center">Nenhuma avaliação ainda.</Text>
+              <Text className="text-sm text-secondary-500 text-center">
+                Nenhuma avaliação ainda.
+              </Text>
             </SectionCard>
           )}
 

@@ -39,11 +39,11 @@ function RatingStars({
             key={`empty-${i}`}
             name="star-outline"
             size={px}
-            color={colors.neutral[300]}
+            color={colors.secondary[300]}
           />
         ))}
         {showValue ? (
-          <Text className={`ml-1 ${labelSize[size]} font-medium text-neutral-500`}>
+          <Text className={`ml-1 ${labelSize[size]} font-medium text-secondary-500`}>
             Sem avaliações
           </Text>
         ) : null}
@@ -69,7 +69,7 @@ function RatingStars({
           key={`empty-${i}`}
           name="star-outline"
           size={px}
-          color={colors.neutral[300]}
+          color={colors.secondary[300]}
         />
       ))}
       {showValue ? (

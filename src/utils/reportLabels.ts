@@ -19,7 +19,7 @@ export const STATUS_LABELS: Record<ReportStatus, string> = {
 
 export const STATUS_COLORS: Record<ReportStatus, string> = {
   pending: "bg-warning/10 text-warning",
-  archived: "bg-neutral-200 text-neutral-600",
+  archived: "bg-secondary-200 text-secondary-600",
   warned: "bg-accent-100 text-accent-700",
   banned: "bg-error/10 text-error",
 };

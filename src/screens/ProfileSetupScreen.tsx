@@ -95,7 +95,7 @@ export default function ProfileSetupScreen() {
           <Text className="text-3xl font-bold text-secondary-900 tracking-tight">
             Configure seu perfil
           </Text>
-          <Text className="mt-2 text-base text-neutral-500 leading-6">
+          <Text className="mt-2 text-base text-secondary-500 leading-6">
             Conte-nos um pouco sobre você para encontrar partidas ideais
           </Text>
         </View>
@@ -144,11 +144,11 @@ export default function ProfileSetupScreen() {
                   accessibilityState={{ checked: selected }}
                   accessibilityLabel={LEVEL_META[lvl].label}
                   className={`flex-1 py-3.5 rounded-xl border items-center ${
-                    selected ? "bg-primary-500 border-primary-500" : "bg-white border-neutral-200"
+                    selected ? "bg-primary-500 border-primary-500" : "bg-white border-secondary-200"
                   }`}
                 >
                   <Text
-                    className={`text-sm font-semibold ${selected ? "text-white" : "text-neutral-600"}`}
+                    className={`text-sm font-semibold ${selected ? "text-white" : "text-secondary-600"}`}
                   >
                     {LEVEL_META[lvl].label}
                   </Text>
