@@ -52,7 +52,7 @@ export default function ReportUserScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Carregando...</Text>
+        <Text className="text-secondary-500">Carregando...</Text>
       </View>
     );
   }
@@ -60,7 +60,7 @@ export default function ReportUserScreen() {
   if (!user) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Usuário não encontrado.</Text>
+        <Text className="text-secondary-500">Usuário não encontrado.</Text>
       </View>
     );
   }
@@ -116,9 +116,9 @@ export default function ReportUserScreen() {
                 <Text className="text-base font-bold text-secondary-900" numberOfLines={1}>
                   {user.name}
                 </Text>
-                <Text className="text-xs text-neutral-500 mt-0.5">Usuário sendo denunciado</Text>
+                <Text className="text-xs text-secondary-500 mt-0.5">Usuário sendo denunciado</Text>
               </View>
-              <View className="w-10 h-10 rounded-full bg-error/10 items-center justify-center">
+              <View className="w-10 h-10 rounded-full bg-error-50 items-center justify-center">
                 <MaterialCommunityIcons name="flag" size={18} color={colors.error} />
               </View>
             </View>
@@ -173,15 +173,19 @@ export default function ReportUserScreen() {
               maxLength={500}
               accessibilityLabel="Descrição da denúncia"
             />
-            <Text className="text-xs text-neutral-500 mt-1.5 text-right">
+            <Text className="text-xs text-secondary-500 mt-1.5 text-right">
               {description.length}/500
             </Text>
           </SectionCard>
 
           {/* Notice */}
-          <View className="flex-row items-start gap-2.5 bg-warning/10 rounded-2xl px-4 py-3.5">
-            <MaterialCommunityIcons name="shield-check-outline" size={18} color={colors.warning} />
-            <Text className="text-xs text-warning flex-1 leading-4 font-medium">
+          <View className="flex-row items-start gap-2.5 bg-warning-50 rounded-control px-4 py-3.5">
+            <MaterialCommunityIcons
+              name="shield-check-outline"
+              size={18}
+              color={colors.warningText}
+            />
+            <Text className="text-xs text-warning-700 flex-1 leading-4 font-medium">
               Todas as denúncias são revisadas pela equipe do SquadUp. Denúncias falsas ou
               maliciosas podem resultar em suspensão da conta.
             </Text>
@@ -189,9 +193,9 @@ export default function ReportUserScreen() {
 
           {/* Error */}
           {error ? (
-            <View className="flex-row items-center gap-2 bg-error/10 rounded-2xl px-4 py-3">
+            <View className="flex-row items-center gap-2 bg-error-50 rounded-control px-4 py-3">
               <MaterialCommunityIcons name="alert-circle-outline" size={18} color={colors.error} />
-              <Text className="text-sm font-medium text-error flex-1">{error}</Text>
+              <Text className="text-sm font-medium text-error-700 flex-1">{error}</Text>
             </View>
           ) : null}
         </View>
@@ -199,8 +203,8 @@ export default function ReportUserScreen() {
 
       {/* Bottom action */}
       <View
-        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4"
-        style={[shadows.floating, { paddingBottom: Math.max(insets.bottom, 16) }]}
+        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4 border-t border-secondary-200"
+        style={[shadows.overlay, { paddingBottom: Math.max(insets.bottom, 16) }]}
       >
         <Button
           label="Enviar denúncia"

@@ -19,8 +19,8 @@ function SportTile({ sport, size = 48 }: Readonly<SportTileProps>) {
 
   return (
     <View
-      className="items-center justify-center rounded-2xl"
-      style={{ width: size, height: size, backgroundColor: meta.bg }}
+      className={`items-center justify-center rounded-control ${meta.bgClass}`}
+      style={{ width: size, height: size }}
     >
       <MaterialCommunityIcons name={meta.icon} size={size * 0.52} color={meta.color} />
     </View>

@@ -10,7 +10,8 @@
 import { expect, test } from "@playwright/test";
 
 const BASE_URL = "http://localhost:8081";
-const OUT_DIR = "tcc/assets/app";
+// Sobrescrevível para pré-visualizar mudanças de design sem tocar nos PNGs do TCC.
+const OUT_DIR = process.env.TCC_SCREENSHOT_OUT_DIR ?? "tcc/assets/app";
 
 const TEST_EMAIL = process.env.TCC_SCREENSHOT_EMAIL ?? "screenshots.tcc@squadup.dev";
 const TEST_PASSWORD = process.env.TCC_SCREENSHOT_PASSWORD;
@@ -90,7 +91,8 @@ test("captura telas principais do app", async ({ page }) => {
 
   const firstMatchCard = page.locator('[role="button"]').filter({ hasText: "vagas" }).first();
   await firstMatchCard.click();
-  await expect(page.getByText("Detalhes da partida")).toBeVisible({ timeout: 10000 });
+  // O header aparece já no carregamento — esperar o conteúdo da partida
+  await expect(page.getByText("Organizador", { exact: true })).toBeVisible({ timeout: 10000 });
   await shot(page, "detalhes-partida");
 
   // scrollIntoViewIfNeeded só garante visibilidade mínima na borda — a barra de ações fixa
@@ -111,7 +113,7 @@ test("captura telas principais do app", async ({ page }) => {
   await expect(page.getByText("Partidas próximas")).toBeVisible({ timeout: 20000 });
 
   await page.getByRole("tab", { name: "Criar partida" }).click();
-  await expect(page.getByText("Criar Partida", { exact: true })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText("Organize o jogo e chame a galera")).toBeVisible({ timeout: 10000 });
   await shot(page, "criar-partida");
 
   await page.getByRole("tab", { name: "Perfil" }).click();
@@ -134,7 +136,8 @@ test("captura telas principais do app", async ({ page }) => {
       .first();
     await expect(closedMatchCard).toBeVisible({ timeout: 10000 });
     await closedMatchCard.click();
-    await expect(page.getByText("Detalhes da partida")).toBeVisible({ timeout: 10000 });
+    // O header aparece já no carregamento — esperar o conteúdo da partida
+    await expect(page.getByText("Organizador", { exact: true })).toBeVisible({ timeout: 10000 });
   }
 
   await openClosedMatch();

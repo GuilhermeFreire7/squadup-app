@@ -33,7 +33,7 @@ const DATE_RE = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 const TIME_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 function SectionLabel({ children }: { readonly children: string }) {
-  return <Text className="text-sm font-bold text-secondary-900 mb-3">{children}</Text>;
+  return <Text className="text-label text-secondary-700 mb-2">{children}</Text>;
 }
 
 function ToggleRow({
@@ -51,8 +51,10 @@ function ToggleRow({
 }) {
   return (
     <Pressable
-      className={`flex-row items-center justify-between p-4 rounded-2xl border ${
-        value ? "bg-primary-50 border-primary-300" : "bg-white border-neutral-200"
+      className={`flex-row items-center justify-between p-4 rounded-control border ${
+        value
+          ? "bg-primary-50 border-primary-300"
+          : "bg-white border-secondary-200 active:bg-secondary-50"
       }`}
       onPress={onToggle}
       accessibilityRole="switch"
@@ -60,16 +62,14 @@ function ToggleRow({
       accessibilityLabel={accessibilityLabel}
     >
       <View className="flex-1 mr-3">
-        <Text
-          className={`text-sm font-semibold ${value ? "text-primary-700" : "text-neutral-700"}`}
-        >
+        <Text className={`text-label ${value ? "text-primary-700" : "text-secondary-900"}`}>
           {label}
         </Text>
-        <Text className="text-xs text-neutral-500 mt-0.5">{description}</Text>
+        <Text className="text-caption text-secondary-600 mt-0.5">{description}</Text>
       </View>
       <View
-        className={`w-6 h-6 rounded-lg border-2 items-center justify-center ${
-          value ? "bg-primary-500 border-primary-500" : "border-neutral-300"
+        className={`w-6 h-6 rounded-md border-2 items-center justify-center ${
+          value ? "bg-primary-500 border-primary-500" : "border-secondary-300"
         }`}
       >
         {value && <MaterialCommunityIcons name="check-bold" size={14} color={colors.white} />}
@@ -206,7 +206,7 @@ export default function CreateMatchScreen() {
       className="flex-1 bg-secondary-50"
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <Header variant="large" title="Criar Partida" subtitle="Organize o jogo e chame a galera" />
+      <Header variant="large" title="Criar partida" subtitle="Organize o jogo e chame a galera" />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -235,7 +235,7 @@ export default function CreateMatchScreen() {
             {sportError ? (
               <View className="mt-2 flex-row items-center gap-1">
                 <MaterialCommunityIcons name="alert-circle" size={14} color={colors.error} />
-                <Text className="text-sm text-error">{sportError}</Text>
+                <Text className="text-body-sm text-error-700">{sportError}</Text>
               </View>
             ) : null}
           </View>
@@ -261,13 +261,13 @@ export default function CreateMatchScreen() {
             leftIcon="map-marker-outline"
           />
           {showLocationWarning ? (
-            <View className="-mt-4 flex-row items-center gap-1">
+            <View className="-mt-4 flex-row items-start gap-1">
               <MaterialCommunityIcons
                 name="map-marker-off-outline"
                 size={14}
-                color={colors.neutral[400]}
+                color={colors.secondary[400]}
               />
-              <Text className="text-xs text-neutral-500">
+              <Text className="text-caption font-normal text-secondary-500 flex-1">
                 Localização não disponível — partida será criada sem coordenadas
               </Text>
             </View>
@@ -326,14 +326,14 @@ export default function CreateMatchScreen() {
                     accessibilityRole="radio"
                     accessibilityState={{ selected }}
                     accessibilityLabel={LEVEL_META[l].label}
-                    className={`flex-1 py-3.5 rounded-xl border items-center ${
-                      selected ? "bg-primary-500 border-primary-500" : "bg-white border-neutral-200"
+                    className={`flex-1 h-12 rounded-control border items-center justify-center ${
+                      selected
+                        ? "bg-primary-500 border-primary-500 active:bg-primary-600"
+                        : "bg-white border-secondary-200 active:bg-secondary-100"
                     }`}
                   >
                     <Text
-                      className={`text-sm font-semibold ${
-                        selected ? "text-white" : "text-neutral-600"
-                      }`}
+                      className={`text-label ${selected ? "text-white" : "text-secondary-700"}`}
                     >
                       {LEVEL_META[l].label}
                     </Text>
@@ -352,7 +352,6 @@ export default function CreateMatchScreen() {
             autoCapitalize="sentences"
             multiline
             numberOfLines={3}
-            style={{ minHeight: 80, textAlignVertical: "top" }}
           />
 
           {/* Toggles */}

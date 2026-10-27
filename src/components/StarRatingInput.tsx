@@ -20,7 +20,7 @@ const starPixelSize: Record<"sm" | "md" | "lg", number> = {
 function StarRatingInput({ value, onChange, label, size = "md" }: Readonly<StarRatingInputProps>) {
   return (
     <View className="gap-1.5">
-      {label ? <Text className="text-sm text-secondary-800 font-semibold">{label}</Text> : null}
+      {label ? <Text className="text-label text-secondary-700">{label}</Text> : null}
       <View className="flex-row gap-1.5">
         {[1, 2, 3, 4, 5].map((star) => {
           const filled = star <= value;
@@ -30,13 +30,13 @@ function StarRatingInput({ value, onChange, label, size = "md" }: Readonly<StarR
               onPress={() => onChange(star)}
               accessibilityLabel={`${star} estrela${star !== 1 ? "s" : ""}`}
               accessibilityRole="button"
-              hitSlop={6}
+              hitSlop={8}
               style={({ pressed }) => (pressed ? { transform: [{ scale: 1.15 }] } : undefined)}
             >
               <MaterialCommunityIcons
                 name={filled ? "star" : "star-outline"}
                 size={starPixelSize[size]}
-                color={filled ? colors.warning : colors.neutral[300]}
+                color={filled ? colors.warning : colors.secondary[300]}
               />
             </Pressable>
           );

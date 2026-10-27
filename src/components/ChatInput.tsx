@@ -20,17 +20,19 @@ function ChatInput({ onSend }: Readonly<ChatInputProps>) {
   }
 
   return (
-    <View className="flex-row items-end bg-white px-4 py-3 gap-2.5" style={shadows.floating}>
+    <View
+      className="flex-row items-end bg-white px-4 py-3 gap-2.5 border-t border-secondary-200"
+      style={shadows.overlay}
+    >
       <TextInput
         value={text}
         onChangeText={setText}
         placeholder="Mensagem..."
-        placeholderTextColor={colors.neutral[500]}
+        placeholderTextColor={colors.secondary[500]}
         multiline
         maxLength={500}
         onSubmitEditing={handleSend}
-        className="flex-1 bg-secondary-100 rounded-3xl px-4 py-2.5 text-sm text-secondary-900 max-h-28"
-        style={{ minHeight: 44 }}
+        className="flex-1 bg-secondary-100 rounded-control px-4 py-2.5 text-body-sm text-secondary-900 min-h-11 max-h-28"
         accessibilityLabel="Campo de mensagem"
       />
       <Pressable
@@ -39,7 +41,7 @@ function ChatInput({ onSend }: Readonly<ChatInputProps>) {
         accessibilityLabel="Enviar mensagem"
         accessibilityRole="button"
         className={`w-11 h-11 rounded-full items-center justify-center ${
-          canSend ? "bg-primary-500" : "bg-secondary-100"
+          canSend ? "bg-primary-500 active:bg-primary-600" : "bg-secondary-100"
         }`}
         style={({ pressed }) => (pressed && canSend ? { transform: [{ scale: 0.92 }] } : undefined)}
       >

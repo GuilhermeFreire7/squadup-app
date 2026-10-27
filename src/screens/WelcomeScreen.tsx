@@ -42,13 +42,13 @@ export default function WelcomeScreen() {
         className="flex-1 items-center justify-center px-8"
         style={{ paddingTop: insets.top + 24 }}
       >
-        <SquadUpLogo width={200} height={64} style={{ marginBottom: 28 }} />
+        <View className="mb-7">
+          <SquadUpLogo width={200} height={64} />
+        </View>
 
-        <Text className="text-lg font-semibold text-primary-400 mb-4">
-          Conecte-se. Jogue. Repita.
-        </Text>
+        <Text className="text-heading text-white mb-3">Conecte-se. Jogue. Repita.</Text>
 
-        <Text className="text-sm text-secondary-400 text-center leading-5">
+        <Text className="text-body text-secondary-400 text-center">
           Encontre partidas, forme grupos e pratique{"\n"}o esporte que você ama.
         </Text>
 
@@ -58,10 +58,10 @@ export default function WelcomeScreen() {
             const meta = SPORT_META[sport];
             return (
               <View key={sport} className="items-center gap-2">
-                <View className="w-14 h-14 rounded-2xl bg-secondary-800 items-center justify-center border border-secondary-700">
+                <View className="w-14 h-14 rounded-control bg-secondary-800 items-center justify-center border border-secondary-700">
                   <MaterialCommunityIcons name={meta.icon} size={26} color={meta.color} />
                 </View>
-                <Text className="text-xs text-secondary-400 font-medium">{meta.label}</Text>
+                <Text className="text-caption text-secondary-400">{meta.label}</Text>
               </View>
             );
           })}
@@ -73,8 +73,8 @@ export default function WelcomeScreen() {
             <React.Fragment key={stat.label}>
               {index > 0 && <View className="w-px bg-secondary-700" />}
               <View className="items-center">
-                <Text className="text-2xl font-bold text-white tracking-tight">{stat.value}</Text>
-                <Text className="text-xs text-secondary-400 mt-0.5">{stat.label}</Text>
+                <Text className="text-title text-white">{stat.value}</Text>
+                <Text className="text-caption text-secondary-400 mt-0.5">{stat.label}</Text>
               </View>
             </React.Fragment>
           ))}
@@ -83,7 +83,7 @@ export default function WelcomeScreen() {
 
       {/* CTA section */}
       <View
-        className="px-6 pt-6 border-t border-secondary-800"
+        className="px-5 pt-6 border-t border-secondary-800"
         style={{ paddingBottom: Math.max(insets.bottom, 32) }}
       >
         <Button

@@ -17,9 +17,10 @@ export const STATUS_LABELS: Record<ReportStatus, string> = {
   banned: "Usuário banido",
 };
 
-export const STATUS_COLORS: Record<ReportStatus, string> = {
-  pending: "bg-warning/10 text-warning",
-  archived: "bg-neutral-200 text-neutral-600",
-  warned: "bg-accent-100 text-accent-700",
-  banned: "bg-error/10 text-error",
+/** Fundo vai na View e texto no Text — em React Native a cor do texto não herda. */
+export const STATUS_COLORS: Record<ReportStatus, { bg: string; text: string }> = {
+  pending: { bg: "bg-warning-50", text: "text-warning-700" },
+  archived: { bg: "bg-secondary-100", text: "text-secondary-600" },
+  warned: { bg: "bg-accent-50", text: "text-accent-700" },
+  banned: { bg: "bg-error-50", text: "text-error-700" },
 };

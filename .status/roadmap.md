@@ -1,6 +1,6 @@
 # SquadUp — Roadmap Inicial do Front-end
 
-## Status de execução (atualizado em 2026-07-16, sessão 28)
+## Status de execução (atualizado em 2026-10-26, sessão 38)
 
 | Fase | Descrição | Status |
 |------|-----------|--------|
@@ -20,8 +20,9 @@
 | Fase 12 | Revisão e polimento final | 🟡 Em andamento (6/8 — 12.1, 12.2, 12.4–12.7 concluídas, sessão 17; 12.8 em andamento, sessão 28) |
 | Fase 13 | Integração com o backend real | 🟢 **Concluída (16/16)** — 13.1 sessão 20; 13.2/13.3 sessão 21; 13.4 sessões 22–23; 13.5 sessão 24; 13.6 sessão 25; 13.7 sessão 26; 13.8 sessão 27; 13.9 sessão 28 |
 | Fase 14 | Geolocalização real e notificações push | 🟡 Em andamento (7/8 — backend 1–4 concluídas; front 14.1 (itens 5–6) e 14.2 (item 7) concluídos sessões 31–33; item 8 em andamento, sessão 34 — hardening real em dispositivo achou e corrigiu D28–D34) |
+| Fase 15 | Polimento visual (design system: tokens, componentes, telas) | 🟢 Concluída (5/5 — sessão 38, branch `feat/visual-polish`, aguardando PR) |
 
-**Progresso geral:** 85/86 tarefas do protótipo+integração concluídas (99%) · Fase 14: 7/8 · 309 testes passando · lint zerado · tsc zerado
+**Progresso geral:** 85/86 tarefas do protótipo+integração concluídas (99%) · Fase 14: 7/8 · Fase 15: 5/5 · 314 testes passando · lint zerado · tsc zerado
 
 Stack confirmada: React Native 0.81.5 · Expo SDK 54 · TypeScript · NativeWind v4 · React Navigation v6 · @expo/vector-icons (MaterialCommunityIcons) · @tanstack/react-query v5 · expo-secure-store (sessão 21) · @playwright/test como dev tooling para screenshots do TCC (sessão 28)
 
@@ -743,3 +744,30 @@ implementado.
   nesta fase;
 - Notificações de denúncia/moderação;
 - Tracking contínuo de localização em background — só leitura pontual por ação do usuário.
+
+---
+
+## 21. Fase 15 — Polimento visual (sessão 38)
+
+### Objetivo
+
+Dar ao app um visual profissional e consistente para a banca, sem mudar regras de negócio, API,
+navegação nem textos de produto (exceto "Criar partida" / "Meu perfil" em caixa de frase,
+autorizado pelo usuário). Identidade de `vision.md` §10: jovem, esportiva, social e confiável.
+
+### Entregas
+
+1. Auditoria visual por tela, priorizada por impacto.
+2. Tokens: escala de cinza única (slate), tipografia semântica, 3 raios, 2 níveis de elevação,
+   cores semânticas com contraste AA — documentados em [`design-tokens.md`](design-tokens.md).
+3. Componentes com estados visuais claros (pressionado, desabilitado, carregando, erro, foco) e
+   área de toque de 44 px; novos `SlotsBar` e `LoadingState`.
+4. Telas prioritárias (Welcome, Login, Cadastro, Home, Detalhes, Criar, Perfil, Chat) e varredura
+   das secundárias.
+5. Screenshots do TCC regenerados.
+
+### Fora do escopo (registrado para decisão)
+
+Números de marketing da Welcome, visibilidade do painel admin para usuário comum, variante do
+botão "Enviar denúncia" — ver `queue.md`, Fase 15.
+

@@ -54,7 +54,7 @@ export default function ReportDetailScreen() {
   if (!report) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Denúncia não encontrada.</Text>
+        <Text className="text-secondary-500">Denúncia não encontrada.</Text>
       </View>
     );
   }
@@ -115,7 +115,7 @@ export default function ReportDetailScreen() {
 
           {report.description ? (
             <SectionCard title="Descrição">
-              <Text className="text-sm text-neutral-600 leading-5">{report.description}</Text>
+              <Text className="text-sm text-secondary-600 leading-5">{report.description}</Text>
             </SectionCard>
           ) : null}
 
@@ -133,8 +133,12 @@ export default function ReportDetailScreen() {
 
           <View className="flex-row items-center gap-2">
             <Text className="text-sm font-bold text-secondary-900">Status atual</Text>
-            <View className={`self-start rounded-full px-3 py-1 ${STATUS_COLORS[report.status]}`}>
-              <Text className="text-xs font-semibold">{STATUS_LABELS[report.status]}</Text>
+            <View
+              className={`self-start rounded-full px-2.5 py-1 ${STATUS_COLORS[report.status].bg}`}
+            >
+              <Text className={`text-caption font-semibold ${STATUS_COLORS[report.status].text}`}>
+                {STATUS_LABELS[report.status]}
+              </Text>
             </View>
           </View>
 

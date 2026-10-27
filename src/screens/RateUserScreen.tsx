@@ -59,7 +59,7 @@ export default function RateUserScreen() {
   if (!match || !user) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Usuário não encontrado.</Text>
+        <Text className="text-secondary-500">Usuário não encontrado.</Text>
       </View>
     );
   }
@@ -124,11 +124,11 @@ export default function RateUserScreen() {
                     />
                   )}
                 </View>
-                <Text className="text-xs text-neutral-500 mt-0.5">
+                <Text className="text-xs text-secondary-500 mt-0.5">
                   {LEVEL_META[user.level].label}
                 </Text>
                 <RatingStars rating={user.averageRating} size="sm" showValue />
-                <Text className="text-xs text-neutral-500 mt-0.5">
+                <Text className="text-xs text-secondary-500 mt-0.5">
                   {user.matchesPlayed} partidas concluídas
                 </Text>
               </View>
@@ -153,7 +153,7 @@ export default function RateUserScreen() {
           {/* Comment */}
           <SectionCard
             title="Comentário"
-            rightElement={<Text className="text-xs text-neutral-500">opcional</Text>}
+            rightElement={<Text className="text-xs text-secondary-500">opcional</Text>}
           >
             <Input
               value={comment}
@@ -164,14 +164,16 @@ export default function RateUserScreen() {
               maxLength={280}
               accessibilityLabel="Comentário"
             />
-            <Text className="text-xs text-neutral-500 mt-1.5 text-right">{comment.length}/280</Text>
+            <Text className="text-xs text-secondary-500 mt-1.5 text-right">
+              {comment.length}/280
+            </Text>
           </SectionCard>
 
           {/* Error */}
           {error ? (
-            <View className="flex-row items-center gap-2 bg-error/10 rounded-2xl px-4 py-3">
+            <View className="flex-row items-center gap-2 bg-error-50 rounded-control px-4 py-3">
               <MaterialCommunityIcons name="alert-circle-outline" size={18} color={colors.error} />
-              <Text className="text-sm font-medium text-error flex-1">{error}</Text>
+              <Text className="text-sm font-medium text-error-700 flex-1">{error}</Text>
             </View>
           ) : null}
         </View>
@@ -179,8 +181,8 @@ export default function RateUserScreen() {
 
       {/* Bottom action */}
       <View
-        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4"
-        style={[shadows.floating, { paddingBottom: Math.max(insets.bottom, 16) }]}
+        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4 border-t border-secondary-200"
+        style={[shadows.overlay, { paddingBottom: Math.max(insets.bottom, 16) }]}
       >
         <Button
           label="Enviar avaliação"

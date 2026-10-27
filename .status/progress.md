@@ -2053,3 +2053,74 @@ foi de **302 → 309 testes**, todos passando (7 novos: 4 em `src/utils/__tests_
   em `dev`; (2) retomar o teste de ponta a ponta da build `fa25bd21` (cadastro → criar partida →
   chat → filtro de proximidade → push) para finalmente fechar o item 8 da Fase 14 — continua sendo
   o único bloqueador real do projeto, sem nenhum bug de código pendente do lado do front.
+
+---
+
+## Sessão 38 — 2026-10-26
+
+### Fase 15 — Polimento visual
+
+A pedido do usuário, para a apresentação à banca (dezembro): visual mais profissional e
+consistente, sem mudar comportamento. Fluxo em 4 fases, com parada após a auditoria para
+aprovação dos tokens. Decisões do usuário: manter a fonte do sistema (sem `expo-font` nem build
+EAS nova); títulos "Criar partida"/"Meu perfil" em caixa de frase; abas raiz com o mesmo `Header`
+grande; prints "antes" guardados fora do repositório.
+
+| Commit | Fase | Conteúdo |
+|---|---|---|
+| `6373615` | Tokens | `neutral` removido (87 usos migrados para `secondary`); semânticas viram escalas (`-50` / `DEFAULT` / `-700`); `error` passa a #DC2626; cores `sport-*` no Tailwind; tipografia semântica; raios `control`/`card`; sombras reduzidas a `card`/`overlay` (sai o brilho azul `cta`) |
+| `e4e1aa5` | Componentes | Button (estados, `danger` suave, `busy`), Input (erro/desabilitado), Header (`large` com `rightElement`), Badge, Chip, TrustBadges, MatchCard, novos `SlotsBar`/`LoadingState`, `RatingStars onDark`; `capture-tcc-screenshots` aceita `TCC_SCREENSHOT_OUT_DIR` |
+| `9374316` | Telas | Detalhe com rodapé em coluna, perfis, auth, Home/Busca, Chat, varredura das secundárias, navegadores sem hex |
+| `6b4d374` | Entrega | 13 PNGs de `tcc/assets/app/` regenerados, `design-tokens.md`, `queue.md` |
+
+### Bugs corrigidos que não eram só estilo
+
+- **Cor de texto na `View`:** `Badge` (níveis e status) e as pílulas de status de denúncia
+  (`STATUS_COLORS` em `utils/reportLabels.ts`) aplicavam `text-*` no container. Em React Native a
+  cor não herda para o `Text`, então "Lotada", "Intermediário", "Pendente" etc. saíam em preto.
+  `STATUS_COLORS` virou `{ bg, text }`.
+- **Rodapé vazio no `MatchCard`:** divisor e espaço de tags eram desenhados mesmo sem tags.
+- **Conteúdo coberto no `MatchDetailScreen`:** o rodapé de ações era `absolute` e o scroll
+  reservava `paddingBottom: 160`, menor que o rodapé real com 4 itens (~290 px). Agora o rodapé é
+  irmão do `ScrollView` numa coluna flex — a rolagem termina onde ele começa, para qualquer
+  combinação de botões.
+
+### Decisões não óbvias
+
+- **Peso no token de `fontSize`:** Tailwind 3.4 aceita `fontWeight`/`letterSpacing` na tupla, e o
+  NativeWind aplica (verificado no estilo computado via Playwright). `subheading` começou em 600 e
+  subiu para 700: semibold a 16 px ficava mais fraco que o bold a 14 px anterior.
+- **Carregando ≠ desabilitado no `Button`:** `loading` bloqueia o toque mas mantém a cor da
+  variante (`looksDisabled = disabled && !loading`); só `disabled` fica neutro.
+- **`danger` suave:** o único uso era "Encerrar partida", que competia com "Chat da partida" em
+  vermelho sólido. Efeito colateral: "Enviar denúncia" também ficou suave — levado ao usuário.
+- **Ícones de esporte mantêm o tom vivo**, só o texto usa os tons 700: no Welcome os ícones ficam
+  sobre fundo escuro, onde o tom escuro sumiria.
+- **Teste do `CreateMatchScreen`:** com o título igual ao botão ("Criar partida"), `getByText`
+  achava dois elementos. O teste passou a usar `getByRole("button", { name })` — mudança de busca,
+  não de expectativa.
+- **Costura de 1 px entre `Header` e hero do perfil:** artefato de pixel fracionário entre duas
+  Views da mesma cor; resolvido com `-mt-px` no `ScrollView` das telas de perfil, sem mexer no
+  `Header` compartilhado.
+
+### Ambiente
+
+- `squadup-back/squadup.db` estava 3 migrations atrás (sem `matches.latitude` → `GET /matches`
+  500). Aplicada `0bb63757da75` (coordenadas) e `alembic stamp head`, porque `push_tokens` já
+  existia (criada por `create_all`). Backup fora do repositório.
+- Screenshots: usuário de teste promovido a `ADMIN` só durante a captura da moderação e revertido.
+- `expo start` com `CI=1` desliga o watcher do Metro — o bundle fica congelado no estado do
+  início. Rodar sem `CI=1` ao iterar em visual.
+
+### Validação
+
+`npx tsc --noEmit` zero erros · `npm run lint` zero erros reais (só `␍` do `core.autocrlf`) ·
+`npm run test` 314/314 (44 suítes). Na primeira rodada da sessão, antes de qualquer mudança,
+5 suítes de tela falharam e passaram isoladas e na rodada seguinte — instabilidade de cache frio
+no Windows, não regressão. Revisão visual das 13 telas via Playwright antes do commit final.
+
+### Estado do repositório ao final da sessão 38
+
+Branch `feat/visual-polish` (a partir de `dev` em `1332e9a`), 4 commits + este fechamento de
+status. Não mergeada nem enviada ao remoto — aguardando revisão do usuário.
+

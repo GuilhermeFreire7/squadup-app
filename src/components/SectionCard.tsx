@@ -24,16 +24,12 @@ function SectionCard({ title, subtitle, rightElement, children }: Readonly<Secti
     <Card>
       {hasHeader ? (
         <View className={`flex-row items-center justify-between ${headerMargin}`}>
-          {title ? (
-            <Text className="text-sm font-bold text-secondary-900 tracking-tight">{title}</Text>
-          ) : (
-            <View />
-          )}
+          {title ? <Text className="text-subheading text-secondary-900">{title}</Text> : <View />}
           {rightElement ?? null}
         </View>
       ) : null}
       {subtitle ? (
-        <Text className={`text-xs text-neutral-500 mt-0.5 ${hasBody ? "mb-3" : ""}`}>
+        <Text className={`text-caption text-secondary-500 mt-0.5 ${hasBody ? "mb-3" : ""}`}>
           {subtitle}
         </Text>
       ) : null}

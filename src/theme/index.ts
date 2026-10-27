@@ -24,6 +24,7 @@ export const colors = {
     800: "#1E3A8A",
     900: "#1E2D5A",
   },
+  /** Slate — única escala de cinza do app. */
   secondary: {
     50: "#F8FAFC",
     100: "#F1F5F9",
@@ -39,28 +40,24 @@ export const colors = {
   accent: {
     500: "#F97316",
     600: "#EA580C",
+    700: "#C2410C",
   },
-  neutral: {
-    50: "#F9FAFB",
-    100: "#F3F4F6",
-    200: "#E5E7EB",
-    300: "#D1D5DB",
-    400: "#9CA3AF",
-    500: "#6B7280",
-    600: "#4B5563",
-  },
+  /** Ícones e preenchimentos de estado. Para texto, usar os tons 700 abaixo. */
   success: "#22C55E",
   warning: "#F59E0B",
-  error: "#EF4444",
+  error: "#DC2626",
+  successText: "#15803D",
+  warningText: "#B45309",
+  errorText: "#B91C1C",
   white: "#FFFFFF",
 } as const;
 
 /**
- * Sistema de elevação — sombras consistentes (iOS) + elevation (Android).
+ * Elevação em dois níveis — sombra (iOS/web) + elevation (Android).
  * Aplicar via prop `style`, já que NativeWind não cobre sombras custom.
  */
-export const shadows: Record<"card" | "raised" | "floating" | "cta", StyleProp<ViewStyle>> = {
-  /** Cards de conteúdo em repouso */
+export const shadows: Record<"card" | "overlay", StyleProp<ViewStyle>> = {
+  /** Nível 1 — cards de conteúdo em repouso */
   card: {
     shadowColor: colors.secondary[900],
     shadowOffset: { width: 0, height: 2 },
@@ -68,46 +65,72 @@ export const shadows: Record<"card" | "raised" | "floating" | "cta", StyleProp<V
     shadowRadius: 8,
     elevation: 2,
   },
-  /** Elementos que se destacam da lista (headers flutuantes, modais) */
-  raised: {
+  /**
+   * Nível 2 — o que flutua sobre o conteúdo (barras fixas, cards em destaque).
+   * Barras no rodapé combinam com `border-t border-secondary-200`, porque no iOS a sombra
+   * cai para baixo e não separaria a barra do conteúdo acima.
+   */
+  overlay: {
     shadowColor: colors.secondary[900],
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 16,
-    elevation: 6,
-  },
-  /** Barras fixas sobre conteúdo rolável */
-  floating: {
-    shadowColor: colors.secondary[900],
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.08,
     shadowRadius: 12,
-    elevation: 10,
-  },
-  /** CTA primário — glow sutil da cor da marca */
-  cta: {
-    shadowColor: colors.primary[500],
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 6,
+    elevation: 8,
   },
 };
 
 /**
  * Identidade visual por esporte — ícone vetorial + cor de categoria.
- * Cores aplicadas via `style` (NativeWind compila classes estaticamente).
+ * `color` é o tom vivo para ícones (prop `color`); texto e fundo usam as classes
+ * `sport-*` do Tailwind, que passam AA. As strings ficam completas aqui para o
+ * NativeWind encontrá-las ao compilar.
  */
 export const SPORT_META: Record<
   Sport,
-  { label: string; icon: IconName; color: string; bg: string }
+  { label: string; icon: IconName; color: string; textClass: string; bgClass: string }
 > = {
-  football: { label: "Futebol", icon: "soccer", color: "#059669", bg: "#ECFDF5" },
-  futsal: { label: "Futsal", icon: "soccer-field", color: "#0D9488", bg: "#F0FDFA" },
-  volleyball: { label: "Vôlei", icon: "volleyball", color: "#7C3AED", bg: "#F5F3FF" },
-  basketball: { label: "Basquete", icon: "basketball", color: "#EA580C", bg: "#FFF7ED" },
-  tennis: { label: "Tênis", icon: "tennis", color: "#65A30D", bg: "#F7FEE7" },
-  other: { label: "Outro", icon: "trophy-outline", color: "#475569", bg: "#F1F5F9" },
+  football: {
+    label: "Futebol",
+    icon: "soccer",
+    color: "#059669",
+    textClass: "text-sport-football",
+    bgClass: "bg-sport-football-bg",
+  },
+  futsal: {
+    label: "Futsal",
+    icon: "soccer-field",
+    color: "#0D9488",
+    textClass: "text-sport-futsal",
+    bgClass: "bg-sport-futsal-bg",
+  },
+  volleyball: {
+    label: "Vôlei",
+    icon: "volleyball",
+    color: "#7C3AED",
+    textClass: "text-sport-volleyball",
+    bgClass: "bg-sport-volleyball-bg",
+  },
+  basketball: {
+    label: "Basquete",
+    icon: "basketball",
+    color: "#EA580C",
+    textClass: "text-sport-basketball",
+    bgClass: "bg-sport-basketball-bg",
+  },
+  tennis: {
+    label: "Tênis",
+    icon: "tennis",
+    color: "#65A30D",
+    textClass: "text-sport-tennis",
+    bgClass: "bg-sport-tennis-bg",
+  },
+  other: {
+    label: "Outro",
+    icon: "trophy-outline",
+    color: "#475569",
+    textClass: "text-sport-other",
+    bgClass: "bg-sport-other-bg",
+  },
 };
 
 export const LEVEL_META: Record<ExperienceLevel, { label: string }> = {

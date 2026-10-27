@@ -21,8 +21,8 @@ function Card({
   accessibilityLabel,
   ...rest
 }: Readonly<CardProps>) {
-  const base = `bg-white rounded-2xl border border-neutral-100 ${padded ? "p-4" : ""}`;
-  const shadow = raised ? shadows.raised : shadows.card;
+  const base = `bg-white rounded-card border border-secondary-200/70 ${padded ? "p-4" : ""}`;
+  const shadow = raised ? shadows.overlay : shadows.card;
 
   if (onPress) {
     return (

@@ -57,20 +57,27 @@ export default function LoginScreen() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white"
+      className="flex-1 bg-secondary-50"
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1, padding: 24, paddingTop: 96 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 20,
+          paddingTop: 96,
+          paddingBottom: 32,
+        }}
         keyboardShouldPersistTaps="handled"
       >
         <StatusBar style="dark" />
         {/* Brand header */}
         <View className="items-center mb-8">
           <SquadUpLogo width={180} height={54} />
-          <Text className="mt-5 text-3xl font-bold text-secondary-900">Bem-vindo de volta</Text>
-          <Text className="mt-1 text-base text-neutral-500 text-center">
+          <Text className="mt-6 text-display text-secondary-900 text-center">
+            Bem-vindo de volta
+          </Text>
+          <Text className="mt-2 text-body text-secondary-600 text-center">
             Entre com sua conta para continuar
           </Text>
         </View>
@@ -110,10 +117,14 @@ export default function LoginScreen() {
           />
         </View>
 
-        <View className="mt-6 flex-row justify-center">
-          <Text className="text-base text-neutral-500">Não tem uma conta? </Text>
-          <Pressable onPress={() => navigation.navigate("Register")}>
-            <Text className="text-base font-semibold text-primary-500">Criar conta</Text>
+        <View className="mt-6 flex-row justify-center items-center">
+          <Text className="text-body text-secondary-600">Não tem uma conta? </Text>
+          <Pressable
+            hitSlop={12}
+            accessibilityRole="link"
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text className="text-body font-semibold text-primary-500">Criar conta</Text>
           </Pressable>
         </View>
       </ScrollView>

@@ -2,22 +2,17 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, View } from "react-native";
 
 import ChatInput from "../components/ChatInput";
+import EmptyState from "../components/EmptyState";
 import Header from "../components/Header";
 import MessageBubble from "../components/MessageBubble";
 import { useAuth } from "../contexts/AuthContext";
 import { useMatchDetail } from "../hooks/useMatchDetail";
 import { useMessages } from "../hooks/useMessages";
 import type { AppRootStackParamList } from "../navigation/types";
+import { colors } from "../theme";
 import type { Message } from "../types";
 
 type Nav = NativeStackNavigationProp<AppRootStackParamList>;
@@ -77,17 +72,18 @@ export default function MatchChatScreen() {
         ListFooterComponent={
           isFetchingMore ? (
             <View className="py-3" style={{ transform: [{ scaleY: -1 }] }}>
-              <ActivityIndicator />
+              <ActivityIndicator color={colors.primary[500]} />
             </View>
           ) : null
         }
         ListEmptyComponent={
-          <View
-            className="flex-1 items-center justify-center py-16"
-            style={{ transform: [{ scaleY: -1 }] }}
-          >
-            <Text className="text-neutral-500 text-sm font-medium">Nenhuma mensagem ainda.</Text>
-            <Text className="text-neutral-500 text-sm mt-0.5">Seja o primeiro a escrever!</Text>
+          // Lista invertida: o vazio é desvirado para ficar de pé
+          <View className="flex-1" style={{ transform: [{ scaleY: -1 }] }}>
+            <EmptyState
+              icon="chat-outline"
+              title="Nenhuma mensagem ainda."
+              description="Seja o primeiro a escrever!"
+            />
           </View>
         }
       />

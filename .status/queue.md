@@ -99,6 +99,52 @@ cada uma só depende do respectivo contrato de backend estar mergeado.
 
 ---
 
+## FASE 15 — Polimento visual (branch `feat/visual-polish`, a partir de `dev`)
+
+> Só visual: sem mudar regras de negócio, API, navegação nem textos de produto (exceto os
+> títulos "Criar Partida"/"Meu Perfil" → caixa de frase, autorizado pelo usuário). Auditoria
+> (Fase 1) e decisões na sessão 38: fonte do sistema mantida; tabs com o mesmo `Header` grande;
+> prints "antes" guardados fora do repositório.
+
+| # | Tarefa | Status |
+|---|--------|--------|
+| 15.1 | Auditoria visual por tela + proposta de tokens | 🟢 |
+| 15.2 | Tokens: slate único, tipografia semântica, 3 raios, 2 sombras, semânticas AA | 🟢 `6373615` |
+| 15.3 | Componentes com os tokens + estados (pressionado/desabilitado/carregando/erro/foco) | 🟢 `e4e1aa5` |
+| 15.4 | Telas prioritárias (Welcome, Login, Cadastro, Home, Detalhes, Criar, Perfil, Chat) | 🟢 `9374316` |
+| 15.5 | Regenerar screenshots do TCC + resumo dos tokens em `.status/design-tokens.md` | 🟢 |
+
+**Resultado (sessão 38, 2026-10-26):** 314/314 testes (309 + 5 novos: `SlotsBar`,
+`LoadingState`), `tsc` e lint sem erros reais. Tokens documentados em
+[`design-tokens.md`](design-tokens.md). Os 13 PNGs de `tcc/assets/app/` foram regenerados com o
+visual final (backend local + seed; usuário de teste promovido a `ADMIN` só durante a captura e
+revertido em seguida). Branch não mergeada nem enviada ao remoto.
+
+Bugs visuais corrigidos que não eram só estilo:
+- `Badge` e pílulas de status de denúncia aplicavam a cor do texto na `View`; em React Native
+  ela não herda para o `Text`, então "Lotada", "Intermediário" etc. saíam em preto.
+- `MatchCard` desenhava divisor e rodapé vazios quando a partida não tinha tags.
+- `MatchDetailScreen`: o rodapé de ações era `absolute` com `paddingBottom: 160` fixo no scroll,
+  menor que o rodapé real (~290 px) — "Sobre a partida" ficava coberto. Agora o rodapé é irmão
+  do `ScrollView` numa coluna flex.
+
+Observações para decidir depois (fora do escopo "só visual"):
+- `WelcomeScreen` exibe "10k+ jogadores / 500+ partidas/mês" — **mantido por decisão do
+  usuário** (sessão 38). O mesmo vale para "Enviar denúncia" em `danger` suave.
+- ~~O botão "Painel administrativo" aparece no `MyProfileScreen` para qualquer usuário~~
+  **Resolvido (sessão 38):** só aparece com `user.role === "admin"` (o backend já barrava
+  `/reports`); teste novo em `MyProfileScreen.test.tsx`.
+- Ambiente local: o `squadup.db` do back estava 3 migrations atrás (sem `matches.latitude`,
+  `GET /matches` dava 500). Aplicada a migration de coordenadas e `alembic stamp head`
+  (`push_tokens` já existia via `create_all`). Backup do banco anterior ficou fora do repo.
+- `npm run test` às vezes falha em 5 suítes de tela (`AdminDashboard`, `MatchDetail`,
+  `PublicProfile`, `ReportDetail`, `ReportUser`): estouro do timeout de 5 s no **primeiro**
+  teste de cada uma, por concorrência de CPU entre os workers (máquina de 20 núcleos). Passam
+  isoladas e com `npx jest --maxWorkers=50%` (316/316). Não é regressão; se incomodar, limitar
+  `maxWorkers` no `package.json`.
+
+---
+
 ## Dívidas técnicas
 
 | # | Item | Prioridade | Descrição |
@@ -172,6 +218,19 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 > auditoria) vive em [`progress.md`](progress.md) — esta seção só guarda a observação mais
 > recente, para servir de ponto de retomada rápido no início da próxima sessão.
 
+- **Checkpointer — Sessão 38 (2026-10-26, branch `feat/visual-polish`, a partir de `dev`
+  em `1332e9a`; não mergeada nem enviada ao remoto):** Fase 15 (polimento visual) concluída em
+  4 commits — `6373615` tokens, `e4e1aa5` componentes, `9374316` telas, `6b4d374` screenshots +
+  docs. Tokens em [`design-tokens.md`](design-tokens.md); detalhe em `progress.md`, sessão 38.
+  314/314 testes, `tsc`/lint sem erros reais, 13 PNGs de `tcc/assets/app/` regenerados.
+  - **Próxima tarefa concreta:** (1) revisar e abrir PR de `feat/visual-polish` → `dev`;
+    (2) gerar build EAS nova depois do merge — a última build não inclui o visual novo (JS puro,
+    sem dependência nativa nova). Observações da Fase 15 decididas: painel admin agora só para
+    `role === "admin"`; números da Welcome e "Enviar denúncia" suave mantidos.
+  - **Para regenerar screenshots:** backend local (`squadup-back`, SQLite já migrado para
+    `head` nesta sessão) + `EXPO_PUBLIC_API_URL=http://localhost:8000 npx expo start --web`
+    **sem `CI=1`** (desliga o watcher do Metro e serve bundle velho). `TCC_SCREENSHOT_OUT_DIR`
+    permite pré-visualizar fora de `tcc/assets/app/`.
 - **Checkpointer — Sessão 37 (2026-10-26, branch `chore/render-api-url`):** o trial do Railway
   expirou (2026-09) e `squadup-api.up.railway.app` passou a responder `404 Application not
   found` — **a build `fa25bd21` não funciona mais**. Backend migrado para **Render (API, free) +
@@ -234,7 +293,7 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 
 ## Progresso geral
 
-**Total de tarefas:** 86 (70 do protótipo + 16 da fila de integração, Fase 13)
+**Total de tarefas:** 86 (70 do protótipo + 16 da fila de integração, Fase 13) + Fase 15 (5/5, sessão 38)
 **Concluídas:** 85 (69 do protótipo + refinamento visual transversal + 16/16 da Fase 13 — sessões 20–28)
 **Em andamento:** 1 (Fase 12: 12.8 — `projectId` gerado, 3 builds EAS via `--profile preview` geradas e instaladas em dispositivo real na sessão 34; falta só decidir se uma delas é a "final" pra apresentação ou se ainda vai mudar mais)
 **A fazer:** 1 (Fase 12: 12.3 — dispositivo físico já em uso desde a sessão 34 pra testar a Fase 14, mas o teste formal "Expo Go em iOS e Android" ainda não foi feito à parte — Expo Go não serve mais para validar push, sessão 33)

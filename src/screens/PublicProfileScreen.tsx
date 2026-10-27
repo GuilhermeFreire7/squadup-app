@@ -8,7 +8,9 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import Avatar from "../components/Avatar";
 import Badge from "../components/Badge";
 import Button from "../components/Button";
+import EmptyState from "../components/EmptyState";
 import Header from "../components/Header";
+import LoadingState from "../components/LoadingState";
 import ReviewCard from "../components/ReviewCard";
 import RatingStars from "../components/RatingStars";
 import SectionCard from "../components/SectionCard";
@@ -32,16 +34,18 @@ export default function PublicProfileScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Carregando perfil...</Text>
+      <View className="flex-1 bg-secondary-50">
+        <Header title="Perfil" onBack={() => navigation.goBack()} />
+        <LoadingState label="Carregando perfil..." />
       </View>
     );
   }
 
   if (!user) {
     return (
-      <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Usuário não encontrado.</Text>
+      <View className="flex-1 bg-secondary-50">
+        <Header title="Perfil" onBack={() => navigation.goBack()} />
+        <EmptyState icon="account-question-outline" title="Usuário não encontrado." />
       </View>
     );
   }
@@ -54,7 +58,7 @@ export default function PublicProfileScreen() {
         rightElement={
           <Pressable
             onPress={() => navigation.navigate("ReportUser", { userId: user.id })}
-            className="w-10 h-10 items-center justify-center rounded-full bg-white/10 active:bg-white/20"
+            className="w-11 h-11 items-center justify-center rounded-full bg-white/10 active:bg-white/20"
             accessibilityLabel="Denunciar usuário"
             accessibilityRole="button"
           >
@@ -63,16 +67,18 @@ export default function PublicProfileScreen() {
         }
       />
 
+      {/* -mt-px: cobre a costura de 1px entre o header e o hero (mesma cor) */}
       <ScrollView
+        className="-mt-px"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
       >
         {/* Profile hero */}
-        <View className="bg-secondary-900 pb-8 px-4 items-center gap-3 rounded-b-3xl">
+        <View className="bg-secondary-900 pb-12 px-5 items-center gap-3 rounded-b-card">
           <Avatar name={user.name} photoUrl={user.photoUrl} size="xl" ring />
           <View className="items-center gap-1">
             <View className="flex-row items-center gap-1.5">
-              <Text className="text-xl font-bold text-white tracking-tight">{user.name}</Text>
+              <Text className="text-title text-white">{user.name}</Text>
               {user.isVerified && (
                 <MaterialCommunityIcons
                   name="check-decagram"
@@ -89,14 +95,14 @@ export default function PublicProfileScreen() {
                   size={14}
                   color={colors.secondary[400]}
                 />
-                <Text className="text-sm text-secondary-400">{user.location}</Text>
+                <Text className="text-body-sm text-secondary-400">{user.location}</Text>
               </View>
             ) : null}
           </View>
-          <RatingStars rating={user.averageRating} size="md" showValue />
+          <RatingStars rating={user.averageRating} size="md" showValue onDark />
         </View>
 
-        <View className="p-5 gap-4 -mt-4">
+        <View className="px-5 pb-5 gap-4 -mt-8">
           {/* Stats row */}
           <StatsRow
             stats={[
@@ -116,7 +122,7 @@ export default function PublicProfileScreen() {
           {/* Bio */}
           {user.bio ? (
             <SectionCard title="Sobre">
-              <Text className="text-sm text-neutral-600 leading-5">{user.bio}</Text>
+              <Text className="text-body-sm text-secondary-700">{user.bio}</Text>
             </SectionCard>
           ) : null}
 
@@ -140,7 +146,7 @@ export default function PublicProfileScreen() {
           {/* Reviews */}
           {userReviews.length > 0 ? (
             <View className="gap-3">
-              <Text className="text-base font-bold text-secondary-900 tracking-tight mt-1">
+              <Text className="text-heading text-secondary-900 mt-2">
                 Avaliações recebidas ({userReviews.length})
               </Text>
               {userReviews.map((r) => (
@@ -149,7 +155,9 @@ export default function PublicProfileScreen() {
             </View>
           ) : (
             <SectionCard>
-              <Text className="text-sm text-neutral-500 text-center">Nenhuma avaliação ainda.</Text>
+              <Text className="text-body-sm text-secondary-600 text-center">
+                Nenhuma avaliação ainda.
+              </Text>
             </SectionCard>
           )}
 

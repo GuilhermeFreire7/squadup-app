@@ -9,6 +9,8 @@ interface RatingStarsProps {
   max?: number;
   showValue?: boolean;
   size?: "sm" | "md" | "lg";
+  /** Sobre fundo escuro (heros): valor e estrelas vazias em tons claros */
+  onDark?: boolean;
 }
 
 const starSize: Record<"sm" | "md" | "lg", number> = {
@@ -28,8 +30,11 @@ function RatingStars({
   max = 5,
   showValue = true,
   size = "md",
+  onDark = false,
 }: Readonly<RatingStarsProps>) {
   const px = starSize[size];
+  const emptyColor = onDark ? colors.secondary[600] : colors.secondary[300];
+  const valueClass = onDark ? "text-secondary-300" : "text-secondary-600";
 
   if (rating === null) {
     return (
@@ -39,11 +44,11 @@ function RatingStars({
             key={`empty-${i}`}
             name="star-outline"
             size={px}
-            color={colors.neutral[300]}
+            color={emptyColor}
           />
         ))}
         {showValue ? (
-          <Text className={`ml-1 ${labelSize[size]} font-medium text-neutral-500`}>
+          <Text className={`ml-1 ${labelSize[size]} font-medium ${valueClass}`}>
             Sem avaliações
           </Text>
         ) : null}
@@ -69,11 +74,11 @@ function RatingStars({
           key={`empty-${i}`}
           name="star-outline"
           size={px}
-          color={colors.neutral[300]}
+          color={emptyColor}
         />
       ))}
       {showValue ? (
-        <Text className={`ml-1 ${labelSize[size]} font-semibold text-secondary-600`}>
+        <Text className={`ml-1 ${labelSize[size]} font-semibold ${valueClass}`}>
           {clamped.toFixed(1)}
         </Text>
       ) : null}

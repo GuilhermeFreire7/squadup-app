@@ -31,7 +31,7 @@ function ParticipantRow({
   const { user } = participant;
   return (
     <View
-      className="flex-row items-center gap-3 bg-white rounded-2xl border border-neutral-100 p-4 mb-3"
+      className="flex-row items-center gap-3 bg-white rounded-card border border-secondary-200/70 p-4 mb-3"
       style={shadows.card}
     >
       <Avatar name={user.name} photoUrl={user.photoUrl} size="md" />
@@ -49,13 +49,13 @@ function ParticipantRow({
             />
           )}
         </View>
-        <Text className="text-xs text-neutral-500">{LEVEL_META[user.level].label}</Text>
+        <Text className="text-xs text-secondary-500">{LEVEL_META[user.level].label}</Text>
         <RatingStars rating={user.averageRating} size="sm" showValue />
       </View>
       {alreadyRated ? (
-        <View className="flex-row items-center gap-1 bg-success/10 rounded-full px-3 py-2">
-          <MaterialCommunityIcons name="check-circle" size={16} color={colors.success} />
-          <Text className="text-xs font-semibold text-success">Avaliado</Text>
+        <View className="flex-row items-center gap-1 bg-success-50 rounded-full px-3 py-2">
+          <MaterialCommunityIcons name="check-circle" size={16} color={colors.successText} />
+          <Text className="text-xs font-semibold text-success-700">Avaliado</Text>
         </View>
       ) : (
         <Pressable
@@ -98,7 +98,7 @@ export default function PostMatchRatingScreen() {
   if (!match) {
     return (
       <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-neutral-500">Partida não encontrada.</Text>
+        <Text className="text-secondary-500">Partida não encontrada.</Text>
       </View>
     );
   }
@@ -120,9 +120,9 @@ export default function PostMatchRatingScreen() {
       ) : (
         <>
           {allRated && (
-            <View className="flex-row items-center justify-center gap-2 bg-success/10 mx-5 mt-4 rounded-2xl px-4 py-3">
-              <MaterialCommunityIcons name="check-circle" size={18} color={colors.success} />
-              <Text className="text-sm font-semibold text-success">
+            <View className="flex-row items-center justify-center gap-2 bg-success-50 mx-5 mt-4 rounded-control px-4 py-3">
+              <MaterialCommunityIcons name="check-circle" size={18} color={colors.successText} />
+              <Text className="text-sm font-semibold text-success-700">
                 Todos os participantes foram avaliados!
               </Text>
             </View>
@@ -138,7 +138,7 @@ export default function PostMatchRatingScreen() {
               />
             )}
             ListHeaderComponent={
-              <Text className="text-sm text-neutral-500 mb-4">
+              <Text className="text-sm text-secondary-500 mb-4">
                 Avalie os participantes desta partida — sua avaliação constrói a reputação da
                 comunidade.
               </Text>
