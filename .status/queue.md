@@ -186,8 +186,15 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
     rodavam) — resolvido com `npm install`. `npm run lint` acusa ~7,7 mil erros **só de CRLF**
     (`core.autocrlf=true` converte o working tree; o repositório está em LF) — zero erros reais.
     309/309 testes, `tsc` limpo.
-  - **Próxima tarefa:** gerar build EAS nova (`eas build --platform android --profile preview`) e
-    retomar o teste ponta a ponta (T1/item 8 da Fase 14). Decidir sobre seed/admin em produção.
+  - **Seed em produção (D-Deploy-1 resolvida):** banco do Neon populado com `app.seed` + ajustes
+    para a demo, via script avulso (não versionado): partidas abertas movidas para 24/11–08/12,
+    partida encerrada (`match-13`) e histórico (mensagens/avaliações/denúncias) para out/2026,
+    coordenadas aproximadas por bairro em todas as partidas (filtro de proximidade), personagens
+    fictícios com senha aleatória (a `changeme123` do seed é pública no repositório). `user-1`
+    (Guilherme Freire) virou a conta do autor (`guitenan@hotmail.com`), com `role=admin`.
+    Validado pela API pública: login, 13 partidas, filtro por raio, `GET /reports` 200.
+  - **Próxima tarefa:** gerar build EAS nova (`eas build --platform android --profile preview`) —
+    exige `eas login` nesta máquina — e retomar o teste ponta a ponta (T1/item 8 da Fase 14).
 - **Checkpointer — Sessão 35 (2026-07-30, branch `chore/tech-debt-cleanup`, aguardando
   revisão/merge em `dev`):** limpeza de dívidas técnicas de baixa prioridade, a pedido do usuário
   ("quero tratar as dívidas técnicas uma a uma"). Resolvidas: **D4** (`.editorconfig`), **D13**
