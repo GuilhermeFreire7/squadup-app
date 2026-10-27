@@ -255,7 +255,12 @@ pendente, §5.1) e **`detalhes-partida-2.png` (achado novo, não constava em nen
 pendências até agora)** são referenciados no `.tex` mas não existem em `tcc/assets/app/` —
 `detalhes-partida-2` adicionado à lista de pendências da Trilha D (§5.1).
 
-### 6.2 — Precisa da Trilha A/B avançarem primeiro
+### 6.2 — Precisa da Trilha A/B avançarem primeiro — ✅ escrito em 2026-10-26 (sessão 37)
+
+> Cap. 5 "Implementação, Testes e Validação", cronograma planejado × realizado e Considerações
+> Finais retrospectivas escritos; diagramas de arquitetura e ER (§5.3) gerados. Restam dois
+> `% TODO(autor)` no `.tex` (resultado do teste ponta a ponta e situação final do cronograma).
+
 - **Capítulo novo "Implementação, Testes e Validação"** (entre Arquitetura e Cronograma): stack final por camada, cobertura de testes automatizados (back: 113 testes/99% via `pytest-cov`; front: quantidade real de testes Jest), pipeline de CI (GitHub Actions — lint, type-check, testes, gate de cobertura, CodeQL, gitleaks, bandit, pip-audit), decisão de hospedagem (Railway) e por quê, teste manual ponta a ponta (depende da Trilha B estar concluída).
 - **Cronograma (Capítulo 5) atualizado**: adicionar uma coluna de status real (concluído/em andamento/pendente) comparando com o planejado — mostra maturidade e controle de projeto para a banca.
 - **Considerações Finais (Capítulo 6) reescritas**: hoje é prospectivo ("a proposta apresentada demonstra..."); precisa virar retrospectivo, reportando resultados reais alcançados, limitações encontradas (dívidas técnicas relevantes, ex. sem geolocalização real, sem chat em tempo real via WebSocket) e trabalhos futuros (a lista de "fora do escopo" já existe em `.status/roadmap.md` §17 do front — reaproveitar).
