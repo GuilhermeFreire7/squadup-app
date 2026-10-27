@@ -129,16 +129,19 @@ Bugs visuais corrigidos que não eram só estilo:
   do `ScrollView` numa coluna flex.
 
 Observações para decidir depois (fora do escopo "só visual"):
-- `WelcomeScreen` exibe "10k+ jogadores / 500+ partidas/mês", números que não refletem o uso
-  real — pode soar inventado para a banca. Texto de produto, não alterado.
-- O botão "Painel administrativo" aparece no `MyProfileScreen` para qualquer usuário (o
-  comentário no código já diz "sem RBAC real"); um usuário comum vê o painel vazio.
+- `WelcomeScreen` exibe "10k+ jogadores / 500+ partidas/mês" — **mantido por decisão do
+  usuário** (sessão 38). O mesmo vale para "Enviar denúncia" em `danger` suave.
+- ~~O botão "Painel administrativo" aparece no `MyProfileScreen` para qualquer usuário~~
+  **Resolvido (sessão 38):** só aparece com `user.role === "admin"` (o backend já barrava
+  `/reports`); teste novo em `MyProfileScreen.test.tsx`.
 - Ambiente local: o `squadup.db` do back estava 3 migrations atrás (sem `matches.latitude`,
   `GET /matches` dava 500). Aplicada a migration de coordenadas e `alembic stamp head`
   (`push_tokens` já existia via `create_all`). Backup do banco anterior ficou fora do repo.
-- Na primeira rodada de `npm run test` da sessão, 5 suítes de tela falharam e passaram isoladas
-  e na rodada seguinte (cache de transformação frio no Windows) — instabilidade de ambiente,
-  não regressão.
+- `npm run test` às vezes falha em 5 suítes de tela (`AdminDashboard`, `MatchDetail`,
+  `PublicProfile`, `ReportDetail`, `ReportUser`): estouro do timeout de 5 s no **primeiro**
+  teste de cada uma, por concorrência de CPU entre os workers (máquina de 20 núcleos). Passam
+  isoladas e com `npx jest --maxWorkers=50%` (316/316). Não é regressão; se incomodar, limitar
+  `maxWorkers` no `package.json`.
 
 ---
 
@@ -221,9 +224,9 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
   docs. Tokens em [`design-tokens.md`](design-tokens.md); detalhe em `progress.md`, sessão 38.
   314/314 testes, `tsc`/lint sem erros reais, 13 PNGs de `tcc/assets/app/` regenerados.
   - **Próxima tarefa concreta:** (1) revisar e abrir PR de `feat/visual-polish` → `dev`;
-    (2) decidir as 3 observações da Fase 15 (botão "Enviar denúncia" em `danger` suave, números
-    de marketing da Welcome, painel admin visível a todos); (3) gerar build EAS nova depois do
-    merge — a última build não inclui o visual novo (JS puro, sem dependência nativa nova).
+    (2) gerar build EAS nova depois do merge — a última build não inclui o visual novo (JS puro,
+    sem dependência nativa nova). Observações da Fase 15 decididas: painel admin agora só para
+    `role === "admin"`; números da Welcome e "Enviar denúncia" suave mantidos.
   - **Para regenerar screenshots:** backend local (`squadup-back`, SQLite já migrado para
     `head` nesta sessão) + `EXPO_PUBLIC_API_URL=http://localhost:8000 npx expo start --web`
     **sem `CI=1`** (desliga o watcher do Metro e serve bundle velho). `TCC_SCREENSHOT_OUT_DIR`

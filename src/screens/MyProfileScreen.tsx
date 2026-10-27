@@ -141,14 +141,16 @@ export default function MyProfileScreen() {
             fullWidth
           />
 
-          {/* Hidden admin entry point — protótipo acadêmico, sem RBAC real */}
-          <Button
-            label="Painel administrativo"
-            icon="shield-crown-outline"
-            onPress={() => navigation.navigate("AdminDashboard")}
-            variant="ghost"
-            fullWidth
-          />
+          {/* Só admins veem a entrada; o backend também barra /reports para os demais */}
+          {user.role === "admin" && (
+            <Button
+              label="Painel administrativo"
+              icon="shield-crown-outline"
+              onPress={() => navigation.navigate("AdminDashboard")}
+              variant="ghost"
+              fullWidth
+            />
+          )}
         </View>
       </ScrollView>
     </View>
