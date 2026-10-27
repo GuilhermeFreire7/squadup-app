@@ -40,20 +40,24 @@ function ReviewCard({ rating }: Readonly<ReviewCardProps>) {
         <View className="flex-row items-center gap-3">
           <Avatar name={raterUser.name} photoUrl={raterUser.photoUrl} size="sm" />
           <View className="flex-1">
-            <Text className="text-sm font-semibold text-secondary-900">{raterUser.name}</Text>
-            <Text className="text-xs text-secondary-500">{formatDate(createdAt)}</Text>
+            <Text className="text-label text-secondary-900">{raterUser.name}</Text>
+            <Text className="text-caption text-secondary-500">{formatDate(createdAt)}</Text>
           </View>
           <RatingStars rating={criteria.overall} size="sm" showValue />
         </View>
 
-        <View className="flex-row items-center gap-1 self-start bg-warning/10 rounded-full px-2.5 py-1">
-          <MaterialCommunityIcons name="trophy-variant-outline" size={12} color={colors.warning} />
-          <Text className="text-xs text-warning font-semibold">
+        <View className="flex-row items-center gap-1 self-start bg-warning-50 rounded-full px-2.5 py-1">
+          <MaterialCommunityIcons
+            name="trophy-variant-outline"
+            size={12}
+            color={colors.warningText}
+          />
+          <Text className="text-caption text-warning-700 font-semibold">
             Destaque: {criteriaLabel[highlightEntry[0]]} {highlightEntry[1].toFixed(0)}/5
           </Text>
         </View>
 
-        {comment ? <Text className="text-sm text-secondary-600 leading-5">{comment}</Text> : null}
+        {comment ? <Text className="text-body-sm text-secondary-700">{comment}</Text> : null}
       </View>
     </Card>
   );

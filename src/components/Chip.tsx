@@ -21,13 +21,13 @@ interface ChipProps {
 }
 
 const selectedContainer: Record<ChipTone, string> = {
-  primary: "bg-primary-500 border-primary-500",
-  danger: "bg-error/10 border-error",
+  primary: "bg-primary-500 border-primary-500 active:bg-primary-600",
+  danger: "bg-error-50 border-error",
 };
 
 const selectedText: Record<ChipTone, string> = {
   primary: "text-white",
-  danger: "text-error",
+  danger: "text-error-700",
 };
 
 /**
@@ -45,8 +45,10 @@ function Chip({
   accessibilityRole = "radio",
   accessibilityLabel,
 }: Readonly<ChipProps>) {
-  const containerClass = selected ? selectedContainer[tone] : "bg-white border-secondary-200";
-  const textClass = selected ? selectedText[tone] : "text-secondary-600";
+  const containerClass = selected
+    ? selectedContainer[tone]
+    : "bg-white border-secondary-200 active:bg-secondary-100";
+  const textClass = selected ? selectedText[tone] : "text-secondary-700";
 
   let resolvedIconColor = iconColor ?? colors.secondary[500];
   if (selected) resolvedIconColor = tone === "primary" ? colors.white : colors.error;
@@ -57,14 +59,14 @@ function Chip({
       accessibilityRole={accessibilityRole}
       accessibilityState={accessibilityRole === "checkbox" ? { checked: selected } : { selected }}
       accessibilityLabel={accessibilityLabel ?? label}
-      className={`flex-row items-center gap-1.5 px-4 py-2.5 rounded-full border ${containerClass}`}
+      className={`flex-row items-center gap-1.5 px-4 py-2 min-h-11 rounded-full border ${containerClass}`}
       style={({ pressed }) => (pressed ? { transform: [{ scale: 0.96 }] } : undefined)}
     >
       {icon ? <MaterialCommunityIcons name={icon} size={15} color={resolvedIconColor} /> : null}
       <View>
-        <Text className={`text-sm font-semibold ${textClass}`}>{label}</Text>
+        <Text className={`text-label ${textClass}`}>{label}</Text>
         {sublabel ? (
-          <Text className={`text-xs ${selected ? textClass : "text-secondary-500"}`}>
+          <Text className={`text-caption ${selected ? textClass : "text-secondary-500"}`}>
             {sublabel}
           </Text>
         ) : null}

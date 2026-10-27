@@ -31,7 +31,7 @@ function ParticipantRow({
   const { user } = participant;
   return (
     <View
-      className="flex-row items-center gap-3 bg-white rounded-2xl border border-secondary-100 p-4 mb-3"
+      className="flex-row items-center gap-3 bg-white rounded-card border border-secondary-200/70 p-4 mb-3"
       style={shadows.card}
     >
       <Avatar name={user.name} photoUrl={user.photoUrl} size="md" />

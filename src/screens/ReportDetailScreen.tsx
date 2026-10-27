@@ -133,8 +133,12 @@ export default function ReportDetailScreen() {
 
           <View className="flex-row items-center gap-2">
             <Text className="text-sm font-bold text-secondary-900">Status atual</Text>
-            <View className={`self-start rounded-full px-3 py-1 ${STATUS_COLORS[report.status]}`}>
-              <Text className="text-xs font-semibold">{STATUS_LABELS[report.status]}</Text>
+            <View
+              className={`self-start rounded-full px-2.5 py-1 ${STATUS_COLORS[report.status].bg}`}
+            >
+              <Text className={`text-caption font-semibold ${STATUS_COLORS[report.status].text}`}>
+                {STATUS_LABELS[report.status]}
+              </Text>
             </View>
           </View>
 

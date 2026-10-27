@@ -45,7 +45,7 @@ export default function AdminDashboardScreen() {
         onPress={() => navigation.navigate("ReportDetail", { reportId: item.id })}
         accessibilityRole="button"
         accessibilityLabel={`Denúncia contra ${item.reportedUser.name}`}
-        className="bg-white rounded-2xl border border-secondary-100 p-4 mb-3 flex-row items-center gap-3 active:opacity-90"
+        className="bg-white rounded-card border border-secondary-200/70 p-4 mb-3 flex-row items-center gap-3 active:opacity-90"
         style={shadows.card}
       >
         <Avatar name={item.reportedUser.name} photoUrl={item.reportedUser.photoUrl} size="md" />
@@ -57,8 +57,10 @@ export default function AdminDashboardScreen() {
             {REASON_LABELS[item.reason]} · {formatReportDate(item.createdAt)}
           </Text>
         </View>
-        <View className={`self-start rounded-full px-3 py-1 ${STATUS_COLORS[item.status]}`}>
-          <Text className="text-xs font-semibold">{STATUS_LABELS[item.status]}</Text>
+        <View className={`self-start rounded-full px-2.5 py-1 ${STATUS_COLORS[item.status].bg}`}>
+          <Text className={`text-caption font-semibold ${STATUS_COLORS[item.status].text}`}>
+            {STATUS_LABELS[item.status]}
+          </Text>
         </View>
       </Pressable>
     );

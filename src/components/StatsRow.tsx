@@ -19,11 +19,11 @@ function StatsRow({ stats }: Readonly<StatsRowProps>) {
       {stats.map((stat) => (
         <View
           key={stat.label}
-          className="flex-1 bg-white rounded-2xl border border-secondary-100 py-4 items-center"
+          className="flex-1 bg-white rounded-card border border-secondary-200/70 py-4 items-center"
           style={shadows.card}
         >
-          <Text className="text-2xl font-bold text-secondary-900 tracking-tight">{stat.value}</Text>
-          <Text className="text-xs font-medium text-secondary-500 mt-1">{stat.label}</Text>
+          <Text className="text-title text-secondary-900">{stat.value}</Text>
+          <Text className="text-caption text-secondary-600 mt-1">{stat.label}</Text>
         </View>
       ))}
     </View>

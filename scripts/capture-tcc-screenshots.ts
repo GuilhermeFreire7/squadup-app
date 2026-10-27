@@ -10,7 +10,8 @@
 import { expect, test } from "@playwright/test";
 
 const BASE_URL = "http://localhost:8081";
-const OUT_DIR = "tcc/assets/app";
+// Sobrescrevível para pré-visualizar mudanças de design sem tocar nos PNGs do TCC.
+const OUT_DIR = process.env.TCC_SCREENSHOT_OUT_DIR ?? "tcc/assets/app";
 
 const TEST_EMAIL = process.env.TCC_SCREENSHOT_EMAIL ?? "screenshots.tcc@squadup.dev";
 const TEST_PASSWORD = process.env.TCC_SCREENSHOT_PASSWORD;

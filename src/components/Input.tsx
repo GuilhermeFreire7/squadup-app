@@ -12,10 +12,12 @@ interface InputProps extends Omit<TextInputProps, "className"> {
 
 function Input({ label, error, leftIcon, multiline, style, ...rest }: Readonly<InputProps>) {
   const [focused, setFocused] = useState(false);
+  const isDisabled = rest.editable === false;
 
-  let borderClass = "border-secondary-200";
-  if (error) borderClass = "border-error";
-  else if (focused) borderClass = "border-primary-500";
+  let boxClass = "border-secondary-200 bg-white";
+  if (isDisabled) boxClass = "border-secondary-200 bg-secondary-100";
+  else if (error) boxClass = "border-error bg-error-50";
+  else if (focused) boxClass = "border-primary-500 bg-white";
 
   let iconColor: string = colors.secondary[500];
   if (error) iconColor = colors.error;
@@ -23,12 +25,10 @@ function Input({ label, error, leftIcon, multiline, style, ...rest }: Readonly<I
 
   return (
     <View className="w-full">
-      {label ? (
-        <Text className="mb-1.5 text-sm font-semibold text-secondary-700">{label}</Text>
-      ) : null}
+      {label ? <Text className="mb-1.5 text-label text-secondary-700">{label}</Text> : null}
 
       <View
-        className={`w-full flex-row rounded-xl border-[1.5px] bg-white ${borderClass} ${
+        className={`w-full flex-row rounded-control border-[1.5px] ${boxClass} ${
           multiline ? "items-start" : "items-center"
         }`}
       >
@@ -38,11 +38,13 @@ function Input({ label, error, leftIcon, multiline, style, ...rest }: Readonly<I
           </View>
         ) : null}
         <TextInput
-          className="flex-1 px-4 py-3 text-base text-secondary-900"
+          className={`flex-1 px-4 py-3 text-body ${
+            isDisabled ? "text-secondary-500" : "text-secondary-900"
+          } ${multiline ? "min-h-24" : ""}`}
           placeholderTextColor={colors.secondary[500]}
           multiline={multiline}
           textAlignVertical={multiline ? "top" : undefined}
-          style={multiline ? [{ minHeight: 96 }, style] : style}
+          style={style}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           accessibilityLabel={label}
@@ -53,7 +55,7 @@ function Input({ label, error, leftIcon, multiline, style, ...rest }: Readonly<I
       {error ? (
         <View className="mt-1.5 flex-row items-center gap-1">
           <MaterialCommunityIcons name="alert-circle" size={14} color={colors.error} />
-          <Text className="text-sm text-error flex-1">{error}</Text>
+          <Text className="text-body-sm text-error-700 flex-1">{error}</Text>
         </View>
       ) : null}
     </View>
