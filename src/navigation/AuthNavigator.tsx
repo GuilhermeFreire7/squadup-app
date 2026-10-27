@@ -5,6 +5,7 @@ import LoginScreen from "../screens/LoginScreen";
 import ProfileSetupScreen from "../screens/ProfileSetupScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import { colors } from "../theme";
 import type { AuthStackParamList } from "./types";
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -20,7 +21,7 @@ export default function AuthNavigator() {
           headerShown: true,
           title: "",
           headerTransparent: true,
-          headerTintColor: "#2563EB",
+          headerTintColor: colors.primary[500],
         }}
       />
       <Stack.Screen
@@ -30,7 +31,7 @@ export default function AuthNavigator() {
           headerShown: true,
           title: "",
           headerTransparent: true,
-          headerTintColor: "#2563EB",
+          headerTintColor: colors.primary[500],
         }}
       />
       <Stack.Screen
@@ -39,7 +40,8 @@ export default function AuthNavigator() {
         options={{
           headerShown: true,
           title: "Configurar perfil",
-          headerTintColor: "#2563EB",
+          headerTintColor: colors.primary[500],
+          headerTitleStyle: { color: colors.secondary[900] },
           gestureEnabled: false,
         }}
       />

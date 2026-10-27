@@ -53,9 +53,9 @@ function ParticipantRow({
         <RatingStars rating={user.averageRating} size="sm" showValue />
       </View>
       {alreadyRated ? (
-        <View className="flex-row items-center gap-1 bg-success/10 rounded-full px-3 py-2">
-          <MaterialCommunityIcons name="check-circle" size={16} color={colors.success} />
-          <Text className="text-xs font-semibold text-success">Avaliado</Text>
+        <View className="flex-row items-center gap-1 bg-success-50 rounded-full px-3 py-2">
+          <MaterialCommunityIcons name="check-circle" size={16} color={colors.successText} />
+          <Text className="text-xs font-semibold text-success-700">Avaliado</Text>
         </View>
       ) : (
         <Pressable
@@ -120,9 +120,9 @@ export default function PostMatchRatingScreen() {
       ) : (
         <>
           {allRated && (
-            <View className="flex-row items-center justify-center gap-2 bg-success/10 mx-5 mt-4 rounded-2xl px-4 py-3">
-              <MaterialCommunityIcons name="check-circle" size={18} color={colors.success} />
-              <Text className="text-sm font-semibold text-success">
+            <View className="flex-row items-center justify-center gap-2 bg-success-50 mx-5 mt-4 rounded-control px-4 py-3">
+              <MaterialCommunityIcons name="check-circle" size={18} color={colors.successText} />
+              <Text className="text-sm font-semibold text-success-700">
                 Todos os participantes foram avaliados!
               </Text>
             </View>

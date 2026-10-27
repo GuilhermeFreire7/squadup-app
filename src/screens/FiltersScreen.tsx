@@ -212,7 +212,7 @@ export default function FiltersScreen() {
         {/* Only available */}
         <SectionLabel>Disponibilidade</SectionLabel>
         <Pressable
-          className={`flex-row items-center justify-between p-4 rounded-2xl border mb-6 ${
+          className={`flex-row items-center justify-between p-4 rounded-control border mb-6 ${
             local.onlyAvailable
               ? "bg-primary-50 border-primary-300"
               : "bg-white border-secondary-200"
@@ -236,7 +236,7 @@ export default function FiltersScreen() {
             </Text>
           </View>
           <View
-            className={`w-6 h-6 rounded-lg border-2 items-center justify-center ${
+            className={`w-6 h-6 rounded-md border-2 items-center justify-center ${
               local.onlyAvailable ? "bg-primary-500 border-primary-500" : "border-secondary-300"
             }`}
           >
@@ -249,7 +249,7 @@ export default function FiltersScreen() {
         {/* Near me */}
         <SectionLabel>Proximidade</SectionLabel>
         <Pressable
-          className={`flex-row items-center justify-between p-4 rounded-2xl border ${
+          className={`flex-row items-center justify-between p-4 rounded-control border ${
             local.nearMe ? "bg-primary-50 border-primary-300" : "bg-white border-secondary-200"
           }`}
           onPress={toggleNearMe}
@@ -271,7 +271,7 @@ export default function FiltersScreen() {
             </Text>
           </View>
           <View
-            className={`w-6 h-6 rounded-lg border-2 items-center justify-center ${
+            className={`w-6 h-6 rounded-md border-2 items-center justify-center ${
               local.nearMe ? "bg-primary-500 border-primary-500" : "border-secondary-300"
             }`}
           >
@@ -282,7 +282,7 @@ export default function FiltersScreen() {
         </Pressable>
 
         {local.nearMe && permissionDenied && (
-          <Text className="text-xs text-error mt-2">
+          <Text className="text-xs text-error-700 mt-2">
             Permissão de localização negada — ative nas configurações do dispositivo para buscar por
             proximidade.
           </Text>

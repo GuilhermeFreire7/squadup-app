@@ -143,12 +143,12 @@ export default function ProfileSetupScreen() {
                   accessibilityRole="radio"
                   accessibilityState={{ checked: selected }}
                   accessibilityLabel={LEVEL_META[lvl].label}
-                  className={`flex-1 py-3.5 rounded-xl border items-center ${
+                  className={`flex-1 h-12 rounded-control border items-center justify-center ${
                     selected ? "bg-primary-500 border-primary-500" : "bg-white border-secondary-200"
                   }`}
                 >
                   <Text
-                    className={`text-sm font-semibold ${selected ? "text-white" : "text-secondary-600"}`}
+                    className={`text-sm font-semibold ${selected ? "text-white" : "text-secondary-700"}`}
                   >
                     {LEVEL_META[lvl].label}
                   </Text>
@@ -171,7 +171,7 @@ export default function ProfileSetupScreen() {
         </View>
 
         {submitError ? (
-          <Text className="mb-4 text-sm text-error text-center">{submitError}</Text>
+          <Text className="mb-4 text-sm text-error-700 text-center">{submitError}</Text>
         ) : null}
 
         <Button

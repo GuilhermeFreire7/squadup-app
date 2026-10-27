@@ -18,6 +18,7 @@ import RateUserScreen from "../screens/RateUserScreen";
 import ReportDetailScreen from "../screens/ReportDetailScreen";
 import ReportUserScreen from "../screens/ReportUserScreen";
 import SearchScreen from "../screens/SearchScreen";
+import { colors } from "../theme";
 import type { AppRootStackParamList, AppTabParamList } from "./types";
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
@@ -52,10 +53,10 @@ function AppTabs() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "#3B82F6",
-        tabBarInactiveTintColor: "#64748B",
+        tabBarActiveTintColor: colors.primary[400],
+        tabBarInactiveTintColor: colors.secondary[400],
         tabBarStyle: {
-          backgroundColor: "#0F172A",
+          backgroundColor: colors.secondary[900],
           borderTopWidth: 0,
           elevation: 0,
           height: 52 + insets.bottom,

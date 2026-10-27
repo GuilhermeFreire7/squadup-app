@@ -66,7 +66,8 @@ function fillValidForm() {
 describe("CreateMatchScreen — renderização", () => {
   it("exibe o título da tela", () => {
     render(<CreateMatchScreen />);
-    expect(screen.getByText("Criar Partida")).toBeTruthy();
+    // Título do header e rótulo do botão de envio
+    expect(screen.getAllByText("Criar partida")).toHaveLength(2);
   });
 
   it("exibe o campo de título", () => {
@@ -101,7 +102,7 @@ describe("CreateMatchScreen — renderização", () => {
 
   it("exibe o botão de submissão", () => {
     render(<CreateMatchScreen />);
-    expect(screen.getByText("Criar partida")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Criar partida" })).toBeTruthy();
   });
 });
 
@@ -110,53 +111,53 @@ describe("CreateMatchScreen — renderização", () => {
 describe("CreateMatchScreen — validação", () => {
   it("exibe erro de esporte ao submeter sem selecionar modalidade", () => {
     render(<CreateMatchScreen />);
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Selecione uma modalidade esportiva")).toBeTruthy();
   });
 
   it("exibe erro de título muito curto", () => {
     render(<CreateMatchScreen />);
     fireEvent.changeText(screen.getByPlaceholderText("Ex: Pelada de domingo na arena"), "AB");
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Título deve ter ao menos 3 caracteres")).toBeTruthy();
   });
 
   it("exibe erro de local vazio", () => {
     render(<CreateMatchScreen />);
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Informe o local da partida")).toBeTruthy();
   });
 
   it("exibe erro de data inválida", () => {
     render(<CreateMatchScreen />);
     fireEvent.changeText(screen.getByPlaceholderText("DD/MM/AAAA"), "abc");
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Use o formato DD/MM/AAAA")).toBeTruthy();
   });
 
   it("exibe erro de horário inválido", () => {
     render(<CreateMatchScreen />);
     fireEvent.changeText(screen.getByPlaceholderText("HH:MM"), "25:00");
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Use o formato HH:MM")).toBeTruthy();
   });
 
   it("exibe erro de participantes abaixo do mínimo", () => {
     render(<CreateMatchScreen />);
     fireEvent.changeText(screen.getByPlaceholderText("Ex: 10"), "1");
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Mínimo de 2 participantes")).toBeTruthy();
   });
 
   it("exibe erro de participantes quando campo está vazio", () => {
     render(<CreateMatchScreen />);
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Mínimo de 2 participantes")).toBeTruthy();
   });
 
   it("não chama createMatch quando o formulário é inválido", () => {
     render(<CreateMatchScreen />);
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(mockCreateMatch).not.toHaveBeenCalled();
   });
 });
@@ -167,7 +168,7 @@ describe("CreateMatchScreen — submissão válida", () => {
   it("chama createMatch com os dados corretos", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
     const payload = mockCreateMatch.mock.calls[0][0];
@@ -183,7 +184,7 @@ describe("CreateMatchScreen — submissão válida", () => {
   it("converte data DD/MM/AAAA para YYYY-MM-DD corretamente", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
     const payload = mockCreateMatch.mock.calls[0][0];
@@ -193,7 +194,7 @@ describe("CreateMatchScreen — submissão válida", () => {
   it("invalida o cache de partidas após sucesso", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockInvalidateMatches).toHaveBeenCalledTimes(1));
   });
@@ -201,7 +202,7 @@ describe("CreateMatchScreen — submissão válida", () => {
   it("exibe Alert de sucesso após submissão válida", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() =>
       expect(Alert.alert).toHaveBeenCalledWith(
@@ -215,7 +216,7 @@ describe("CreateMatchScreen — submissão válida", () => {
   it("inclui o esporte e a data no Alert de sucesso", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(Alert.alert).toHaveBeenCalled());
     const message = (Alert.alert as jest.Mock).mock.calls[0][1] as string;
@@ -228,7 +229,7 @@ describe("CreateMatchScreen — submissão válida", () => {
     mockCreateMatch.mockRejectedValueOnce(new Error("network error"));
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() =>
       expect(Alert.alert).toHaveBeenCalledWith(
@@ -260,7 +261,7 @@ describe("CreateMatchScreen — interações", () => {
 
   it("selecionar um esporte remove o erro de modalidade", () => {
     render(<CreateMatchScreen />);
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
     expect(screen.getByText("Selecione uma modalidade esportiva")).toBeTruthy();
     fireEvent.press(screen.getByLabelText("Vôlei"));
     expect(screen.queryByText("Selecione uma modalidade esportiva")).toBeNull();
@@ -270,7 +271,7 @@ describe("CreateMatchScreen — interações", () => {
     render(<CreateMatchScreen />);
     fillValidForm();
     fireEvent.press(screen.getByLabelText("Permitir iniciantes"));
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
     const payload = mockCreateMatch.mock.calls[0][0];
@@ -281,7 +282,7 @@ describe("CreateMatchScreen — interações", () => {
     render(<CreateMatchScreen />);
     fillValidForm();
     fireEvent.press(screen.getByLabelText("Exigir aprovação do organizador"));
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
     const payload = mockCreateMatch.mock.calls[0][0];
@@ -301,7 +302,7 @@ describe("CreateMatchScreen — geolocalização", () => {
     mockDeviceLocation = { latitude: -22.9, longitude: -43.2 };
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
     const payload = mockCreateMatch.mock.calls[0][0];
@@ -312,7 +313,7 @@ describe("CreateMatchScreen — geolocalização", () => {
   it("não inclui latitude/longitude no payload quando a localização não está disponível", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
-    fireEvent.press(screen.getByText("Criar partida"));
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
     const payload = mockCreateMatch.mock.calls[0][0];

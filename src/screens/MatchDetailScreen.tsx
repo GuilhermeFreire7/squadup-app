@@ -9,10 +9,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Avatar from "../components/Avatar";
 import Badge from "../components/Badge";
 import Button from "../components/Button";
+import EmptyState from "../components/EmptyState";
 import Header from "../components/Header";
+import LoadingState from "../components/LoadingState";
 import ParticipantList from "../components/ParticipantList";
 import RatingStars from "../components/RatingStars";
 import SectionCard from "../components/SectionCard";
+import SlotsBar from "../components/SlotsBar";
 import SportTile from "../components/SportTile";
 import { useAuth } from "../contexts/AuthContext";
 import { useMatchParticipation } from "../hooks/useMatchParticipation";
@@ -30,33 +33,6 @@ const statusLabel: Record<string, string> = {
   cancelled: "Cancelada",
 };
 
-function SlotsBar({ confirmed, max }: Readonly<{ confirmed: number; max: number }>) {
-  const available = max - confirmed;
-  const ratio = max > 0 ? confirmed / max : 0;
-  const pct = Math.min(ratio * 100, 100);
-
-  let fillColor = "bg-success";
-  if (available === 0) fillColor = "bg-error";
-  else if (ratio >= 0.8) fillColor = "bg-accent-500";
-
-  let availabilityText = "Sem vagas";
-  if (available === 1) availabilityText = "1 vaga disponível";
-  else if (available > 1) availabilityText = `${available} vagas disponíveis`;
-
-  return (
-    <View>
-      <View className="h-2 bg-secondary-100 rounded-full overflow-hidden">
-        <View className={`h-full rounded-full ${fillColor}`} style={{ width: `${pct}%` }} />
-      </View>
-      <Text className="text-sm font-medium text-secondary-500 mt-2">
-        {availabilityText}
-        {" · "}
-        {confirmed}/{max} confirmados
-      </Text>
-    </View>
-  );
-}
-
 function InfoRow({
   icon,
   label,
@@ -64,14 +40,12 @@ function InfoRow({
 }: Readonly<{ icon: IconName; label: string; value: string }>) {
   return (
     <View className="flex-row items-center gap-3">
-      <View className="w-10 h-10 rounded-xl bg-primary-50 items-center justify-center">
+      <View className="w-10 h-10 rounded-control bg-primary-50 items-center justify-center">
         <MaterialCommunityIcons name={icon} size={20} color={colors.primary[500]} />
       </View>
       <View className="flex-1">
-        <Text className="text-xs font-semibold text-secondary-500 uppercase tracking-wide mb-0.5">
-          {label}
-        </Text>
-        <Text className="text-sm font-medium text-secondary-900">{value}</Text>
+        <Text className="text-overline uppercase text-secondary-500 mb-0.5">{label}</Text>
+        <Text className="text-body text-secondary-900">{value}</Text>
       </View>
     </View>
   );
@@ -95,16 +69,18 @@ export default function MatchDetailScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-secondary-500">Carregando partida...</Text>
+      <View className="flex-1 bg-secondary-50">
+        <Header title="Detalhes da partida" onBack={() => navigation.goBack()} />
+        <LoadingState label="Carregando partida..." />
       </View>
     );
   }
 
   if (!match) {
     return (
-      <View className="flex-1 items-center justify-center bg-secondary-50">
-        <Text className="text-secondary-500">Partida não encontrada.</Text>
+      <View className="flex-1 bg-secondary-50">
+        <Header title="Detalhes da partida" onBack={() => navigation.goBack()} />
+        <EmptyState icon="calendar-remove-outline" title="Partida não encontrada." />
       </View>
     );
   }
@@ -136,9 +112,13 @@ export default function MatchDetailScreen() {
   } else if (userStatus === "confirmed") {
     bottomAction = (
       <View className="gap-3">
-        <View className="flex-row items-center justify-center gap-2 bg-success/10 rounded-2xl py-3">
-          <MaterialCommunityIcons name="check-circle-outline" size={18} color={colors.success} />
-          <Text className="text-sm font-semibold text-success">Você está confirmado</Text>
+        <View className="flex-row items-center justify-center gap-2 bg-success-50 rounded-control py-2.5">
+          <MaterialCommunityIcons
+            name="check-circle-outline"
+            size={18}
+            color={colors.successText}
+          />
+          <Text className="text-label text-success-700">Você está confirmado</Text>
         </View>
         <Button
           label="Chat da partida"
@@ -153,9 +133,9 @@ export default function MatchDetailScreen() {
   } else if (userStatus === "pending") {
     bottomAction = (
       <View className="gap-3">
-        <View className="flex-row items-center justify-center gap-2 bg-accent-500/10 rounded-2xl py-3">
-          <MaterialCommunityIcons name="clock-outline" size={18} color={colors.accent[500]} />
-          <Text className="text-sm font-semibold text-accent-600">Aguardando aprovação</Text>
+        <View className="flex-row items-center justify-center gap-2 bg-warning-50 rounded-control py-2.5">
+          <MaterialCommunityIcons name="clock-outline" size={18} color={colors.warningText} />
+          <Text className="text-label text-warning-700">Aguardando aprovação</Text>
         </View>
         <Button label="Cancelar solicitação" onPress={cancel} variant="ghost" fullWidth />
       </View>
@@ -173,23 +153,19 @@ export default function MatchDetailScreen() {
       <Header title="Detalhes da partida" onBack={() => navigation.goBack()} />
 
       <ScrollView
+        className="flex-1"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 160 }}
+        contentContainerStyle={{ paddingBottom: 8 }}
       >
         <View className="p-5 gap-4">
           {/* Hero */}
           <View className="flex-row items-start gap-4">
             <SportTile sport={match.sport} size={56} />
             <View className="flex-1">
-              <Text
-                className="text-xs font-bold tracking-wide uppercase mb-1"
-                style={{ color: sportMeta.color }}
-              >
+              <Text className={`text-overline uppercase mb-1 ${sportMeta.textClass}`}>
                 {sportMeta.label} · {LEVEL_META[match.level].label}
               </Text>
-              <Text className="text-2xl font-bold text-secondary-900 tracking-tight">
-                {match.title}
-              </Text>
+              <Text className="text-title text-secondary-900">{match.title}</Text>
             </View>
           </View>
 
@@ -220,14 +196,14 @@ export default function MatchDetailScreen() {
           {/* Slots */}
           {match.status !== "cancelled" && (
             <SectionCard title="Vagas">
-              <SlotsBar confirmed={confirmedCount} max={match.maxParticipants} />
+              <SlotsBar confirmed={confirmedCount} max={match.maxParticipants} size="md" />
             </SectionCard>
           )}
 
           {/* Description */}
           {match.description ? (
             <SectionCard title="Sobre a partida">
-              <Text className="text-sm text-secondary-600 leading-5">{match.description}</Text>
+              <Text className="text-body-sm text-secondary-700">{match.description}</Text>
             </SectionCard>
           ) : null}
 
@@ -237,12 +213,12 @@ export default function MatchDetailScreen() {
               onPress={() => navigation.navigate("PublicProfile", { userId: match.organizer.id })}
               accessibilityRole="button"
               accessibilityLabel={`Ver perfil de ${match.organizer.name}`}
-              className="flex-row items-center gap-3 active:opacity-70"
+              className="flex-row items-center gap-3 min-h-11 active:opacity-70"
             >
               <Avatar name={match.organizer.name} photoUrl={match.organizer.photoUrl} size="md" />
               <View className="flex-1">
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-semibold text-secondary-900" numberOfLines={1}>
+                  <Text className="text-label text-secondary-900" numberOfLines={1}>
                     {match.organizer.name}
                   </Text>
                   {match.organizer.isVerified && (
@@ -255,14 +231,14 @@ export default function MatchDetailScreen() {
                   )}
                 </View>
                 <RatingStars rating={match.organizer.averageRating} size="sm" showValue />
-                <Text className="text-xs text-secondary-500 mt-0.5">
+                <Text className="text-caption text-secondary-500 mt-0.5">
                   {match.organizer.matchesPlayed} partidas
                 </Text>
               </View>
               <MaterialCommunityIcons
                 name="chevron-right"
                 size={20}
-                color={colors.secondary[300]}
+                color={colors.secondary[400]}
               />
             </Pressable>
           </SectionCard>
@@ -283,7 +259,7 @@ export default function MatchDetailScreen() {
 
       {/* Bottom action area */}
       <View
-        className="absolute bottom-0 left-0 right-0 bg-white px-5 pt-4 border-t border-secondary-200"
+        className="bg-white px-5 pt-4 border-t border-secondary-200"
         style={[shadows.overlay, { paddingBottom: bottomPadding }]}
       >
         {bottomAction}

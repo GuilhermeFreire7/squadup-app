@@ -30,11 +30,12 @@ export default function MyProfileScreen() {
   return (
     <View className="flex-1 bg-secondary-50">
       <Header
-        title="Meu Perfil"
+        variant="large"
+        title="Meu perfil"
         rightElement={
           <Pressable
             onPress={() => navigation.navigate("EditProfile")}
-            className="w-10 h-10 items-center justify-center rounded-full bg-white/10 active:bg-white/20"
+            className="w-11 h-11 items-center justify-center rounded-full bg-white/10 active:bg-white/20"
             accessibilityLabel="Editar perfil"
             accessibilityRole="button"
           >
@@ -43,16 +44,18 @@ export default function MyProfileScreen() {
         }
       />
 
+      {/* -mt-px: cobre a costura de 1px entre o header e o hero (mesma cor) */}
       <ScrollView
+        className="-mt-px"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
       >
         {/* Profile hero */}
-        <View className="bg-secondary-900 pb-8 px-4 items-center gap-3 rounded-b-3xl">
+        <View className="bg-secondary-900 pb-12 px-5 items-center gap-3 rounded-b-card">
           <Avatar name={user.name} photoUrl={user.photoUrl} size="xl" ring />
           <View className="items-center gap-1">
             <View className="flex-row items-center gap-1.5">
-              <Text className="text-xl font-bold text-white tracking-tight">{user.name}</Text>
+              <Text className="text-title text-white">{user.name}</Text>
               {user.isVerified && (
                 <MaterialCommunityIcons
                   name="check-decagram"
@@ -69,14 +72,14 @@ export default function MyProfileScreen() {
                   size={14}
                   color={colors.secondary[400]}
                 />
-                <Text className="text-sm text-secondary-400">{user.location}</Text>
+                <Text className="text-body-sm text-secondary-400">{user.location}</Text>
               </View>
             ) : null}
           </View>
-          <RatingStars rating={user.averageRating} size="md" showValue />
+          <RatingStars rating={user.averageRating} size="md" showValue onDark />
         </View>
 
-        <View className="p-5 gap-4 -mt-4">
+        <View className="px-5 pb-5 gap-4 -mt-8">
           {/* Stats row */}
           <StatsRow
             stats={[
@@ -96,7 +99,7 @@ export default function MyProfileScreen() {
           {/* Bio */}
           {user.bio ? (
             <SectionCard title="Sobre mim">
-              <Text className="text-sm text-secondary-600 leading-5">{user.bio}</Text>
+              <Text className="text-body-sm text-secondary-700">{user.bio}</Text>
             </SectionCard>
           ) : null}
 
@@ -120,7 +123,7 @@ export default function MyProfileScreen() {
           {/* Reviews */}
           {myReviews.length > 0 && (
             <View className="gap-3">
-              <Text className="text-base font-bold text-secondary-900 tracking-tight mt-1">
+              <Text className="text-heading text-secondary-900 mt-2">
                 Avaliações recebidas ({myReviews.length})
               </Text>
               {myReviews.map((r) => (

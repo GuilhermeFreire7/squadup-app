@@ -118,7 +118,7 @@ export default function ReportUserScreen() {
                 </Text>
                 <Text className="text-xs text-secondary-500 mt-0.5">Usuário sendo denunciado</Text>
               </View>
-              <View className="w-10 h-10 rounded-full bg-error/10 items-center justify-center">
+              <View className="w-10 h-10 rounded-full bg-error-50 items-center justify-center">
                 <MaterialCommunityIcons name="flag" size={18} color={colors.error} />
               </View>
             </View>
@@ -179,9 +179,13 @@ export default function ReportUserScreen() {
           </SectionCard>
 
           {/* Notice */}
-          <View className="flex-row items-start gap-2.5 bg-warning/10 rounded-2xl px-4 py-3.5">
-            <MaterialCommunityIcons name="shield-check-outline" size={18} color={colors.warning} />
-            <Text className="text-xs text-warning flex-1 leading-4 font-medium">
+          <View className="flex-row items-start gap-2.5 bg-warning-50 rounded-control px-4 py-3.5">
+            <MaterialCommunityIcons
+              name="shield-check-outline"
+              size={18}
+              color={colors.warningText}
+            />
+            <Text className="text-xs text-warning-700 flex-1 leading-4 font-medium">
               Todas as denúncias são revisadas pela equipe do SquadUp. Denúncias falsas ou
               maliciosas podem resultar em suspensão da conta.
             </Text>
@@ -189,9 +193,9 @@ export default function ReportUserScreen() {
 
           {/* Error */}
           {error ? (
-            <View className="flex-row items-center gap-2 bg-error/10 rounded-2xl px-4 py-3">
+            <View className="flex-row items-center gap-2 bg-error-50 rounded-control px-4 py-3">
               <MaterialCommunityIcons name="alert-circle-outline" size={18} color={colors.error} />
-              <Text className="text-sm font-medium text-error flex-1">{error}</Text>
+              <Text className="text-sm font-medium text-error-700 flex-1">{error}</Text>
             </View>
           ) : null}
         </View>

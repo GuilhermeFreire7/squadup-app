@@ -27,7 +27,7 @@ export default function SearchScreen() {
     <View className="flex-1 bg-secondary-50">
       <Header variant="large" title="Busca">
         <View className="flex-row gap-2.5">
-          <View className="flex-1 flex-row items-center bg-secondary-800 rounded-2xl px-4 h-12 gap-2.5">
+          <View className="flex-1 flex-row items-center bg-secondary-800 rounded-control px-4 h-12 gap-2.5">
             <MaterialCommunityIcons name="magnify" size={20} color={colors.secondary[400]} />
             <TextInput
               ref={inputRef}
@@ -52,7 +52,7 @@ export default function SearchScreen() {
           </View>
 
           <Pressable
-            className="h-12 w-12 items-center justify-center bg-secondary-800 rounded-2xl"
+            className="h-12 w-12 items-center justify-center bg-secondary-800 rounded-control"
             onPress={() => navigation.navigate("Filters")}
             accessibilityLabel="Abrir filtros"
             accessibilityRole="button"

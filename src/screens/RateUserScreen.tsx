@@ -171,9 +171,9 @@ export default function RateUserScreen() {
 
           {/* Error */}
           {error ? (
-            <View className="flex-row items-center gap-2 bg-error/10 rounded-2xl px-4 py-3">
+            <View className="flex-row items-center gap-2 bg-error-50 rounded-control px-4 py-3">
               <MaterialCommunityIcons name="alert-circle-outline" size={18} color={colors.error} />
-              <Text className="text-sm font-medium text-error flex-1">{error}</Text>
+              <Text className="text-sm font-medium text-error-700 flex-1">{error}</Text>
             </View>
           ) : null}
         </View>

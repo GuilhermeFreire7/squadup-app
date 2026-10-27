@@ -33,8 +33,11 @@ function SportQuickFilter({
       accessibilityRole="radio"
       accessibilityState={{ selected }}
       accessibilityLabel={meta ? meta.label : "Todos os esportes"}
-      className={`flex-row items-center gap-1.5 px-4 h-9 rounded-full ${
-        selected ? "bg-primary-500" : "bg-secondary-800"
+      hitSlop={4}
+      className={`flex-row items-center gap-1.5 px-4 h-10 rounded-full ${
+        selected
+          ? "bg-primary-500 active:bg-primary-600"
+          : "bg-secondary-800 active:bg-secondary-700"
       }`}
     >
       {meta ? (
@@ -44,7 +47,7 @@ function SportQuickFilter({
           color={selected ? colors.white : colors.secondary[400]}
         />
       ) : null}
-      <Text className={`text-sm font-semibold ${selected ? "text-white" : "text-secondary-300"}`}>
+      <Text className={`text-label ${selected ? "text-white" : "text-secondary-300"}`}>
         {meta ? meta.label : "Todos"}
       </Text>
     </Pressable>
@@ -69,21 +72,21 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-secondary-50">
       {/* Hero header */}
-      <View className="bg-secondary-900 px-5 pb-5" style={{ paddingTop: insets.top + 16 }}>
+      <View className="bg-secondary-900 px-5 pb-5" style={{ paddingTop: insets.top + 12 }}>
         <View className="flex-row items-center justify-between mb-5">
           <View>
-            <Text className="text-secondary-400 text-sm">Bem-vindo de volta,</Text>
-            <Text className="text-white text-2xl font-bold tracking-tight">{firstName}</Text>
+            <Text className="text-secondary-400 text-body-sm">Bem-vindo de volta,</Text>
+            <Text className="text-white text-title">{firstName}</Text>
           </View>
           <Avatar name={user?.name ?? ""} photoUrl={user?.photoUrl} size="md" ring />
         </View>
 
         {/* Search + filters */}
-        <View className="flex-row gap-2.5">
-          <View className="flex-1 flex-row items-center bg-secondary-800 rounded-2xl px-4 h-12 gap-2.5">
+        <View className="flex-row gap-2">
+          <View className="flex-1 flex-row items-center bg-secondary-800 rounded-control px-4 h-12 gap-2">
             <MaterialCommunityIcons name="magnify" size={20} color={colors.secondary[400]} />
             <TextInput
-              className="flex-1 text-white text-sm"
+              className="flex-1 text-white text-body"
               placeholder="Buscar partidas..."
               placeholderTextColor={colors.secondary[400]}
               value={searchText}
@@ -92,7 +95,12 @@ export default function HomeScreen() {
               accessibilityLabel="Buscar partidas"
             />
             {searchText.length > 0 && (
-              <Pressable onPress={() => setSearchText("")} accessibilityLabel="Limpar busca">
+              <Pressable
+                onPress={() => setSearchText("")}
+                hitSlop={14}
+                accessibilityLabel="Limpar busca"
+                accessibilityRole="button"
+              >
                 <MaterialCommunityIcons
                   name="close-circle"
                   size={16}
@@ -103,7 +111,7 @@ export default function HomeScreen() {
           </View>
 
           <Pressable
-            className="h-12 w-12 items-center justify-center bg-secondary-800 rounded-2xl"
+            className="h-12 w-12 items-center justify-center bg-secondary-800 rounded-control active:bg-secondary-700"
             onPress={() => navigation.navigate("Filters")}
             accessibilityLabel="Abrir filtros"
             accessibilityRole="button"
@@ -114,8 +122,8 @@ export default function HomeScreen() {
               color={activeFilterCount > 0 ? colors.primary[400] : colors.secondary[400]}
             />
             {activeFilterCount > 0 && (
-              <View className="absolute -top-1 -right-1 w-4 h-4 bg-primary-500 rounded-full items-center justify-center">
-                <Text className="text-white text-xs font-bold">{activeFilterCount}</Text>
+              <View className="absolute -top-1 -right-1 min-w-5 h-5 px-1 bg-primary-500 rounded-full items-center justify-center border-2 border-secondary-900">
+                <Text className="text-white text-caption font-bold">{activeFilterCount}</Text>
               </View>
             )}
           </Pressable>
@@ -162,11 +170,9 @@ export default function HomeScreen() {
             />
           )}
           ListHeaderComponent={
-            <View className="flex-row items-baseline justify-between mb-1">
-              <Text className="text-lg font-bold text-secondary-900 tracking-tight">
-                Partidas próximas
-              </Text>
-              <Text className="text-xs font-medium text-secondary-500">
+            <View className="flex-row items-baseline justify-between">
+              <Text className="text-heading text-secondary-900">Partidas próximas</Text>
+              <Text className="text-caption text-secondary-500">
                 {filteredMatches.length}{" "}
                 {filteredMatches.length === 1 ? "encontrada" : "encontradas"}
               </Text>
