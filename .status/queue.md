@@ -193,8 +193,19 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
     fictícios com senha aleatória (a `changeme123` do seed é pública no repositório). `user-1`
     (Guilherme Freire) virou a conta do autor (`guitenan@hotmail.com`), com `role=admin`.
     Validado pela API pública: login, 13 partidas, filtro por raio, `GET /reports` 200.
-  - **Próxima tarefa:** gerar build EAS nova (`eas build --platform android --profile preview`) —
-    exige `eas login` nesta máquina — e retomar o teste ponta a ponta (T1/item 8 da Fase 14).
+  - **Build EAS nova gerada** (`cd3a302c`, commit `1332e9a`, perfil `preview`, API no Render):
+    https://expo.dev/artifacts/eas/ENI_s8BNHuTWYrPojL8N4WVet5hlMqsFMNUhE9dp0Xo.apk
+  - **TCC — Trilha E.2 escrita** (branch `docs/tcc-monografia-final`): novo Cap. 5
+    "Implementação, Testes e Validação" (stack, organização, processo, testes, CI, implantação,
+    validação com a tabela dos defeitos D28–D34); Cap. 4 no presente, com diagrama de arquitetura
+    e diagrama ER (`tcc/assets/arquitetura.png`, `er-diagrama.png`, gerados com Mermaid) e as
+    entidades reais (removida a entidade "Local", que não existe); Cronograma com tabela planejado
+    × realizado; Considerações Finais retrospectivas (resultados, limitações, trabalhos futuros);
+    resumo/abstract atualizados. Checagens estáticas do LaTeX ok — **não compilado aqui** (sem
+    TeX na máquina): compilar no Overleaf. Restam dois `% TODO(autor)` no `.tex`: resultado do
+    teste ponta a ponta (Cap. 5) e situação final do cronograma (Cap. 6).
+  - **Próxima tarefa:** instalar o APK acima e fazer o teste ponta a ponta (T1/item 8 da Fase
+    14); depois preencher os `TODO(autor)` do TCC. `catalog.pdf` segue pendente (biblioteca).
 - **Checkpointer — Sessão 35 (2026-07-30, branch `chore/tech-debt-cleanup`, aguardando
   revisão/merge em `dev`):** limpeza de dívidas técnicas de baixa prioridade, a pedido do usuário
   ("quero tratar as dívidas técnicas uma a uma"). Resolvidas: **D4** (`.editorconfig`), **D13**

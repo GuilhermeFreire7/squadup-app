@@ -193,11 +193,11 @@ Também agradeço às pessoas que contribuíram, direta ou indiretamente, para a
 \normalsize
 \begin{justify}
 
-A prática de esportes coletivos é frequentemente dificultada pela falta de grupos organizados, pela dificuldade de encontrar pessoas com interesses semelhantes e pela ausência de ferramentas adequadas para promover a interação entre usuários. Este trabalho propõe o desenvolvimento do SquadUp, um aplicativo \textit{mobile} voltado à conexão entre pessoas interessadas em esportes coletivos, permitindo a criação e participação em partidas de forma simples, organizada e segura.
+A prática de esportes coletivos é frequentemente dificultada pela falta de grupos organizados, pela dificuldade de encontrar pessoas com interesses semelhantes e pela ausência de ferramentas adequadas para promover a interação entre usuários. Este trabalho apresenta o desenvolvimento do SquadUp, um aplicativo \textit{mobile} voltado à conexão entre pessoas interessadas em esportes coletivos, que permite a criação e a participação em partidas de forma simples, organizada e segura.
 
-O sistema busca integrar três pilares principais: social, logístico e saúde, com ênfase no aspecto social. Além de permitir a descoberta de partidas e grupos, o aplicativo propõe mecanismos de confiança, como avaliação de usuários e validação de perfis, visando tornar a experiência mais segura.
+O sistema integra três pilares principais: social, logístico e saúde, com ênfase no aspecto social. Além da descoberta de partidas, inclusive por proximidade geográfica, o aplicativo oferece mecanismos de confiança, como avaliação de usuários após as partidas, reputação, denúncia e moderação administrativa, além de chat entre participantes e notificações \textit{push}.
 
-Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado. Também foram analisados aplicativos concorrentes, identificando lacunas relacionadas à segurança, confiança e compatibilidade entre participantes. O trabalho apresenta ainda a metodologia adotada, a arquitetura proposta, os principais casos de uso, as telas da aplicação e o cronograma de desenvolvimento do projeto.
+Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 474 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
 
 \vspace{.5cm}
 
@@ -213,11 +213,11 @@ Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre apl
 \normalsize
 \begin{justify}
 
-The practice of team sports is often hindered by the lack of organized groups, the difficulty of finding people with similar interests, and the absence of suitable tools to promote interaction among users. This work proposes the development of SquadUp, a mobile application aimed at connecting people interested in team sports, allowing them to create and participate in matches in a simple, organized and safe way.
+The practice of team sports is often hindered by the lack of organized groups, the difficulty of finding people with similar interests, and the absence of suitable tools to promote interaction among users. This work presents the development of SquadUp, a mobile application aimed at connecting people interested in team sports, which allows them to create and participate in matches in a simple, organized and safe way.
 
-The system seeks to integrate three main pillars: social, logistical and health-related, with emphasis on the social aspect. In addition to enabling the discovery of matches and groups, the application proposes trust mechanisms, such as user ratings and profile verification, in order to make the experience safer.
+The system integrates three main pillars: social, logistical and health-related, with emphasis on the social aspect. In addition to match discovery, including proximity-based search, the application provides trust mechanisms such as post-match user ratings, reputation, reporting and administrative moderation, as well as a match chat and push notifications.
 
-To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market. Competitor applications were also analyzed, identifying gaps related to safety, trust and compatibility between participants. This work also presents the adopted methodology, the proposed architecture, the main use cases, the application screens and the project development schedule.
+To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 474 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
 
 \vspace{.5cm}
 
@@ -289,11 +289,11 @@ Na primeira etapa, foi realizado um levantamento bibliográfico sobre aplicativo
 
 Com base nessa fundamentação, foram definidos os três pilares do sistema: social, logístico e saúde. O pilar social foi tratado como o eixo central do projeto, pois a principal dificuldade identificada está na conexão entre pessoas interessadas em praticar esportes coletivos. A partir desses pilares, foram especificados os casos de uso, os fluxos principais da aplicação e a arquitetura cliente-servidor, utilizando React Native no aplicativo \textit{mobile}, FastAPI na camada de aplicação e PostgreSQL na camada de dados.
 
-O desenvolvimento foi conduzido de forma iterativa, com refinamento progressivo dos requisitos, implementação incremental das funcionalidades e testes dos principais fluxos de uso. Ferramentas de apoio baseadas em inteligência artificial são utilizadas como suporte à prototipação e à codificação, mantendo as decisões arquiteturais, validações e ajustes sob responsabilidade do autor.
+O desenvolvimento foi conduzido de forma iterativa, com refinamento progressivo dos requisitos, implementação incremental das funcionalidades e testes dos principais fluxos de uso. Ferramentas de apoio baseadas em inteligência artificial foram utilizadas como suporte à prototipação e à codificação, mantendo as decisões arquiteturais, validações e ajustes sob responsabilidade do autor.
 
 \subsection{Organização do texto}
 
-Este trabalho está estruturado em seis capítulos, organizados da seguinte forma:
+Este trabalho está estruturado em sete capítulos, organizados da seguinte forma:
 
 \begin{itemize}
     \item O Capítulo 1 introduz o tema do trabalho, apresentando sua motivação, os objetivos propostos e a metodologia adotada para o desenvolvimento do projeto.
@@ -302,11 +302,13 @@ Este trabalho está estruturado em seis capítulos, organizados da seguinte form
     
     \item O Capítulo 3 descreve o desenvolvimento funcional do SquadUp, incluindo a visão geral do sistema, seus pilares conceituais, os atores envolvidos, os casos de uso e as principais telas e fluxos da aplicação.
     
-    \item O Capítulo 4 apresenta a arquitetura tecnológica do sistema, reunindo os conceitos técnicos necessários para a compreensão da solução, as tecnologias adotadas, a arquitetura cliente-servidor, as camadas do sistema e as principais entidades previstas.
-    
-    \item O Capítulo 5 apresenta o cronograma das atividades previstas para a continuidade e conclusão do projeto.
-    
-    \item Por fim, o Capítulo 6 traz as considerações finais, destacando os principais resultados do trabalho e as contribuições da proposta.
+    \item O Capítulo 4 apresenta a arquitetura tecnológica do sistema, reunindo os conceitos técnicos necessários para a compreensão da solução, as tecnologias adotadas, a arquitetura cliente-servidor, as camadas do sistema e o modelo de dados.
+
+    \item O Capítulo 5 descreve a implementação do SquadUp, a estratégia de testes automatizados, a integração contínua, a implantação da solução e a validação realizada em dispositivo físico.
+
+    \item O Capítulo 6 compara o cronograma planejado com a execução real do projeto.
+
+    \item Por fim, o Capítulo 7 traz as considerações finais, destacando os resultados alcançados, as limitações encontradas e os trabalhos futuros.
 \end{itemize}
 
 \clearpage
@@ -1102,7 +1104,7 @@ O desenvolvimento funcional apresentado nesta seção consolida os principais fl
 
 \section{Arquitetura Tecnológica}
 
-Esta seção apresenta a arquitetura tecnológica do SquadUp, reunindo os conceitos técnicos necessários para a compreensão da solução, as tecnologias adotadas, a organização cliente-servidor, as camadas do sistema e as principais entidades previstas.
+Esta seção apresenta a arquitetura tecnológica do SquadUp, reunindo os conceitos técnicos necessários para a compreensão da solução, as tecnologias adotadas, a organização cliente-servidor, as camadas do sistema e o modelo de dados.
 
 \subsection{Conceitos fundamentais}
 
@@ -1194,41 +1196,50 @@ No SquadUp, o aplicativo móvel atua como cliente, enquanto a API desenvolvida e
 
 \subsection{Arquitetura proposta}
 
-A arquitetura proposta para o SquadUp segue o modelo cliente-servidor, organizada em três camadas principais: apresentação, aplicação e dados. Essa divisão foi escolhida por permitir separação de responsabilidades, facilitar a manutenção do sistema e permitir evolução independente entre aplicativo \textit{mobile}, API e banco de dados.
+A arquitetura do SquadUp segue o modelo cliente-servidor, organizada em três camadas principais: apresentação, aplicação e dados, como ilustra a Figura \ref{fig:arquitetura}. Essa divisão foi escolhida por permitir separação de responsabilidades, facilitar a manutenção do sistema e permitir evolução independente entre aplicativo \textit{mobile}, API e banco de dados. Além das três camadas, a arquitetura conta com um serviço externo, o Expo Push Service, responsável por entregar as notificações \textit{push} emitidas pela API aos dispositivos dos usuários.
 
-% Quando o diagrama estiver pronto, descomente e ajuste o caminho abaixo.
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{assets/arquitetura.png}
-%     \caption{Arquitetura proposta para o SquadUp}
-%     \label{fig:arquitetura}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{assets/arquitetura.png}
+    \caption{Arquitetura do SquadUp}
+    \label{fig:arquitetura}
+\end{figure}
 
 \subsubsection{Camada de apresentação}
 
-A camada de apresentação será composta por um aplicativo \textit{mobile} desenvolvido em React Native. Essa camada será responsável pela interface com o usuário, pela navegação entre telas e pela comunicação com os serviços disponibilizados pela API. O aplicativo contempla telas como cadastro, login, perfil, listagem de partidas, detalhes da partida, criação de partida, conversa da partida, avaliação de usuários e denúncia.
+A camada de apresentação é composta por um aplicativo \textit{mobile} desenvolvido em React Native com a plataforma Expo. Essa camada é responsável pela interface com o usuário, pela navegação entre telas e pela comunicação com os serviços disponibilizados pela API. O aplicativo contempla telas como cadastro, login, perfil, listagem de partidas, filtros, detalhes da partida, criação de partida, conversa da partida, avaliação de usuários, denúncia e painel administrativo. O estado proveniente do servidor é gerenciado por uma camada de \textit{cache} de requisições, enquanto os dados de sessão do usuário são mantidos em um contexto global da aplicação.
 
 \subsubsection{Camada de aplicação}
 
-A camada de aplicação será implementada utilizando FastAPI. Essa camada será responsável por expor uma API REST para comunicação com o aplicativo \textit{mobile}, além de centralizar as regras de negócio do sistema. Entre suas responsabilidades estão o gerenciamento de usuários, criação e busca de partidas, registro de participação, avaliações, denúncias e controle de permissões.
+A camada de aplicação é implementada utilizando FastAPI. Essa camada expõe uma API REST para comunicação com o aplicativo \textit{mobile} e centraliza as regras de negócio do sistema. Entre suas responsabilidades estão o gerenciamento de usuários, a criação e a busca de partidas, o registro de participação, as avaliações, as denúncias, o controle de permissões e o envio de notificações \textit{push}. Internamente, a API é organizada em rotas, responsáveis por receber e validar as requisições; serviços, que concentram as regras de negócio; e modelos, que representam as tabelas do banco de dados.
 
 \subsubsection{Camada de dados}
 
-A camada de dados será composta por um banco de dados relacional PostgreSQL. Essa escolha se justifica pela natureza estruturada das principais informações do sistema, como usuários, partidas, participações, avaliações, denúncias e locais. O modelo relacional permite representar adequadamente os vínculos entre usuários e partidas, além de facilitar consultas envolvendo filtros, histórico e reputação.
+A camada de dados é composta por um banco de dados relacional PostgreSQL. Essa escolha se justifica pela natureza estruturada das principais informações do sistema, como usuários, partidas, participações, avaliações e denúncias. O modelo relacional permite representar adequadamente os vínculos entre usuários e partidas, além de facilitar consultas envolvendo filtros, histórico e reputação. A evolução do esquema do banco é controlada por \textit{migrations} versionadas junto ao código da API.
 
-\subsection{Principais entidades}
+\subsection{Modelo de dados}
 
-Com base nos casos de uso, foram identificadas as seguintes entidades principais:
+Com base nos casos de uso, foram definidas as seguintes entidades, cujos relacionamentos são apresentados na Figura \ref{fig:er_diagrama}:
 
 \begin{itemize}
-    \item \textbf{Usuário}: representa a pessoa cadastrada no sistema, incluindo dados de identificação, autenticação, informações esportivas, preferências e reputação;
-    \item \textbf{Partida}: representa um evento esportivo criado por um usuário, contendo modalidade, local, data, horário, vagas e descrição;
-    \item \textbf{Participação}: registra o vínculo entre usuários e partidas, incluindo status de confirmação ou solicitação pendente;
+    \item \textbf{Usuário}: representa a pessoa cadastrada no sistema, incluindo dados de identificação, autenticação, informações esportivas, nível de experiência, indicação de perfil verificado e papel de acesso (usuário comum ou administrador);
+    \item \textbf{Partida}: representa um evento esportivo criado por um usuário organizador, contendo modalidade, título, local, data, horário, número máximo de participantes, nível, situação e, opcionalmente, as coordenadas geográficas do local;
+    \item \textbf{Participação}: registra o vínculo entre usuários e partidas, incluindo a situação de confirmação ou de solicitação pendente de aprovação;
     \item \textbf{Mensagem}: registra as mensagens trocadas entre os participantes de uma partida em seu chat;
-    \item \textbf{Avaliação}: registra avaliações realizadas entre participantes após uma partida;
-    \item \textbf{Denúncia}: registra relatos de comportamento inadequado para análise administrativa;
-    \item \textbf{Local}: representa informações sobre o espaço onde a partida será realizada.
+    \item \textbf{Avaliação}: registra as notas atribuídas por um participante a outro após uma partida encerrada, em cinco critérios: pontualidade, respeito, comportamento, presença e experiência geral;
+    \item \textbf{Denúncia}: registra relatos de comportamento inadequado, opcionalmente associados a uma partida, e a situação de sua análise administrativa;
+    \item \textbf{Sessão}: registra os \textit{tokens} de renovação de sessão emitidos para cada usuário, armazenados apenas na forma de \textit{hash};
+    \item \textbf{Dispositivo de notificação}: registra os identificadores de dispositivos aptos a receber notificações \textit{push} de cada usuário.
 \end{itemize}
+
+O local da partida não constitui uma entidade própria: ele é representado por um texto descritivo, sempre obrigatório, complementado por coordenadas de latitude e longitude quando o organizador permite o uso da localização do dispositivo. Valores que podem ser derivados de outras tabelas também recebem tratamento específico: a nota média de um usuário não é armazenada, sendo calculada a partir das avaliações recebidas, e a situação de lotação de uma partida é sempre recalculada a partir da contagem de participações confirmadas, nunca alterada diretamente. Essa decisão evita inconsistências entre informações duplicadas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/er-diagrama.png}
+    \caption{Diagrama entidade-relacionamento do SquadUp}
+    \label{fig:er_diagrama}
+\end{figure}
 
 \subsection{Separação de responsabilidades}
 
@@ -1248,13 +1259,159 @@ A arquitetura tecnológica proposta organiza o SquadUp em camadas bem definidas,
 
 \clearpage
 
-\section{Cronograma}
+\section{Implementação, Testes e Validação}
 
-O desenvolvimento do projeto seguirá o cronograma apresentado na Tabela \ref{tab:cronograma}. O cronograma foi dividido em períodos quinzenais, contemplando atividades de modelagem, implementação, integração, testes, ajustes finais, revisão da monografia e preparação para a defesa.
+Esta seção descreve como a arquitetura apresentada no Capítulo 4 foi implementada, o processo de desenvolvimento adotado, a estratégia de testes automatizados, a integração contínua, a implantação da solução e a validação realizada em dispositivo físico.
+
+\subsection{Tecnologias utilizadas}
+
+A Tabela \ref{tab:stack} resume as principais tecnologias adotadas em cada camada do sistema. A escolha priorizou ferramentas de ampla adoção, com documentação consolidada e compatíveis com o desenvolvimento por uma única pessoa dentro do prazo do projeto.
 
 \begin{table}[H]
 \centering
-\caption{Cronograma de Desenvolvimento do Projeto}
+\caption{Principais tecnologias por camada}
+\label{tab:stack}
+\small
+\begin{tabular}{|p{3.4cm}|p{10.6cm}|}
+\hline
+\textbf{Camada} & \textbf{Tecnologias} \\
+\hline
+Apresentação & React Native 0.81 e Expo SDK 54, com TypeScript; React Navigation (navegação em pilha e abas); NativeWind (estilização); TanStack React Query (estado de servidor); \texttt{expo-secure-store} (armazenamento seguro de \textit{tokens}); \texttt{expo-location} (geolocalização); \texttt{expo-notifications} (notificações \textit{push}) \\
+\hline
+Aplicação & Python 3.12 e FastAPI; SQLModel (mapeamento objeto-relacional); Alembic (\textit{migrations}); PyJWT (\textit{tokens} de acesso); Passlib com bcrypt (\textit{hash} de senhas); HTTPX (integração com a Expo Push API) \\
+\hline
+Dados & PostgreSQL em produção; SQLite no ambiente local de desenvolvimento e nos testes \\
+\hline
+Testes e qualidade & Jest e React Native Testing Library (aplicativo); Pytest e pytest-cov (API); ESLint e Prettier; Ruff, Black e Mypy; Playwright (navegação automatizada da interface) \\
+\hline
+Infraestrutura & GitHub e GitHub Actions; Render (hospedagem da API); Neon (PostgreSQL gerenciado); EAS Build (geração do aplicativo Android) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Organização do código}
+
+O aplicativo e a API foram mantidos em repositórios independentes, o que permitiu evoluir, testar e implantar cada parte separadamente.
+
+No aplicativo, o código foi organizado por responsabilidade: telas (18 no total), componentes visuais reutilizáveis, \textit{hooks} com a lógica de cada funcionalidade, contextos globais (sessão do usuário e filtros de busca), serviços de comunicação com a API e utilitários. Seguindo o princípio de separar apresentação de regras de negócio, os componentes visuais recebem dados prontos e não acessam a API diretamente; essa responsabilidade fica com os \textit{hooks} e os serviços. Uma camada de adaptadores converte o formato dos dados recebidos da API para os tipos usados nas telas, isolando a interface de mudanças no contrato da API.
+
+O cliente HTTP do aplicativo concentra comportamentos transversais: anexa o \textit{token} de acesso a cada requisição, renova automaticamente a sessão quando o \textit{token} expira, repete a requisição em caso de falha momentânea de conexão e traduz as respostas de erro da API em mensagens compreensíveis para o usuário.
+
+Na API, o código segue uma estrutura modular em rotas, serviços, modelos e esquemas de validação. Ao todo, a API expõe 26 operações REST, documentadas automaticamente no padrão OpenAPI, o que permitiu consultar o contrato de cada operação durante a integração com o aplicativo. Cada erro de regra de negócio retorna um código curto e padronizado, como \texttt{MATCH\_FULL} ou \texttt{NOT\_MATCH\_PARTICIPANT}, que o aplicativo utiliza para exibir a mensagem adequada.
+
+\subsection{Processo de desenvolvimento}
+
+O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 119 \textit{commits} e o da API, 130, com 15 e 47 \textit{pull requests} incorporados, respectivamente.
+
+As principais etapas foram:
+
+\begin{enumerate}
+    \item \textbf{Protótipo navegável (maio a julho)}: construção das telas e fluxos do aplicativo com dados simulados, permitindo validar a experiência de uso antes da existência da API;
+    \item \textbf{Implementação da API (julho)}: modelagem do banco de dados e implementação das regras de negócio, autenticação, participação, chat, avaliações, denúncias e moderação, acompanhadas de testes automatizados;
+    \item \textbf{Integração (julho)}: substituição gradual dos dados simulados pelas chamadas reais à API, funcionalidade por funcionalidade, com o contrato da API como fonte única de verdade para os tipos de dados do aplicativo;
+    \item \textbf{Geolocalização e notificações \textit{push} (julho)}: inicialmente previstas como trabalhos futuros, foram incorporadas ao escopo após a conclusão antecipada da integração;
+    \item \textbf{Validação em dispositivo físico (julho e agosto)}: geração do aplicativo Android e testes em um aparelho real, que revelaram defeitos não detectados pelos testes automatizados (Seção \ref{sec:validacao});
+    \item \textbf{Migração da hospedagem (outubro)}: troca do provedor de hospedagem da API após o fim do período gratuito do provedor original (Seção \ref{sec:implantacao}).
+\end{enumerate}
+
+\subsection{Testes automatizados}
+
+Os testes automatizados foram tratados como parte da definição de pronto de cada funcionalidade: uma tarefa só era considerada concluída quando acompanhada de testes que passassem. A Tabela \ref{tab:testes} resume a suíte de testes ao final do projeto.
+
+\begin{table}[H]
+\centering
+\caption{Testes automatizados ao final do projeto}
+\label{tab:testes}
+\small
+\begin{tabular}{|p{2.6cm}|p{3.4cm}|p{2.2cm}|p{5.4cm}|}
+\hline
+\textbf{Componente} & \textbf{Ferramentas} & \textbf{Testes} & \textbf{Escopo principal} \\
+\hline
+Aplicativo & Jest e React Native Testing Library & 309 (42 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores e utilitários de validação \\
+\hline
+API & Pytest e pytest-cov & 165 (cobertura de 98,9\%) & Rotas, regras de negócio, autenticação e renovação de sessão, permissões, cálculo de distância, notificações e configuração \\
+\hline
+\end{tabular}
+\end{table}
+
+Na API, os testes são executados contra um banco de dados em memória recriado a cada teste, o que garante isolamento entre os casos. Regras de negócio críticas receberam testes específicos, como a impossibilidade de entrar em uma partida lotada, a exigência de que avaliador e avaliado tenham participação confirmada em uma partida encerrada e a restrição das ações de moderação ao papel de administrador. A execução exige cobertura mínima de 80\% do código, limite que é verificado automaticamente.
+
+No aplicativo, os testes simulam a interação do usuário com as telas, como preencher formulários e pressionar botões, e verificam o resultado exibido, substituindo a API por respostas simuladas. Essa abordagem permitiu testar os fluxos de cada tela de forma independente do servidor.
+
+\subsection{Integração contínua e qualidade de código}
+
+Os dois repositórios utilizam GitHub Actions para executar verificações automáticas a cada \textit{pull request} e a cada alteração no ramo principal. No aplicativo, são executados a análise estática de código (\textit{lint}) e a suíte de testes. Na API, o \textit{pipeline} executa a análise estática (Ruff), a verificação de formatação (Black), a verificação estrita de tipos (Mypy), a suíte de testes com o limite de cobertura e uma checagem de que as \textit{migrations} do banco estão consistentes com os modelos. Um fluxo separado executa verificações de segurança: análise estática de vulnerabilidades no código (Bandit e CodeQL), auditoria de vulnerabilidades conhecidas nas dependências (pip-audit) e busca por credenciais expostas no repositório (Gitleaks).
+
+A utilidade dessas verificações ficou evidente durante a migração de hospedagem. Uma nova versão da biblioteca de mapeamento objeto-relacional, instalada automaticamente pelo \textit{pipeline}, passou a rejeitar o formato de data e hora adotado pelo projeto. A falha foi detectada pela integração contínua antes de chegar à produção, onde teria impedido operações como login e criação de partidas. A correção consistiu em fixar a faixa de versões compatíveis da dependência.
+
+\subsection{Implantação}
+\label{sec:implantacao}
+
+A API foi implantada inicialmente na plataforma Railway. Com o fim do período gratuito dessa plataforma, em setembro de 2026, a API foi migrada para o Render, e o banco de dados, para o Neon, ambos em seus planos gratuitos. A configuração do serviço é descrita em um arquivo versionado no repositório, e cada alteração no ramo principal dispara uma nova implantação automática, que aplica as \textit{migrations} pendentes antes de iniciar a API. A comunicação entre aplicativo e API, e entre API e banco de dados, é feita sempre por conexões criptografadas.
+
+O plano gratuito impõe uma limitação relevante: após cerca de quinze minutos sem requisições, o serviço é suspenso e leva aproximadamente quarenta segundos para responder novamente. Para o volume de uso de um protótipo acadêmico, essa limitação foi considerada aceitável.
+
+O aplicativo Android é gerado pelo serviço EAS Build, da própria plataforma Expo, em um perfil de distribuição interna que produz um arquivo de instalação (APK) já configurado com o endereço da API de produção. Optou-se por demonstrar apenas a versão Android, uma vez que a distribuição para iOS exige uma conta paga de desenvolvedor da Apple.
+
+\subsection{Validação}
+\label{sec:validacao}
+
+A validação da solução foi realizada em três frentes complementares, além dos testes automatizados.
+
+A primeira foi a verificação ponta a ponta dos fluxos por meio de chamadas diretas à API, ao final da integração, cobrindo autenticação, criação e busca de partidas, participação, aprovação de participantes, encerramento de partidas, chat, avaliações, denúncias e as restrições de acesso da moderação.
+
+A segunda foi a navegação automatizada pela interface do aplicativo, executado em um navegador, com a ferramenta Playwright. Um roteiro automatizado autentica-se na API real e percorre as principais telas, capturando as imagens apresentadas no Capítulo 3. Além de produzir as figuras deste trabalho, esse roteiro funciona como um teste de fumaça da integração entre interface e API.
+
+A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico. Essa etapa revelou sete defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos e receberam testes automatizados que impedem sua reincidência.
+
+\begin{table}[H]
+\centering
+\caption{Defeitos identificados nos testes em dispositivo físico}
+\label{tab:defeitos}
+\small
+\begin{tabular}{|p{4.6cm}|p{4.7cm}|p{4.7cm}|}
+\hline
+\textbf{Defeito} & \textbf{Causa} & \textbf{Correção} \\
+\hline
+O aplicativo fechava logo ao ser aberto & Dependência nativa ausente, exigida pela biblioteca de ícones fora do ambiente de desenvolvimento & Instalação da dependência e alinhamento das versões com o SDK \\
+\hline
+Telas de perfil e de partida exibiam dados simulados em vez do usuário autenticado & Trechos remanescentes do protótipo não migrados na integração & Uso do usuário autenticado e de consultas reais à API em todas as telas \\
+\hline
+Campos de data não podiam ser preenchidos & O teclado numérico do Android não possui a tecla ``/'' & Máscara que insere as barras automaticamente \\
+\hline
+O teclado cobria o campo em edição & Comportamento do Android no modo de tela cheia (\textit{edge-to-edge}) & Ajuste do redimensionamento da janela, conforme recomendação da plataforma \\
+\hline
+Cadastro irrecuperável após falha parcial & A conta era criada, mas uma etapa seguinte falhava e a nova tentativa acusava e-mail já cadastrado & Retomada do fluxo a partir da etapa que falhou \\
+\hline
+Falhas momentâneas de rede interrompiam as operações & Ausência de nova tentativa em caso de queda de conexão & Repetição automática restrita a falhas de conexão, sem repetir respostas de erro do servidor \\
+\hline
+Cadastros rejeitados sem mensagem clara & Regras de senha e de e-mail mais permissivas no aplicativo do que na API & Alinhamento das regras e exibição das mensagens de validação da API \\
+\hline
+\end{tabular}
+\end{table}
+
+Esses resultados reforçam que testes automatizados e execução em navegador, embora indispensáveis, não substituem a validação em dispositivo real, sobretudo em aspectos dependentes da plataforma, como teclado, dependências nativas e qualidade da conexão móvel.
+
+% TODO(autor): após o teste ponta a ponta com o APK gerado para a API no Render
+% (cadastro -> criar partida -> chat -> filtro de proximidade -> push), substituir o
+% parágrafo abaixo pelo resultado obtido, citando qualquer defeito encontrado.
+Após a migração da hospedagem, foi gerada uma nova versão do aplicativo apontando para a API de produção, utilizada para repetir em sequência o fluxo completo de uso: cadastro, criação de partida, conversa no chat, busca por proximidade e recebimento de notificações \textit{push}.
+
+Não foi realizado um teste de usabilidade formal com usuários externos ao projeto. A validação da experiência de uso ficou restrita ao autor e ao orientador, o que constitui uma limitação deste trabalho, discutida no Capítulo 7.
+
+\subsection{Considerações finais}
+
+A implementação materializou a arquitetura proposta em uma solução funcional, implantada e acessível por um aplicativo Android instalável. A combinação de desenvolvimento incremental, testes automatizados como critério de conclusão, integração contínua e validação em dispositivo físico permitiu detectar e corrigir problemas em diferentes níveis: regras de negócio, contrato entre aplicativo e API, compatibilidade de dependências e comportamento específico da plataforma.
+
+\clearpage
+
+\section{Cronograma}
+
+O desenvolvimento do projeto foi planejado conforme o cronograma apresentado na Tabela \ref{tab:cronograma}, definido no início do trabalho. O cronograma foi dividido em períodos quinzenais, contemplando atividades de modelagem, implementação, integração, testes, ajustes finais, revisão da monografia e preparação para a defesa.
+
+\begin{table}[H]
+\centering
+\caption{Cronograma planejado de desenvolvimento do projeto}
 \label{tab:cronograma}
 \scriptsize
 \resizebox{\textwidth}{!}{
@@ -1342,13 +1499,55 @@ Preparação da defesa
 &  &  &  &  &  &  &  &  &  &  &  &  & X & X & X \\
 \hline
 
-Defesa do TCC 
+Defesa do TCC
 &  &  &  &  &  &  &  &  &  &  &  &  &  &  & X \\
 \hline
 
 \end{tabular}
 }
 \end{table}
+
+A Tabela \ref{tab:cronograma_realizado} compara o período planejado de cada etapa com sua execução real. As etapas de implementação e integração foram concluídas antes do previsto: a API foi implementada na primeira quinzena de julho e a integração com o aplicativo terminou na segunda quinzena do mesmo mês, cerca de dois meses antes do planejado. Essa antecipação permitiu incorporar ao escopo duas funcionalidades originalmente previstas como trabalhos futuros, a geolocalização real e as notificações \textit{push}, e antecipar os testes em dispositivo físico. Por outro lado, surgiu uma atividade não planejada: a migração da hospedagem da API, motivada pelo fim do período gratuito do provedor original.
+
+\begin{table}[H]
+\centering
+\caption{Comparação entre o cronograma planejado e o realizado}
+\label{tab:cronograma_realizado}
+\small
+\begin{tabular}{|p{5.4cm}|p{2.6cm}|p{2.6cm}|p{2.6cm}|}
+\hline
+\textbf{Etapa} & \textbf{Planejado} & \textbf{Realizado} & \textbf{Situação} \\
+\hline
+Definição do tema, revisão bibliográfica e análise de concorrentes & Mai 1 -- Jun 2 & Mai 1 -- Jun 2 & Concluída \\
+\hline
+Requisitos e casos de uso & Mai 2 -- Jul 1 & Mai 2 -- Jul 2 & Concluída \\
+\hline
+Arquitetura e modelagem técnica & Mai 2 -- Jul 2 & Mai 2 -- Jul 1 & Concluída \\
+\hline
+Prototipação e implementação do aplicativo & Mai 2 -- Jul 2 & Mai 2 -- Jul 1 & Concluída \\
+\hline
+Implementação da API & Jul 2 -- Set 1 & Jul 1 & Concluída antecipadamente \\
+\hline
+Integração entre aplicativo e API & Ago 2 -- Set 2 & Jul 1 -- Jul 2 & Concluída antecipadamente \\
+\hline
+Geolocalização e notificações \textit{push} & Não previsto & Jul 2 & Concluída \\
+\hline
+Testes e validação dos fluxos & Set 1 -- Out 1 & Jul 2 -- Out 2 & Em andamento \\
+\hline
+Migração da hospedagem da API & Não previsto & Out 2 & Concluída \\
+\hline
+Validação com orientador e ajustes funcionais & Set 2 -- Nov 1 & Set 2 -- Nov 1 & Em andamento \\
+\hline
+Escrita da monografia & Mai 2 -- Out 1 & Mai 2 -- Out 2 & Concluída \\
+\hline
+Revisão final e correções & Out 1 -- Nov 2 & -- & Pendente \\
+\hline
+Preparação e defesa do TCC & Nov 1 -- Dez 1 & -- & Pendente \\
+\hline
+\end{tabular}
+\end{table}
+% TODO(autor): atualizar as colunas "Realizado" e "Situação" antes da entrega final
+% (teste ponta a ponta com o APK novo, validação com orientador, revisão e defesa).
 
 \clearpage
 
@@ -1358,7 +1557,48 @@ Este trabalho apresentou o SquadUp, um aplicativo \textit{mobile} voltado à con
 
 A revisão da literatura e a análise de aplicativos similares indicaram que existem soluções voltadas a aspectos específicos do problema, como registro de atividades, organização de eventos, reserva de espaços ou comunicação em grupos. Entretanto, foi identificada uma lacuna relacionada à integração entre conexão social, organização logística e mecanismos de confiança para usuários que desejam praticar esportes coletivos com pessoas desconhecidas.
 
-Como resultado, foram definidos os objetivos do sistema, seus pilares principais, casos de uso, arquitetura proposta, telas principais e cronograma de desenvolvimento. A proposta apresentada demonstra como o SquadUp busca integrar conexão social, organização logística e mecanismos de confiança em uma solução voltada à prática de esportes coletivos.
+A partir dessa fundamentação, foram definidos os pilares do sistema, seus casos de uso e sua arquitetura, que foram então implementados em uma solução completa e funcional, composta por um aplicativo Android, uma API REST e um banco de dados relacional, implantados em ambiente de produção.
+
+\subsection{Resultados alcançados}
+
+O SquadUp implementa o ciclo completo de uso previsto nos casos de uso: cadastro e autenticação, descoberta de partidas com filtros por modalidade, data, local e proximidade geográfica, criação de partidas, participação com aprovação opcional pelo organizador, encerramento de partidas, chat entre participantes, avaliação pós-partida em cinco critérios, construção de reputação, denúncia de usuários e moderação administrativa. Notificações \textit{push} avisam o usuário sobre novas mensagens, aprovação de participação e encerramento de partidas.
+
+Em relação aos objetivos específicos definidos no Capítulo 1, o pilar social, eixo central do projeto, foi atendido pelos perfis públicos, pela reputação construída a partir de avaliações, pelo chat e pelos mecanismos de denúncia e moderação. O pilar logístico foi atendido pela listagem e pelos filtros de partidas, pelo controle de vagas e pela busca por proximidade. O pilar de saúde, tratado de forma inicial e secundária desde a concepção, está presente por meio do histórico de partidas disputadas exibido no perfil do usuário.
+
+Do ponto de vista técnico, a solução é sustentada por 474 testes automatizados, sendo 309 no aplicativo e 165 na API, esta com cobertura de 98,9\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
+
+Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram sete defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, conectividade e divergências de regras de validação entre aplicativo e API.
+
+\subsection{Limitações}
+
+Algumas limitações devem ser consideradas na avaliação dos resultados:
+
+\begin{itemize}
+    \item Não foi realizado teste de usabilidade com usuários externos ao projeto. A experiência de uso foi avaliada pelo autor e pelo orientador, de modo que não há evidência empírica de como o público-alvo percebe a aplicação;
+    \item A aplicação foi gerada e validada apenas para Android, uma vez que a distribuição para iOS exige conta paga de desenvolvedor;
+    \item A hospedagem em planos gratuitos suspende a API após períodos de inatividade, o que torna a primeira requisição seguinte lenta;
+    \item O chat não é atualizado em tempo real: novas mensagens são exibidas ao abrir ou atualizar a conversa, com o aviso por notificação \textit{push}. A API já oferece um canal em tempo real (\textit{WebSocket}), ainda não utilizado pelo aplicativo;
+    \item As ações de moderação registram a decisão administrativa sobre a denúncia, mas não restringem automaticamente o acesso da conta advertida ou banida;
+    \item A verificação de perfis é representada por um selo no perfil, mas não há um processo de verificação de identidade implementado;
+    \item A foto de perfil é informada por endereço de imagem. A API já oferece o envio de arquivos, que depende da configuração de um serviço de armazenamento ainda não contratado.
+\end{itemize}
+
+\subsection{Trabalhos futuros}
+
+A partir das limitações identificadas, são sugeridos os seguintes trabalhos futuros:
+
+\begin{itemize}
+    \item Realizar testes de usabilidade com usuários do público-alvo, como estudantes universitários e pessoas sem grupo fixo, para avaliar a percepção de segurança e a facilidade de uso;
+    \item Disponibilizar o aplicativo para iOS e publicá-lo nas lojas de aplicativos;
+    \item Utilizar o canal em tempo real já disponível na API para atualizar o chat instantaneamente;
+    \item Implementar consequências efetivas para as ações de moderação, como suspensão temporária ou bloqueio de contas;
+    \item Criar um processo de verificação de identidade dos usuários, reforçando o pilar de confiança;
+    \item Ampliar o pilar de saúde com metas, frequência de prática e mensagens de incentivo à continuidade;
+    \item Recomendar partidas e participantes compatíveis com o nível, a localização e o histórico de cada usuário;
+    \item Integrar a reserva de quadras e espaços esportivos à criação de partidas.
+\end{itemize}
+
+Conclui-se que o SquadUp demonstra a viabilidade de uma plataforma que integra conexão social, organização logística e mecanismos de confiança para a prática de esportes coletivos, oferecendo uma alternativa estruturada aos grupos informais de mensagens, especialmente para pessoas que ainda não fazem parte de uma rede esportiva.
 
 \end{justify}
 
