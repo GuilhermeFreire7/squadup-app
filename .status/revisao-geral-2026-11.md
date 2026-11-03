@@ -8,21 +8,45 @@
 
 ## Status de implementação
 
-| Item | Situação | Branch / PR (`squadup-back`) | Build EAS |
+Atualizado em 2026-11-03. PRs de `squadup-back` são indicados como "back #N"; os de
+`squadup-app`, como "app #N". O autor revisa e mergeia cada PR.
+
+| Item | Situação | PR | Build EAS |
 |---|---|---|---|
-| A3 | PR aberto para `dev`, aguardando revisão do autor (2026-11-03) | `fix/regras-organizador-partida` / #65 | Não precisa |
-| A1 | PR aberto para `dev`, aguardando revisão do autor (2026-11-03) | `fix/auth-leitura-perfis` / #66 | Não precisa |
+| A3 | Mergeado e em produção | back #65 | Não precisa |
+| A3 (ajuste de front) | PR aberto: esconde "Cancelar participação" para o organizador | app #22 | Sim |
+| A1 | Mergeado e em produção (verificado: `GET /matches/match-1` sem token → 401) | back #66 | Não precisa |
+| A4 | Mergeado | back #67 | Não precisa |
+| A2 (back) | PR aberto: `order=desc` em `GET /matches/{id}/messages` | back #68 | Não precisa |
+| A2 (front) + A6 | PR aberto: chat das mais recentes para as mais antigas + polling de 5 s | app #19 | Sim, **depois** do back #68 em produção |
+| A8 | PR aberto: estado de erro, puxar para atualizar, recarga ao voltar ao app | app #20 | Sim |
+| A7 (app) | PR aberto: aquecimento do servidor + aviso de "servidor iniciando" | app #21 | Sim |
+| A7 (operacional) | Pendente (ação do autor): monitor externo chamando `/health` a cada 10 min | — | — |
+| A5 | Pendente (ação do autor): ajustar as datas da demo em produção na semana da defesa | — | — |
+| A9 | Pendente: ajustes de texto do `TCC.tex` (seção 5 deste relatório e linhas abaixo) | — | — |
+
+Os PRs de app (#19, #20, #21 e #22) não conflitam entre si e cabem numa única build EAS.
 
 - **A3, dados de produção:** conferidos só por leitura (`GET /matches` e `GET /matches/{id}`). As
   13 partidas são do seed (`match-1`…`match-13`) e todas têm o organizador como participante
-  (`match-10`, cancelada, com o organizador `cancelled`). Nenhuma correção de dados é necessária
-  hoje. O script de correção ficou só proposto, não foi executado.
-- **A3, ajuste de front pendente (entra na próxima build):** o botão "Cancelar participação"
-  continua visível para o organizador (`src/screens/MatchDetailScreen.tsx:129`). Se ele tocar, a
-  API agora recusa com `ORGANIZER_CANNOT_LEAVE` e o app mostra o alerta genérico. O ajuste é
-  esconder o botão quando `isOrganizer`.
-- **#65 e #66:** o código mescla sem conflito; `README.md` e `.status/progress.md` do back
-  conflitam (as duas branches escrevem no fim do arquivo). O segundo a entrar precisa de rebase.
+  (`match-10`, cancelada, com o organizador `cancelled`). Nenhuma correção de dados foi
+  necessária. O script de correção ficou só proposto, não foi executado.
+- **A4, conferir em produção:** nos logs do Render, o evento `rate_limit_key` deve mostrar
+  `ip_source: "header"`. Se mostrar `"connection"`, o `True-Client-IP` não chega e o limite
+  passa a agrupar todos os usuários; a saída imediata é `RATE_LIMIT_ENABLED=false` no Render.
+- **Linhas do `TCC.tex` afetadas pelos itens já implementados** (entram no A9):
+  - 660 (pós-condição de "Criar partida"): o organizador entra como participante confirmado (A3);
+  - 790–793 ("Cancelar participação"): o organizador não pode cancelar (A3); a linha 792 passa a
+    ser verdadeira;
+  - 695 e 891 (pré-condições de "Visualizar detalhes" e "Visualizar perfil"): usuário autenticado
+    (A1);
+  - 1252–1254 (§4.5): leituras de perfil exigem autenticação (A1) e login/cadastro têm limite de
+    tentativas (A4);
+  - 1580 (§7.2): mensagens atualizadas automaticamente a cada poucos segundos (A6);
+  - 1352 e 1579 (opcional): aquecimento do servidor e aviso ao usuário (A7);
+  - 200, 220, 1330, 1332 e 1568 (contagem de testes): recontar depois dos merges. Hoje: API com
+    192 testes contando o back #68; app com 316 em `dev`, mais 7 (#19), 11 (#20) e 8 (#21);
+    o #22 não muda a contagem.
 
 ## 1. Resumo executivo
 

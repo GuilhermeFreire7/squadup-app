@@ -218,18 +218,22 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 > auditoria) vive em [`progress.md`](progress.md) — esta seção só guarda a observação mais
 > recente, para servir de ponto de retomada rápido no início da próxima sessão.
 
-- **Checkpointer — Sessão 39 (2026-11-03, revisão geral + itens A3/A1):** relatório completo da
-  revisão em [`revisao-geral-2026-11.md`](revisao-geral-2026-11.md) (achados A1–A9 antes da
-  defesa, P1–P19 pós-TCC, features F1–F8, incoerências I1–I11 com o `TCC.tex`). Implementados
-  no **back**, com PRs abertos para `dev` e aguardando revisão do autor:
-  - A3: organizador entra como participante; `leave` bloqueado em partida encerrada ou cancelada
-    e para o organizador (`squadup-back` PR #65);
-  - A1: `GET /users/{id}`, `GET /users/{id}/ratings` e `GET /matches/{id}` exigem token (PR #66).
-
-  Nenhum dos dois muda o front nem exige build EAS. **Pendente no front, para a próxima build:**
-  esconder "Cancelar participação" para o organizador (`MatchDetailScreen.tsx:129`). Os dois PRs
-  conflitam só em `README.md` e `.status/progress.md` do back, então o segundo a entrar precisa
-  de rebase.
+- **Checkpointer — Sessão 39 (2026-11-03, revisão geral + itens antes da defesa):** relatório
+  completo em [`revisao-geral-2026-11.md`](revisao-geral-2026-11.md) (achados A1–A9 antes da
+  defesa, P1–P19 pós-TCC, features F1–F8, incoerências I1–I11 com o `TCC.tex`). A tabela
+  "Status de implementação" no topo do relatório é a referência de onde cada item está.
+  - **Já em `dev` do back:** A3 (#65), A1 (#66), A4 (#67) e os bumps do dependabot.
+  - **PRs abertos:**
+    - back #68 (`order=desc` no chat);
+    - app #19 (chat: A2 + A6), #20 (A8), #21 (A7) e #22 (organizador sem "Cancelar
+      participação").
+  - **Próxima tarefa concreta:**
+    1. revisar e mergear os PRs;
+    2. confirmar o back #68 em produção;
+    3. gerar **uma** build EAS com #19–#22;
+    4. ações do autor: A5 (datas da demo), monitor de `/health` e conferir `ip_source` do A4
+       nos logs do Render;
+    5. A9 (texto do TCC).
 - **Checkpointer — Sessão 38 (2026-10-26, branch `feat/visual-polish`, a partir de `dev`
   em `1332e9a`; não mergeada nem enviada ao remoto):** Fase 15 (polimento visual) concluída em
   4 commits — `6373615` tokens, `e4e1aa5` componentes, `9374316` telas, `6b4d374` screenshots +
