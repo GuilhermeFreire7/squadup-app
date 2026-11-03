@@ -3,7 +3,7 @@
  * Backend responde erros como `{ detail: { code, message } }` (ver .status/backend-contract.md §3).
  */
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8000";
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8000";
 
 export interface ApiErrorPayload {
   code: string;
@@ -139,7 +139,7 @@ async function request<T>(
   if (hasBody) headers.set("Content-Type", "application/json");
   if (authToken) headers.set("Authorization", `Bearer ${authToken}`);
 
-  const response = await fetchWithNetworkRetry(`${BASE_URL}${path}`, {
+  const response = await fetchWithNetworkRetry(`${API_BASE_URL}${path}`, {
     ...options,
     method,
     headers,

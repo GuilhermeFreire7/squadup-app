@@ -6,8 +6,10 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } fro
 
 import SquadUpLogo from "../../assets/squadup_logo.svg";
 import Button from "../components/Button";
+import SlowServerNotice from "../components/SlowServerNotice";
 import Input from "../components/Input";
 import { useAuth } from "../contexts/AuthContext";
+import { useSlowRequestHint } from "../hooks/useSlowRequestHint";
 import type { AuthStackParamList } from "../navigation/types";
 import { ApiError } from "../services/api/client";
 import { validateEmail } from "../utils/validation";
@@ -23,6 +25,7 @@ export default function LoginScreen() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
+  const isSlow = useSlowRequestHint(loading);
 
   const handleLogin = async () => {
     let valid = true;
@@ -115,6 +118,7 @@ export default function LoginScreen() {
             fullWidth
             loading={loading}
           />
+          <SlowServerNotice visible={isSlow} />
         </View>
 
         <View className="mt-6 flex-row justify-center items-center">
