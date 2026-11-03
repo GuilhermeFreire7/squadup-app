@@ -15,7 +15,9 @@ import Avatar from "../components/Avatar";
 import Button from "../components/Button";
 import Chip from "../components/Chip";
 import Input from "../components/Input";
+import SlowServerNotice from "../components/SlowServerNotice";
 import { useAuth } from "../contexts/AuthContext";
+import { useSlowRequestHint } from "../hooks/useSlowRequestHint";
 import { ApiError, isNetworkError } from "../services/api/client";
 import { colors, LEVEL_META, SPORT_META } from "../theme";
 import type { ExperienceLevel, Sport } from "../types";
@@ -32,6 +34,7 @@ export default function ProfileSetupScreen() {
   const [locationError, setLocationError] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
+  const isSlow = useSlowRequestHint(loading);
 
   const toggleSport = (sport: Sport) => {
     setSelectedSports((prev) =>
@@ -182,6 +185,7 @@ export default function ProfileSetupScreen() {
           fullWidth
           loading={loading}
         />
+        <SlowServerNotice visible={isSlow} />
 
         <View className="mt-4">
           <Button

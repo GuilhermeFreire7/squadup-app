@@ -1,6 +1,8 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react-native";
 import React from "react";
 
+import { SLOW_SERVER_MESSAGE } from "../../components/SlowServerNotice";
+import { SLOW_REQUEST_HINT_MS } from "../../hooks/useSlowRequestHint";
 import LoginScreen from "../LoginScreen";
 
 const mockLogin = jest.fn();
@@ -86,5 +88,23 @@ describe("LoginScreen", () => {
     render(<LoginScreen />);
     fireEvent.press(screen.getByText("Criar conta"));
     expect(mockNavigate).toHaveBeenCalledWith("Register");
+  });
+});
+
+describe("LoginScreen — servidor lento (cold start)", () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
+
+  it("avisa que o servidor está iniciando quando o login demora", () => {
+    mockLogin.mockReturnValue(new Promise(() => undefined));
+    render(<LoginScreen />);
+    fireEvent.changeText(screen.getByLabelText("E-mail"), "ana@example.com");
+    fireEvent.changeText(screen.getByLabelText("Senha"), "senha123");
+    fireEvent.press(screen.getByText("Entrar"));
+
+    expect(screen.queryByText(SLOW_SERVER_MESSAGE)).toBeNull();
+    act(() => jest.advanceTimersByTime(SLOW_REQUEST_HINT_MS));
+
+    expect(screen.getByText(SLOW_SERVER_MESSAGE)).toBeTruthy();
   });
 });
