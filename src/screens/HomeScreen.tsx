@@ -1,12 +1,21 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { FlatList, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Avatar from "../components/Avatar";
 import EmptyState from "../components/EmptyState";
+import ErrorState from "../components/ErrorState";
 import MatchCard from "../components/MatchCard";
 import { MatchCardSkeleton } from "../components/Skeleton";
 import { useAuth } from "../contexts/AuthContext";
@@ -60,10 +69,78 @@ export default function HomeScreen() {
   const [searchText, setSearchText] = useState("");
   const { user } = useAuth();
   const { filters, setFilters, activeFilterCount } = useMatchFiltersContext();
-  const { matches, isLoading } = useMatchesContext();
+  const { matches, isLoading, isError, refetch } = useMatchesContext();
   const filteredMatches = useMatchFilters(matches, searchText);
+  // Só o "puxar para atualizar" mostra o indicador; as buscas em segundo plano (ex.: ao voltar
+  // para o app) atualizam a lista sem piscar o spinner.
+  const [isPullRefreshing, setIsPullRefreshing] = useState(false);
+  const handleRefresh = useCallback(async () => {
+    setIsPullRefreshing(true);
+    try {
+      await refetch();
+    } finally {
+      setIsPullRefreshing(false);
+    }
+  }, [refetch]);
 
   const firstName = user?.name.split(" ")[0] ?? "";
+
+  // O que aparece abaixo do cabeçalho: carregando, erro sem dados, ou a lista.
+  let listContent: React.ReactNode;
+  if (isLoading) {
+    listContent = (
+      <View className="p-5 gap-3">
+        <MatchCardSkeleton />
+        <MatchCardSkeleton />
+        <MatchCardSkeleton />
+      </View>
+    );
+  } else if (isError && matches.length === 0) {
+    listContent = (
+      // Sem nenhum dado para mostrar: erro explícito em vez de "Nenhuma partida encontrada",
+      // que levaria o usuário a achar que não existem partidas.
+      <ErrorState title="Não foi possível carregar as partidas" onRetry={() => void refetch()} />
+    );
+  } else {
+    listContent = (
+      <FlatList
+        testID="matches-list"
+        data={filteredMatches}
+        keyExtractor={(item) => item.id}
+        refreshControl={
+          <RefreshControl
+            refreshing={isPullRefreshing}
+            onRefresh={handleRefresh}
+            colors={[colors.primary[500]]}
+            tintColor={colors.primary[500]}
+          />
+        }
+        renderItem={({ item }) => (
+          <MatchCard
+            match={item}
+            onPress={() => navigation.navigate("MatchDetail", { matchId: item.id })}
+          />
+        )}
+        ListHeaderComponent={
+          <View className="flex-row items-baseline justify-between">
+            <Text className="text-heading text-secondary-900">Partidas próximas</Text>
+            <Text className="text-caption text-secondary-500">
+              {filteredMatches.length} {filteredMatches.length === 1 ? "encontrada" : "encontradas"}
+            </Text>
+          </View>
+        }
+        contentContainerStyle={{ padding: 20, gap: 12 }}
+        ListEmptyComponent={
+          <EmptyState
+            icon="calendar-search"
+            title="Nenhuma partida encontrada"
+            description="Tente ajustar os filtros ou buscar por outro termo."
+          />
+        }
+        showsVerticalScrollIndicator={false}
+      />
+    );
+  }
 
   function selectSport(sport: Sport | null) {
     setFilters({ ...filters, sport });
@@ -153,42 +230,7 @@ export default function HomeScreen() {
       </View>
 
       {/* List */}
-      {isLoading ? (
-        <View className="p-5 gap-3">
-          <MatchCardSkeleton />
-          <MatchCardSkeleton />
-          <MatchCardSkeleton />
-        </View>
-      ) : (
-        <FlatList
-          data={filteredMatches}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <MatchCard
-              match={item}
-              onPress={() => navigation.navigate("MatchDetail", { matchId: item.id })}
-            />
-          )}
-          ListHeaderComponent={
-            <View className="flex-row items-baseline justify-between">
-              <Text className="text-heading text-secondary-900">Partidas próximas</Text>
-              <Text className="text-caption text-secondary-500">
-                {filteredMatches.length}{" "}
-                {filteredMatches.length === 1 ? "encontrada" : "encontradas"}
-              </Text>
-            </View>
-          }
-          contentContainerStyle={{ padding: 20, gap: 12 }}
-          ListEmptyComponent={
-            <EmptyState
-              icon="calendar-search"
-              title="Nenhuma partida encontrada"
-              description="Tente ajustar os filtros ou buscar por outro termo."
-            />
-          }
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      {listContent}
     </View>
   );
 }

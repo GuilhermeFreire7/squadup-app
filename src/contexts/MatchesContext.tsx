@@ -10,7 +10,9 @@ import { useMatchFiltersContext } from "./MatchFiltersContext";
 interface MatchesContextValue {
   matches: MatchSummary[];
   isLoading: boolean;
-  refetch: () => void;
+  /** A última busca falhou (a lista pode conter dados antigos, se já houve sucesso antes). */
+  isError: boolean;
+  refetch: () => Promise<unknown>;
 }
 
 const MatchesContext = createContext<MatchesContextValue | null>(null);
@@ -18,7 +20,7 @@ const MatchesContext = createContext<MatchesContextValue | null>(null);
 export function MatchesProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   const { filters } = useMatchFiltersContext();
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: queryKeys.matches(filters),
     queryFn: async () => {
       const apiMatches = await fetchMatches({
@@ -36,8 +38,8 @@ export function MatchesProvider({ children }: Readonly<{ children: React.ReactNo
   });
 
   const value = useMemo(
-    () => ({ matches: data ?? [], isLoading, refetch: () => void refetch() }),
-    [data, isLoading, refetch]
+    () => ({ matches: data ?? [], isLoading, isError, refetch: () => refetch() }),
+    [data, isLoading, isError, refetch]
   );
 
   return <MatchesContext.Provider value={value}>{children}</MatchesContext.Provider>;

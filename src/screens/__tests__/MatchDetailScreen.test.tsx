@@ -247,3 +247,32 @@ describe("MatchDetailScreen — renderização geral", () => {
     await waitFor(() => expect(screen.getByText("Partida não encontrada.")).toBeTruthy());
   });
 });
+
+describe("MatchDetailScreen — falha ao carregar", () => {
+  beforeEach(() => {
+    mockUseRoute.mockReturnValue({ params: { matchId: "match-1" } });
+  });
+
+  it("falha de servidor/rede mostra 'Tentar de novo', que busca de novo", async () => {
+    mockFetchOnce({ detail: { code: "INTERNAL", message: "erro" } }, 500);
+    renderWithQueryClient();
+
+    await waitFor(() =>
+      expect(screen.getByText("Não foi possível carregar a partida")).toBeTruthy()
+    );
+    expect(screen.queryByText("Partida não encontrada.")).toBeNull();
+
+    mockFetchOnce(apiMatchDetail());
+    fireEvent.press(screen.getByText("Tentar de novo"));
+
+    await waitFor(() => expect(screen.getByText("Pelada de domingo na arena")).toBeTruthy());
+  });
+
+  it("404 mostra 'Partida não encontrada.' sem oferecer tentar de novo", async () => {
+    mockFetchOnce({ detail: { code: "MATCH_NOT_FOUND", message: "Partida não encontrada." } }, 404);
+    renderWithQueryClient();
+
+    await waitFor(() => expect(screen.getByText("Partida não encontrada.")).toBeTruthy());
+    expect(screen.queryByText("Tentar de novo")).toBeNull();
+  });
+});
