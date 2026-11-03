@@ -126,7 +126,10 @@ export default function MatchDetailScreen() {
           onPress={() => navigation.navigate("MatchChat", { matchId: match.id })}
           fullWidth
         />
-        <Button label="Cancelar participação" onPress={cancel} variant="ghost" fullWidth />
+        {/* O organizador não sai da própria partida (a API recusa com ORGANIZER_CANNOT_LEAVE). */}
+        {!isOrganizer && (
+          <Button label="Cancelar participação" onPress={cancel} variant="ghost" fullWidth />
+        )}
         {canClose && <Button label="Encerrar partida" onPress={close} variant="danger" fullWidth />}
       </View>
     );
