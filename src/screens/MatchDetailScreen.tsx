@@ -10,6 +10,7 @@ import Avatar from "../components/Avatar";
 import Badge from "../components/Badge";
 import Button from "../components/Button";
 import EmptyState from "../components/EmptyState";
+import ErrorState from "../components/ErrorState";
 import Header from "../components/Header";
 import LoadingState from "../components/LoadingState";
 import ParticipantList from "../components/ParticipantList";
@@ -57,10 +58,8 @@ export default function MatchDetailScreen() {
   const insets = useSafeAreaInsets();
   const { matchId } = route.params;
   const { user } = useAuth();
-  const { match, userStatus, isLoading, join, cancel, close, approve } = useMatchParticipation(
-    matchId,
-    user
-  );
+  const { match, userStatus, isLoading, isError, refetch, join, cancel, close, approve } =
+    useMatchParticipation(matchId, user);
 
   const confirmedCount = useMemo(
     () => (match ? match.participants.filter((p) => p.status === "confirmed").length : 0),
@@ -80,7 +79,11 @@ export default function MatchDetailScreen() {
     return (
       <View className="flex-1 bg-secondary-50">
         <Header title="Detalhes da partida" onBack={() => navigation.goBack()} />
-        <EmptyState icon="calendar-remove-outline" title="Partida não encontrada." />
+        {isError ? (
+          <ErrorState title="Não foi possível carregar a partida" onRetry={refetch} />
+        ) : (
+          <EmptyState icon="calendar-remove-outline" title="Partida não encontrada." />
+        )}
       </View>
     );
   }

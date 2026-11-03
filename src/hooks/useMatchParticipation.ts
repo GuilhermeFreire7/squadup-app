@@ -11,6 +11,9 @@ export interface UseMatchParticipationResult {
   match: MatchDetail | null;
   userStatus: ParticipationStatus | null;
   isLoading: boolean;
+  /** Falha ao carregar a partida que não é 404 (rede, servidor): vale tentar de novo. */
+  isError: boolean;
+  refetch: () => void;
   join: () => Promise<void>;
   cancel: () => void;
   close: () => void;
@@ -22,7 +25,7 @@ export function useMatchParticipation(
   currentUser: PublicUser | null
 ): UseMatchParticipationResult {
   const queryClient = useQueryClient();
-  const { match, isLoading } = useMatchDetail(matchId);
+  const { match, isLoading, isError, refetch } = useMatchDetail(matchId);
 
   const userStatus = useMemo((): ParticipationStatus | null => {
     if (!match || !currentUser) return null;
@@ -94,5 +97,5 @@ export function useMatchParticipation(
     [matchId, invalidate]
   );
 
-  return { match, userStatus, isLoading, join, cancel, close, approve };
+  return { match, userStatus, isLoading, isError, refetch, join, cancel, close, approve };
 }
