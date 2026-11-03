@@ -122,15 +122,38 @@ describe("MatchDetailScreen — estado: participante confirmado", () => {
     mockFetchOnce(apiMatchDetail({ id: "match-4" }));
   });
 
-  it('exibe "Você está confirmado" e opção de cancelar', async () => {
+  it('exibe "Encerrar partida" e o chat para o organizador, sem "Cancelar participação"', async () => {
+    renderWithQueryClient();
+    await waitFor(() => expect(screen.getByText("Encerrar partida")).toBeTruthy());
+    expect(screen.getByText("Você está confirmado")).toBeTruthy();
+    expect(screen.getByText("Chat da partida")).toBeTruthy();
+    expect(screen.queryByText("Cancelar participação")).toBeNull();
+  });
+});
+
+describe("MatchDetailScreen — estado: participante confirmado (não organizador)", () => {
+  beforeEach(() => {
+    mockUseRoute.mockReturnValue({ params: { matchId: "match-7" } });
+    mockFetchOnce(
+      apiMatchDetail({
+        id: "match-7",
+        organizer_id: "user-2",
+        organizer: ANA,
+        participants: [
+          { user: ANA, status: "confirmed" },
+          { user: GUILHERME, status: "confirmed" },
+        ],
+        confirmed_count: 2,
+        available_slots: 12,
+      })
+    );
+  });
+
+  it('exibe "Você está confirmado" e a opção de cancelar, sem "Encerrar partida"', async () => {
     renderWithQueryClient();
     await waitFor(() => expect(screen.getByText("Você está confirmado")).toBeTruthy());
     expect(screen.getByText("Cancelar participação")).toBeTruthy();
-  });
-
-  it('exibe "Encerrar partida" para o organizador', async () => {
-    renderWithQueryClient();
-    await waitFor(() => expect(screen.getByText("Encerrar partida")).toBeTruthy());
+    expect(screen.queryByText("Encerrar partida")).toBeNull();
   });
 });
 
