@@ -6,8 +6,15 @@ import { fetchMessages, postMessage } from "../services/api/messages";
 import { queryKeys } from "../services/queryKeys";
 import type { Message } from "../types";
 
-const PAGE_SIZE = 30;
-const MAX_PAGE_SIZE = 100;
+export const MESSAGES_PAGE_SIZE = 30;
+/** Intervalo do polling enquanto o chat está aberto (o app ainda não usa o WebSocket da API). */
+export const CHAT_POLL_INTERVAL_MS = 5_000;
+
+export interface UseMessagesOptions {
+  /** Refaz a busca a cada `pollIntervalMs`. Ligar só com a tela de chat em foco. */
+  poll?: boolean;
+  pollIntervalMs?: number;
+}
 
 export interface UseMessagesResult {
   messages: Message[];
@@ -18,32 +25,45 @@ export interface UseMessagesResult {
   sendMessage: (text: string) => void;
 }
 
-export function useMessages(matchId: string): UseMessagesResult {
+export function useMessages(
+  matchId: string,
+  { poll = false, pollIntervalMs = CHAT_POLL_INTERVAL_MS }: UseMessagesOptions = {}
+): UseMessagesResult {
   const queryClient = useQueryClient();
 
-  // `GET /matches/{id}/messages` devolve em ordem cronológica crescente (mais antiga
-  // primeiro) e não expõe o total de mensagens — sem contagem, não dá para paginar de trás
-  // pra frente com skip/limit. Em vez disso, cada "página" busca do início (skip=0) com um
-  // limit maior (até o teto de 100 do backend), trocando eficiência de rede por corretude.
+  // `order=desc`: a página 0 traz as mensagens mais recentes e cada página seguinte (via `skip`)
+  // traz as mais antigas, que é como a FlatList invertida do chat carrega ao rolar para cima.
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: queryKeys.messages(matchId),
     queryFn: async ({ pageParam }) => {
-      const apiMessages = await fetchMessages(matchId, { skip: 0, limit: pageParam });
+      const apiMessages = await fetchMessages(matchId, {
+        skip: pageParam,
+        limit: MESSAGES_PAGE_SIZE,
+        order: "desc",
+      });
       return apiMessages.map(toMessage);
     },
-    initialPageParam: PAGE_SIZE,
-    getNextPageParam: (lastPage, _allPages, lastPageParam) =>
-      lastPage.length < lastPageParam || lastPageParam >= MAX_PAGE_SIZE
-        ? undefined
-        : Math.min(lastPageParam + PAGE_SIZE, MAX_PAGE_SIZE),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length < MESSAGES_PAGE_SIZE ? undefined : allPages.length * MESSAGES_PAGE_SIZE,
+    // Mensagens mudam o tempo todo: sem cache "fresco", reabrir o chat sempre busca de novo.
+    staleTime: 0,
+    refetchInterval: poll ? pollIntervalMs : false,
   });
 
-  // Cada página já contém o histórico inteiro buscado até então (skip=0); usa só a última.
-  // Backend devolve cronológico crescente; a FlatList é invertida, então inverte aqui para
-  // que o item 0 (topo visual) seja a mensagem mais recente.
+  // As páginas já vêm da mais recente para a mais antiga, que é a ordem da FlatList invertida
+  // (item 0 = embaixo, mensagem mais nova). Se chegam mensagens novas entre o refetch de uma
+  // página e o da seguinte, os offsets deslocam e uma mensagem pode aparecer em duas páginas:
+  // o filtro por `id` evita a duplicata.
   const messages = useMemo(() => {
-    const lastPage = data?.pages.at(-1) ?? [];
-    return [...lastPage].reverse();
+    const seen = new Set<string>();
+    const result: Message[] = [];
+    for (const message of data?.pages.flat() ?? []) {
+      if (seen.has(message.id)) continue;
+      seen.add(message.id);
+      result.push(message);
+    }
+    return result;
   }, [data]);
 
   const { mutate: sendMessage } = useMutation({

@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback } from "react";
@@ -25,7 +25,11 @@ export default function MatchChatScreen() {
 
   const { user } = useAuth();
   const { match } = useMatchDetail(matchId);
-  const { messages, isFetchingMore, hasMore, loadMore, sendMessage } = useMessages(matchId);
+  // Polling só com o chat visível: ao abrir outra tela por cima, para de buscar.
+  const isFocused = useIsFocused();
+  const { messages, isFetchingMore, hasMore, loadMore, sendMessage } = useMessages(matchId, {
+    poll: isFocused,
+  });
 
   const handleSend = useCallback(
     (text: string) => {
