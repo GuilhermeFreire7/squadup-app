@@ -2,11 +2,18 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react-
 import React from "react";
 
 import { SLOW_SERVER_MESSAGE } from "../../components/SlowServerNotice";
-import { SLOW_REQUEST_HINT_MS } from "../../hooks/useSlowRequestHint";
 import LoginScreen from "../LoginScreen";
 
 const mockLogin = jest.fn();
 const mockNavigate = jest.fn();
+
+// O atraso de 8 s é testado no próprio hook (useSlowRequestHint.test.ts). Aqui só importa a
+// ligação com a tela: "lento" assim que houver carregamento. Sem fake timers nesta suíte, porque
+// eles também falsificam microtasks usadas pelo act do React e, com um login pendente, a limpeza
+// do teste travava no CI.
+jest.mock("../../hooks/useSlowRequestHint", () => ({
+  useSlowRequestHint: (active: boolean) => active,
+}));
 
 jest.mock("@react-navigation/native", () => ({
   useNavigation: () => ({ navigate: mockNavigate, goBack: jest.fn() }),
@@ -92,19 +99,20 @@ describe("LoginScreen", () => {
 });
 
 describe("LoginScreen — servidor lento (cold start)", () => {
-  beforeEach(() => jest.useFakeTimers());
-  afterEach(() => jest.useRealTimers());
-
-  it("avisa que o servidor está iniciando quando o login demora", () => {
-    mockLogin.mockReturnValue(new Promise(() => undefined));
+  it("mostra o aviso de servidor iniciando enquanto o login está em andamento", async () => {
+    let finishLogin: () => void = () => undefined;
+    mockLogin.mockReturnValue(new Promise<void>((resolve) => (finishLogin = resolve)));
     render(<LoginScreen />);
+    expect(screen.queryByText(SLOW_SERVER_MESSAGE)).toBeNull();
+
     fireEvent.changeText(screen.getByLabelText("E-mail"), "ana@example.com");
     fireEvent.changeText(screen.getByLabelText("Senha"), "senha123");
     fireEvent.press(screen.getByText("Entrar"));
 
-    expect(screen.queryByText(SLOW_SERVER_MESSAGE)).toBeNull();
-    act(() => jest.advanceTimersByTime(SLOW_REQUEST_HINT_MS));
+    expect(await screen.findByText(SLOW_SERVER_MESSAGE)).toBeTruthy();
 
-    expect(screen.getByText(SLOW_SERVER_MESSAGE)).toBeTruthy();
+    // Termina o login para não deixar promise pendente entre os testes.
+    await act(async () => finishLogin());
+    await waitFor(() => expect(screen.queryByText(SLOW_SERVER_MESSAGE)).toBeNull());
   });
 });
