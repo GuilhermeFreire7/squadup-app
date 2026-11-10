@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 
 import Avatar from "../components/Avatar";
 import Badge from "../components/Badge";
@@ -22,7 +22,14 @@ type Nav = NativeStackNavigationProp<AppRootStackParamList>;
 
 export default function MyProfileScreen() {
   const navigation = useNavigation<Nav>();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert("Sair da conta", "Tem certeza que deseja sair?", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Sair", style: "destructive", onPress: () => void logout() },
+    ]);
+  };
   const { ratings: myReviews } = useUserRatings(user?.id ?? "");
 
   if (!user) return null;
@@ -151,6 +158,14 @@ export default function MyProfileScreen() {
               fullWidth
             />
           )}
+
+          <Button
+            label="Sair da conta"
+            icon="logout"
+            onPress={handleLogout}
+            variant="danger"
+            fullWidth
+          />
         </View>
       </ScrollView>
     </View>

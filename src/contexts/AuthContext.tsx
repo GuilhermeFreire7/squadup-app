@@ -5,6 +5,7 @@ import { toMyProfile } from "../services/adapters/user";
 import { loginRequest, logoutRequest, refreshRequest, registerRequest } from "../services/api/auth";
 import { ApiError, setUnauthorizedHandler } from "../services/api/client";
 import { fetchMyProfile, updateMyProfile } from "../services/api/users";
+import { queryClient } from "../services/queryClient";
 import {
   clearTokens,
   getRefreshToken,
@@ -174,6 +175,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
     await clearTokens();
+    // Sem isso, quem logar em seguida no mesmo aparelho veria por alguns instantes dados em cache
+    // da conta anterior (mensagens, avaliações, denúncias do painel admin).
+    queryClient.clear();
     setUser(null);
     clearPendingState();
     setIsAuthenticated(false);
