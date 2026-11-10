@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import React from "react";
 
 import { apiClient, getAuthToken } from "../../services/api/client";
+import { queryClient } from "../../services/queryClient";
 import type { MyProfile } from "../../types";
 import { AuthProvider, useAuth } from "../AuthContext";
 
@@ -293,6 +294,20 @@ describe("AuthContext", () => {
     const [url, options] = (globalThis.fetch as jest.Mock).mock.calls[0];
     expect(url).toContain("/auth/logout");
     expect(options.body).toBe(JSON.stringify({ refresh_token: "ref-3" }));
+  });
+
+  it("logout limpa o cache do React Query (dados da conta anterior)", async () => {
+    mockNoSavedSession();
+    const { result } = renderHook(() => useAuth(), { wrapper });
+    await waitForBootToFinish(result);
+    queryClient.setQueryData(["messages", "match-1"], { pages: [["mensagem da conta anterior"]] });
+
+    mockFetchSequence([{ status: 204, body: undefined }]);
+    await act(async () => {
+      await result.current.logout();
+    });
+
+    expect(queryClient.getQueryData(["messages", "match-1"])).toBeUndefined();
   });
 
   it("logout limpa o estado local mesmo se POST /auth/logout falhar (refresh token já expirado)", async () => {

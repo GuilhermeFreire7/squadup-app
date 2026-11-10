@@ -5,6 +5,11 @@ import { createQueryWrapper } from "../../test-utils/queryClientWrapper";
 import MatchChatScreen from "../MatchChatScreen";
 
 const mockUseIsFocused = jest.fn(() => true);
+const mockKeyboardVisible = jest.fn(() => false);
+
+jest.mock("../../hooks/useKeyboardVisible", () => ({
+  useKeyboardVisible: () => mockKeyboardVisible(),
+}));
 
 jest.mock("@react-navigation/native", () => ({
   useNavigation: () => ({ goBack: jest.fn(), navigate: jest.fn() }),
@@ -83,6 +88,7 @@ function mockApi(messages: unknown[]) {
 beforeEach(() => {
   jest.clearAllMocks();
   mockUseIsFocused.mockReturnValue(true);
+  mockKeyboardVisible.mockReturnValue(false);
 });
 
 describe("MatchChatScreen", () => {
@@ -115,5 +121,18 @@ describe("MatchChatScreen", () => {
     render(<MatchChatScreen />, { wrapper: createQueryWrapper() });
 
     expect(await screen.findByText("Nenhuma mensagem ainda.")).toBeTruthy();
+  });
+
+  it("reserva o espaço da barra de navegação abaixo do campo, exceto com o teclado aberto", async () => {
+    mockApi([]);
+    const { rerender } = render(<MatchChatScreen />, { wrapper: createQueryWrapper() });
+    await screen.findByText("Nenhuma mensagem ainda.");
+
+    expect(screen.getByTestId("chat-input-container").props.style).toEqual({ paddingBottom: 34 });
+
+    mockKeyboardVisible.mockReturnValue(true);
+    rerender(<MatchChatScreen />);
+
+    expect(screen.getByTestId("chat-input-container").props.style).toEqual({ paddingBottom: 0 });
   });
 });

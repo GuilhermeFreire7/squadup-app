@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Pressable, ScrollView, Text, View } from "react-native";
 
 import SquadUpLogo from "../../assets/squadup_logo.svg";
 import Button from "../components/Button";
@@ -61,7 +61,9 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-secondary-50"
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      // Edge-to-edge (Android, SDK 54): a janela não redimensiona mais com o teclado, então sem
+      // `behavior` a tela fica por baixo dele. "padding" nos dois sistemas, como pede o guia da Expo.
+      behavior="padding"
     >
       <ScrollView
         className="flex-1"
