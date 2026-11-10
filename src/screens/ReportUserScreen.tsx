@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
+import { Alert, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Avatar from "../components/Avatar";
@@ -99,7 +99,9 @@ export default function ReportUserScreen() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-secondary-50"
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      // Edge-to-edge (Android, SDK 54): a janela não redimensiona mais com o teclado, então sem
+      // `behavior` a tela fica por baixo dele. "padding" nos dois sistemas, como pede o guia da Expo.
+      behavior="padding"
     >
       <Header title="Denunciar usuário" onBack={() => navigation.goBack()} />
 

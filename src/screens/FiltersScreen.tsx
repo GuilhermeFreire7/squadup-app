@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Pressable, ScrollView, Text, View } from "react-native";
 
 import Button from "../components/Button";
 import Chip from "../components/Chip";
@@ -124,7 +124,9 @@ export default function FiltersScreen() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      // Edge-to-edge (Android, SDK 54): a janela não redimensiona mais com o teclado, então sem
+      // `behavior` a tela fica por baixo dele. "padding" nos dois sistemas, como pede o guia da Expo.
+      behavior="padding"
     >
       {/* Handle bar */}
       <View className="items-center pt-3 pb-1">

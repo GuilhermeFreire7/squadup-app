@@ -2,7 +2,7 @@ import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native"
 import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback } from "react";
-import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, View } from "react-native";
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, View } from "react-native";
 
 import ChatInput from "../components/ChatInput";
 import EmptyState from "../components/EmptyState";
@@ -50,7 +50,9 @@ export default function MatchChatScreen() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-secondary-50"
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      // Edge-to-edge (Android, SDK 54): a janela não redimensiona mais com o teclado, então sem
+      // `behavior` a tela fica por baixo dele. "padding" nos dois sistemas, como pede o guia da Expo.
+      behavior="padding"
       keyboardVerticalOffset={0}
     >
       <Header

@@ -2,15 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, KeyboardAvoidingView, Pressable, ScrollView, Text, View } from "react-native";
 
 import Button from "../components/Button";
 import Chip from "../components/Chip";
@@ -204,7 +196,9 @@ export default function CreateMatchScreen() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-secondary-50"
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      // Edge-to-edge (Android, SDK 54): a janela não redimensiona mais com o teclado, então sem
+      // `behavior` a tela fica por baixo dele. "padding" nos dois sistemas, como pede o guia da Expo.
+      behavior="padding"
     >
       <Header variant="large" title="Criar partida" subtitle="Organize o jogo e chame a galera" />
 
