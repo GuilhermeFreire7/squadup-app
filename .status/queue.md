@@ -227,7 +227,8 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
   - **Próxima tarefa concreta:**
     1. revisar e mergear o PR do TCC e compilar no Overleaf;
     2. gerar a build EAS com #26 e #27 e testar o horário e o local no aparelho;
-    3. ações do autor: A5 (datas da demo), monitor de `/health` e conferir `ip_source` (A4);
+    3. ~~ações do autor: A5, monitor de `/health`, `ip_source` (A4)~~ concluídas em 2026-11-11
+       (A5 aplicado em produção, keep-alive no back #77, `ip_source: "header"` confirmado);
     4. preencher os dois `TODO(autor)` do TCC.
 - **Checkpointer — Sessão 39 (2026-11-03, revisão geral + itens antes da defesa):** relatório
   completo em [`revisao-geral-2026-11.md`](revisao-geral-2026-11.md) (achados A1–A9 antes da
