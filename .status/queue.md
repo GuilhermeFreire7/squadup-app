@@ -218,6 +218,17 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 > auditoria) vive em [`progress.md`](progress.md) — esta seção só guarda a observação mais
 > recente, para servir de ponto de retomada rápido no início da próxima sessão.
 
+- **Checkpointer — Sessão 40 (2026-11-11, testes em aparelho e TCC):** builds EAS `daa6ab10` e
+  `7bed4c5c` geradas. O teste em aparelho achou problemas corrigidos nos app #25 (teclado
+  edge-to-edge, chat espelhado, barra de navegação, logout), #26 (máscara de horário) e #27 (local
+  pela localização atual e coordenadas do local do jogo). CI do front destravado no app #24 (teste
+  com fake timers que travava no runner). `TCC.tex` atualizado com a revisão (A9), na branch
+  `docs/tcc-revisao-geral`.
+  - **Próxima tarefa concreta:**
+    1. revisar e mergear o PR do TCC e compilar no Overleaf;
+    2. gerar a build EAS com #26 e #27 e testar o horário e o local no aparelho;
+    3. ações do autor: A5 (datas da demo), monitor de `/health` e conferir `ip_source` (A4);
+    4. preencher os dois `TODO(autor)` do TCC.
 - **Checkpointer — Sessão 39 (2026-11-03, revisão geral + itens antes da defesa):** relatório
   completo em [`revisao-geral-2026-11.md`](revisao-geral-2026-11.md) (achados A1–A9 antes da
   defesa, P1–P19 pós-TCC, features F1–F8, incoerências I1–I11 com o `TCC.tex`). A tabela
