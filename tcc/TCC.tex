@@ -197,7 +197,7 @@ A prática de esportes coletivos é frequentemente dificultada pela falta de gru
 
 O sistema integra três pilares principais: social, logístico e saúde, com ênfase no aspecto social. Além da descoberta de partidas, inclusive por proximidade geográfica, o aplicativo oferece mecanismos de confiança, como avaliação de usuários após as partidas, reputação, denúncia e moderação administrativa, além de chat entre participantes e notificações \textit{push}.
 
-Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 474 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
+Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 562 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
 
 \vspace{.5cm}
 
@@ -217,7 +217,7 @@ The practice of team sports is often hindered by the lack of organized groups, t
 
 The system integrates three main pillars: social, logistical and health-related, with emphasis on the social aspect. In addition to match discovery, including proximity-based search, the application provides trust mechanisms such as post-match user ratings, reputation, reporting and administrative moderation, as well as a match chat and push notifications.
 
-To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 474 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
+To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 562 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
 
 \vspace{.5cm}
 
@@ -379,11 +379,13 @@ Meetup & Parcial & Sim & Sim & Parcial & Sim \\
 Peladeiros & Sim & Sim & Não & Parcial & Parcial \\
 Strava & Não & Parcial & Parcial & Não & Parcial \\
 WhatsApp/Redes sociais & Parcial & Sim & Sim & Não & Parcial \\
-SquadUp & Sim & Sim & Sim & Sim & Sim \\
+SquadUp & Sim & Parcial & Sim & Sim & Sim \\
 \hline
 \end{tabular}
 }
 \end{table}
+
+No caso do SquadUp, o critério \textbf{grupos} foi classificado como \textbf{Parcial}: os participantes de cada partida formam um grupo, com conversa própria, mas o sistema ainda não mantém grupos ou times recorrentes entre partidas diferentes, o que é apontado como trabalho futuro no Capítulo 7.
 
 \subsection{Aplicativos similares}
 
@@ -590,10 +592,11 @@ Este caso de uso permite que o usuário crie uma conta no sistema ou acesse uma 
 \textbf{Fluxos alternativos:}
 
 \begin{itemize}
-    \item Caso o e-mail informado no cadastro já esteja associado a uma conta, o sistema informa o usuário e sugere realizar o login;
+    \item Caso o e-mail informado no cadastro já esteja associado a uma conta, o sistema não cria uma nova conta: se a senha informada corresponder à conta existente, como na repetição de um cadastro interrompido, o usuário é autenticado; caso contrário, o sistema informa que o e-mail ou a senha não conferem;
     \item Caso a idade calculada a partir da data de nascimento seja inferior a 18 anos, o sistema impede a conclusão do cadastro;
     \item Caso as credenciais informadas no login sejam inválidas, o sistema informa o erro sem indicar especificamente qual campo está incorreto, por motivo de segurança;
-    \item Em acessos futuros, o sistema pode restaurar automaticamente a sessão do usuário a partir de uma sessão previamente autenticada, sem exigir um novo login.
+    \item Em acessos futuros, o sistema pode restaurar automaticamente a sessão do usuário a partir de uma sessão previamente autenticada, sem exigir um novo login;
+    \item O usuário pode encerrar a sessão a qualquer momento a partir da tela de perfil, após confirmar a ação.
 \end{itemize}
 
 \begin{figure}[H]
@@ -657,7 +660,7 @@ Este caso de uso permite que um usuário organize uma nova partida esportiva, de
 
 \textbf{Pré-condições:} o usuário deve estar autenticado no sistema.
 
-\textbf{Pós-condições:} uma nova partida é cadastrada e passa a ficar disponível para outros usuários.
+\textbf{Pós-condições:} uma nova partida é cadastrada, com o organizador já incluído como participante confirmado, e passa a ficar disponível para outros usuários.
 
 \textbf{Fluxo principal:}
 
@@ -666,7 +669,7 @@ Este caso de uso permite que um usuário organize uma nova partida esportiva, de
     \item O sistema apresenta um formulário de criação;
     \item O usuário informa modalidade esportiva, título, data, horário, local, quantidade de vagas, nível da partida e descrição;
     \item O sistema valida os dados informados;
-    \item O sistema cria a partida;
+    \item O sistema obtém as coordenadas geográficas do local informado e cria a partida, incluindo o organizador como participante confirmado;
     \item A partida passa a ser exibida na listagem de partidas disponíveis.
 \end{enumerate}
 
@@ -674,7 +677,8 @@ Este caso de uso permite que um usuário organize uma nova partida esportiva, de
 
 \begin{itemize}
     \item Caso algum campo obrigatório não seja preenchido, o sistema impede a criação da partida;
-    \item Caso o local informado seja inválido ou incompleto, o sistema solicita correção.
+    \item O usuário pode preencher o local a partir da sua localização atual, e o sistema sugere o endereço correspondente;
+    \item Caso o endereço informado não seja localizado, a partida é criada assim mesmo, utilizando, quando disponível, a localização do dispositivo como referência para a busca por proximidade.
 \end{itemize}
 
 \begin{figure}[H]
@@ -692,7 +696,7 @@ Este caso de uso permite que o usuário consulte as informações completas de u
 
 \textbf{Ator primário:} Usuário.
 
-\textbf{Pré-condições:} a partida deve estar cadastrada no sistema.
+\textbf{Pré-condições:} o usuário deve estar autenticado e a partida deve estar cadastrada no sistema.
 
 \textbf{Pós-condições:} o usuário visualiza os detalhes da partida selecionada e pode decidir se deseja participar.
 
@@ -789,7 +793,8 @@ Este caso de uso permite que o usuário desista de uma partida da qual já confi
 
 \begin{itemize}
     \item Caso o usuário decida não confirmar a ação, o cancelamento é interrompido e a participação é mantida;
-    \item Caso a partida já tenha sido encerrada, o sistema não permite o cancelamento.
+    \item Caso a partida já tenha sido encerrada, o sistema não permite o cancelamento;
+    \item Caso o usuário seja o organizador da partida, o sistema não disponibiliza o cancelamento da própria participação.
 \end{itemize}
 
 \subsubsection{Aprovar participante pendente}
@@ -888,7 +893,7 @@ Este caso de uso permite que um usuário consulte informações públicas de out
 
 \textbf{Ator primário:} Usuário.
 
-\textbf{Pré-condições:} o perfil consultado deve estar cadastrado no sistema.
+\textbf{Pré-condições:} o usuário deve estar autenticado e o perfil consultado deve estar cadastrado no sistema.
 
 \textbf{Pós-condições:} o usuário visualiza informações públicas do participante consultado.
 
@@ -1162,7 +1167,7 @@ Geolocalização é o processo de identificação da posição geográfica de um
 
 Essa tecnologia permite que aplicações identifiquem locais próximos ao usuário e ofereçam funcionalidades baseadas em proximidade geográfica.
 
-No SquadUp, a geolocalização foi utilizada para facilitar a descoberta de partidas esportivas próximas ao usuário. As coordenadas são obtidas a partir do GPS do próprio dispositivo, tanto no momento da criação de uma partida quanto no momento da busca, quando o usuário opta por filtrar partidas por proximidade e define um raio de busca. A distância entre o usuário e cada partida é calculada no servidor e exibida diretamente na listagem. A funcionalidade é aditiva: o campo textual de local permanece sempre obrigatório, e a recusa da permissão de localização pelo usuário não impede a criação de partidas nem a realização de buscas, apenas remove o filtro por proximidade.
+No SquadUp, a geolocalização foi utilizada para facilitar a descoberta de partidas esportivas próximas ao usuário. Na criação de uma partida, as coordenadas correspondem ao local do jogo: são obtidas a partir do endereço informado, por meio do serviço de geocodificação do próprio sistema operacional, que dispensa contratação de serviços externos. O organizador também pode preencher o endereço a partir da localização atual do dispositivo, e essa localização é usada como alternativa quando o endereço informado não é encontrado. Na busca, o usuário pode optar por filtrar partidas por proximidade, a partir da sua localização atual, e definir um raio de busca. A distância entre o usuário e cada partida é calculada no servidor e exibida diretamente na listagem. A funcionalidade é aditiva: o campo textual de local permanece sempre obrigatório, e a recusa da permissão de localização pelo usuário não impede a criação de partidas nem a realização de buscas, apenas remove o filtro por proximidade.
 
 \subsubsection{Notificações push}
 
@@ -1251,7 +1256,7 @@ A segurança da informação é um requisito relevante para o SquadUp, uma vez q
 
 A autenticação do usuário é realizada por meio de tokens \textit{JWT} (\textit{JSON Web Token}), com um mecanismo de renovação (\textit{refresh token}) que permite manter a sessão do usuário ativa sem exigir um novo login a cada acesso, ao mesmo tempo em que limita o tempo de validade de cada token individual. As senhas dos usuários nunca são armazenadas em texto plano: são processadas por meio de uma função de \textit{hash} unidirecional antes de serem persistidas no banco de dados, de modo que, mesmo em caso de acesso indevido à base de dados, as senhas originais não fiquem expostas.
 
-O sistema também implementa controle de acesso baseado em papéis (\textit{RBAC}, \textit{Role-Based Access Control}), distinguindo usuários comuns de administradores. Ações sensíveis, como a moderação de denúncias, ficam restritas ao papel de administrador. Por fim, sessões e tokens de acesso expirados ou revogados são removidos periodicamente pelo sistema, reduzindo a superfície de dados sensíveis mantida em memória e em banco ao longo do tempo.
+O sistema também implementa controle de acesso baseado em papéis (\textit{RBAC}, \textit{Role-Based Access Control}), distinguindo usuários comuns de administradores. Ações sensíveis, como a moderação de denúncias, ficam restritas ao papel de administrador. As consultas a perfis, avaliações e participantes de partidas exigem autenticação, o que impede a coleta desses dados pessoais por quem não possui conta. As operações de login e cadastro têm limite de tentativas por endereço de rede e, no caso do login, também por conta, o que dificulta ataques de força bruta contra senhas. Por fim, os \textit{tokens} de renovação expirados ou revogados são removidos a cada inicialização da API, reduzindo a quantidade de dados de sessão mantida no banco ao longo do tempo.
 
 \subsection{Considerações finais}
 
@@ -1301,7 +1306,7 @@ Na API, o código segue uma estrutura modular em rotas, serviços, modelos e esq
 
 \subsection{Processo de desenvolvimento}
 
-O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 119 \textit{commits} e o da API, 130, com 15 e 47 \textit{pull requests} incorporados, respectivamente.
+O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 150 \textit{commits} e o da API, 164, com 27 e 63 \textit{pull requests} incorporados, respectivamente.
 
 As principais etapas foram:
 
@@ -1311,7 +1316,8 @@ As principais etapas foram:
     \item \textbf{Integração (julho)}: substituição gradual dos dados simulados pelas chamadas reais à API, funcionalidade por funcionalidade, com o contrato da API como fonte única de verdade para os tipos de dados do aplicativo;
     \item \textbf{Geolocalização e notificações \textit{push} (julho)}: inicialmente previstas como trabalhos futuros, foram incorporadas ao escopo após a conclusão antecipada da integração;
     \item \textbf{Validação em dispositivo físico (julho e agosto)}: geração do aplicativo Android e testes em um aparelho real, que revelaram defeitos não detectados pelos testes automatizados (Seção \ref{sec:validacao});
-    \item \textbf{Migração da hospedagem (outubro)}: troca do provedor de hospedagem da API após o fim do período gratuito do provedor original (Seção \ref{sec:implantacao}).
+    \item \textbf{Migração da hospedagem (outubro)}: troca do provedor de hospedagem da API após o fim do período gratuito do provedor original (Seção \ref{sec:implantacao});
+    \item \textbf{Revisão geral e nova rodada de testes em dispositivo (novembro)}: revisão do código do aplicativo e da API quanto a segurança, desempenho, confiabilidade e usabilidade, seguida de correções e de uma segunda rodada de testes em aparelho real (Seção \ref{sec:validacao}).
 \end{enumerate}
 
 \subsection{Testes automatizados}
@@ -1327,14 +1333,14 @@ Os testes automatizados foram tratados como parte da definição de pronto de ca
 \hline
 \textbf{Componente} & \textbf{Ferramentas} & \textbf{Testes} & \textbf{Escopo principal} \\
 \hline
-Aplicativo & Jest e React Native Testing Library & 309 (42 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores e utilitários de validação \\
+Aplicativo & Jest e React Native Testing Library & 370 (55 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores, geocodificação e utilitários de validação \\
 \hline
-API & Pytest e pytest-cov & 165 (cobertura de 98,9\%) & Rotas, regras de negócio, autenticação e renovação de sessão, permissões, cálculo de distância, notificações e configuração \\
+API & Pytest e pytest-cov & 192 (cobertura de 98,9\%) & Rotas, regras de negócio, autenticação e renovação de sessão, limite de tentativas, permissões, cálculo de distância, notificações e configuração \\
 \hline
 \end{tabular}
 \end{table}
 
-Na API, os testes são executados contra um banco de dados em memória recriado a cada teste, o que garante isolamento entre os casos. Regras de negócio críticas receberam testes específicos, como a impossibilidade de entrar em uma partida lotada, a exigência de que avaliador e avaliado tenham participação confirmada em uma partida encerrada e a restrição das ações de moderação ao papel de administrador. A execução exige cobertura mínima de 80\% do código, limite que é verificado automaticamente.
+Na API, os testes são executados contra um banco de dados em memória recriado a cada teste, o que garante isolamento entre os casos. Regras de negócio críticas receberam testes específicos, como a impossibilidade de entrar em uma partida lotada ou de deixar uma partida já encerrada, a exigência de que avaliador e avaliado tenham participação confirmada em uma partida encerrada e a restrição das ações de moderação ao papel de administrador. A execução exige cobertura mínima de 80\% do código, limite que é verificado automaticamente.
 
 No aplicativo, os testes simulam a interação do usuário com as telas, como preencher formulários e pressionar botões, e verificam o resultado exibido, substituindo a API por respostas simuladas. Essa abordagem permitiu testar os fluxos de cada tela de forma independente do servidor.
 
@@ -1347,22 +1353,22 @@ A utilidade dessas verificações ficou evidente durante a migração de hospeda
 \subsection{Implantação}
 \label{sec:implantacao}
 
-A API foi implantada inicialmente na plataforma Railway. Com o fim do período gratuito dessa plataforma, em setembro de 2026, a API foi migrada para o Render, e o banco de dados, para o Neon, ambos em seus planos gratuitos. A configuração do serviço é descrita em um arquivo versionado no repositório, e cada alteração no ramo principal dispara uma nova implantação automática, que aplica as \textit{migrations} pendentes antes de iniciar a API. A comunicação entre aplicativo e API, e entre API e banco de dados, é feita sempre por conexões criptografadas.
+A API foi implantada inicialmente na plataforma Railway. Com o fim do período gratuito dessa plataforma, em setembro de 2026, a API foi migrada para o Render, e o banco de dados, para o Neon, ambos em seus planos gratuitos. A configuração do serviço é descrita em um arquivo versionado no repositório, e cada alteração no ramo de desenvolvimento (\texttt{dev}) dispara uma nova implantação automática, que aplica as \textit{migrations} pendentes antes de iniciar a API. A comunicação entre aplicativo e API, e entre API e banco de dados, é feita sempre por conexões criptografadas.
 
-O plano gratuito impõe uma limitação relevante: após cerca de quinze minutos sem requisições, o serviço é suspenso e leva aproximadamente quarenta segundos para responder novamente. Para o volume de uso de um protótipo acadêmico, essa limitação foi considerada aceitável.
+O plano gratuito impõe uma limitação relevante: após cerca de quinze minutos sem requisições, o serviço é suspenso e leva aproximadamente quarenta segundos para responder novamente. Para o volume de uso de um protótipo acadêmico, essa limitação foi considerada aceitável. Para atenuá-la, o aplicativo envia uma requisição de aquecimento ao servidor assim que é aberto e, quando a primeira resposta demora, informa ao usuário que o servidor está iniciando.
 
 O aplicativo Android é gerado pelo serviço EAS Build, da própria plataforma Expo, em um perfil de distribuição interna que produz um arquivo de instalação (APK) já configurado com o endereço da API de produção. Optou-se por demonstrar apenas a versão Android, uma vez que a distribuição para iOS exige uma conta paga de desenvolvedor da Apple.
 
 \subsection{Validação}
 \label{sec:validacao}
 
-A validação da solução foi realizada em três frentes complementares, além dos testes automatizados.
+A validação da solução foi realizada em quatro frentes complementares, além dos testes automatizados.
 
 A primeira foi a verificação ponta a ponta dos fluxos por meio de chamadas diretas à API, ao final da integração, cobrindo autenticação, criação e busca de partidas, participação, aprovação de participantes, encerramento de partidas, chat, avaliações, denúncias e as restrições de acesso da moderação.
 
 A segunda foi a navegação automatizada pela interface do aplicativo, executado em um navegador, com a ferramenta Playwright. Um roteiro automatizado autentica-se na API real e percorre as principais telas, capturando as imagens apresentadas no Capítulo 3. Além de produzir as figuras deste trabalho, esse roteiro funciona como um teste de fumaça da integração entre interface e API.
 
-A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico. Essa etapa revelou sete defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos e receberam testes automatizados que impedem sua reincidência.
+A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico, em duas rodadas: a primeira entre julho e agosto, com a API ainda no Railway, e a segunda em novembro, com a API no Render. Essas rodadas revelaram onze defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos. A maior parte recebeu testes automatizados que impedem sua reincidência; os que dependem do comportamento da plataforma, como o teclado e a inversão de texto, só podem ser confirmados no próprio aparelho.
 
 \begin{table}[H]
 \centering
@@ -1379,7 +1385,7 @@ Telas de perfil e de partida exibiam dados simulados em vez do usuário autentic
 \hline
 Campos de data não podiam ser preenchidos & O teclado numérico do Android não possui a tecla ``/'' & Máscara que insere as barras automaticamente \\
 \hline
-O teclado cobria o campo em edição & Comportamento do Android no modo de tela cheia (\textit{edge-to-edge}) & Ajuste do redimensionamento da janela, conforme recomendação da plataforma \\
+O teclado cobria o campo em edição & No modo de tela cheia (\textit{edge-to-edge}), obrigatório no Android a partir do SDK 54, a janela não é redimensionada quando o teclado aparece & Ajuste do componente que evita o teclado para atuar também no Android, conforme o guia da plataforma; a primeira correção, baseada no redimensionamento da janela, mostrou-se insuficiente \\
 \hline
 Cadastro irrecuperável após falha parcial & A conta era criada, mas uma etapa seguinte falhava e a nova tentativa acusava e-mail já cadastrado & Retomada do fluxo a partir da etapa que falhou \\
 \hline
@@ -1387,10 +1393,20 @@ Falhas momentâneas de rede interrompiam as operações & Ausência de nova tent
 \hline
 Cadastros rejeitados sem mensagem clara & Regras de senha e de e-mail mais permissivas no aplicativo do que na API & Alinhamento das regras e exibição das mensagens de validação da API \\
 \hline
+O campo de horário não podia ser preenchido & O teclado numérico do Android não possui a tecla ``:'' & Máscara que insere os dois-pontos automaticamente \\
+\hline
+O texto da conversa sem mensagens aparecia espelhado & No Android, a lista invertida do chat é girada, e uma inversão adicional, pensada para iOS, espelhava o conteúdo & Remoção da inversão manual, deixando a própria plataforma desfazer a inversão \\
+\hline
+A barra de navegação do sistema cobria o campo de mensagem & Modo de tela cheia sem reserva da área segura inferior & Espaço da área segura abaixo do campo enquanto o teclado está fechado \\
+\hline
+Não havia como sair da conta & A função de encerrar a sessão existia, mas nenhuma tela a disponibilizava & Opção ``Sair da conta'' no perfil, com confirmação \\
+\hline
 \end{tabular}
 \end{table}
 
-Esses resultados reforçam que testes automatizados e execução em navegador, embora indispensáveis, não substituem a validação em dispositivo real, sobretudo em aspectos dependentes da plataforma, como teclado, dependências nativas e qualidade da conexão móvel.
+Esses resultados reforçam que testes automatizados e execução em navegador, embora indispensáveis, não substituem a validação em dispositivo real, sobretudo em aspectos dependentes da plataforma, como teclado, exibição em tela cheia, dependências nativas e qualidade da conexão móvel.
+
+A quarta frente foi uma revisão geral do código do aplicativo e da API, realizada em novembro, com foco em segurança, desempenho, confiabilidade e usabilidade. Entre os problemas identificados e corrigidos, destacam-se: a leitura de perfis e de participantes sem autenticação; a ausência de limite de tentativas no login e no cadastro; o organizador de uma partida criada pelo aplicativo não constar como participante, o que o impedia de encerrar a partida pela tela de detalhes e de ser avaliado; as coordenadas da partida corresponderem à posição do organizador no momento da criação, e não ao local do jogo; e o chat, que deixava de exibir as mensagens mais recentes em conversas longas e não se atualizava enquanto aberto. Os demais pontos levantados, como otimizações de desempenho e a conformidade plena com a LGPD, foram registrados como limitações e trabalhos futuros no Capítulo 7.
 
 % TODO(autor): após o teste ponta a ponta com o APK gerado para a API no Render
 % (cadastro -> criar partida -> chat -> filtro de proximidade -> push), substituir o
@@ -1561,13 +1577,13 @@ A partir dessa fundamentação, foram definidos os pilares do sistema, seus caso
 
 \subsection{Resultados alcançados}
 
-O SquadUp implementa o ciclo completo de uso previsto nos casos de uso: cadastro e autenticação, descoberta de partidas com filtros por modalidade, data, local e proximidade geográfica, criação de partidas, participação com aprovação opcional pelo organizador, encerramento de partidas, chat entre participantes, avaliação pós-partida em cinco critérios, construção de reputação, denúncia de usuários e moderação administrativa. Notificações \textit{push} avisam o usuário sobre novas mensagens, aprovação de participação e encerramento de partidas.
+O SquadUp implementa o ciclo completo de uso previsto nos casos de uso: cadastro e autenticação, descoberta de partidas com filtros por modalidade, data, local e proximidade geográfica, criação de partidas com preenchimento opcional do local a partir da localização atual, participação com aprovação opcional pelo organizador, encerramento de partidas, chat entre participantes, avaliação pós-partida em cinco critérios, construção de reputação, denúncia de usuários e moderação administrativa. Notificações \textit{push} avisam o usuário sobre novas mensagens, aprovação de participação e encerramento de partidas.
 
-Em relação aos objetivos específicos definidos no Capítulo 1, o pilar social, eixo central do projeto, foi atendido pelos perfis públicos, pela reputação construída a partir de avaliações, pelo chat e pelos mecanismos de denúncia e moderação. O pilar logístico foi atendido pela listagem e pelos filtros de partidas, pelo controle de vagas e pela busca por proximidade. O pilar de saúde, tratado de forma inicial e secundária desde a concepção, está presente por meio do histórico de partidas disputadas exibido no perfil do usuário.
+Em relação aos objetivos específicos definidos no Capítulo 1, o pilar social, eixo central do projeto, foi atendido pelos perfis públicos, pela reputação construída a partir de avaliações, pelo chat e pelos mecanismos de denúncia e moderação. O pilar logístico foi atendido pela listagem e pelos filtros de partidas, pelo controle de vagas e pela busca por proximidade. O pilar de saúde, tratado de forma inicial e secundária desde a concepção, está presente por meio do número de participações em partidas exibido no perfil do usuário.
 
-Do ponto de vista técnico, a solução é sustentada por 474 testes automatizados, sendo 309 no aplicativo e 165 na API, esta com cobertura de 98,9\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
+Do ponto de vista técnico, a solução é sustentada por 562 testes automatizados, sendo 370 no aplicativo e 192 na API, esta com cobertura de 98,9\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
 
-Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram sete defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, conectividade e divergências de regras de validação entre aplicativo e API.
+Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram onze defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, máscaras de entrada, exibição em tela cheia, conectividade, divergências de regras de validação entre aplicativo e API e à falta da opção de encerrar a sessão. A revisão geral do código, por sua vez, encontrou problemas que os testes em aparelho dificilmente revelariam, como falhas de autorização e regras de negócio incompletas.
 
 \subsection{Limitações}
 
@@ -1576,8 +1592,11 @@ Algumas limitações devem ser consideradas na avaliação dos resultados:
 \begin{itemize}
     \item Não foi realizado teste de usabilidade com usuários externos ao projeto. A experiência de uso foi avaliada pelo autor e pelo orientador, de modo que não há evidência empírica de como o público-alvo percebe a aplicação;
     \item A aplicação foi gerada e validada apenas para Android, uma vez que a distribuição para iOS exige conta paga de desenvolvedor;
-    \item A hospedagem em planos gratuitos suspende a API após períodos de inatividade, o que torna a primeira requisição seguinte lenta;
-    \item O chat não é atualizado em tempo real: novas mensagens são exibidas ao abrir ou atualizar a conversa, com o aviso por notificação \textit{push}. A API já oferece um canal em tempo real (\textit{WebSocket}), ainda não utilizado pelo aplicativo;
+    \item A hospedagem em planos gratuitos suspende a API após períodos de inatividade, o que torna a primeira requisição seguinte lenta; o aplicativo apenas atenua o efeito, aquecendo o servidor ao abrir e avisando o usuário durante a espera;
+    \item O chat não utiliza um canal em tempo real: enquanto a conversa está aberta, o aplicativo consulta novas mensagens a cada poucos segundos, e quem está fora da conversa é avisado por notificação \textit{push}. A API já oferece um canal em tempo real (\textit{WebSocket}), ainda não utilizado pelo aplicativo;
+    \item O local da partida é informado em texto e convertido em coordenadas pelo serviço do próprio sistema operacional, que pode não reconhecer endereços informais; não há sugestão de endereços durante a digitação nem seleção do local em um mapa;
+    \item Os participantes formam um grupo apenas no contexto de cada partida, sem grupos ou times recorrentes entre partidas;
+    \item O usuário não pode excluir a própria conta, e o cadastro não apresenta termo de consentimento para o tratamento de dados pessoais, recursos necessários para atender plenamente à LGPD;
     \item As ações de moderação registram a decisão administrativa sobre a denúncia, mas não restringem automaticamente o acesso da conta advertida ou banida;
     \item A verificação de perfis é representada por um selo no perfil, mas não há um processo de verificação de identidade implementado;
     \item A foto de perfil é informada por endereço de imagem. A API já oferece o envio de arquivos, que depende da configuração de um serviço de armazenamento ainda não contratado.
@@ -1591,6 +1610,9 @@ A partir das limitações identificadas, são sugeridos os seguintes trabalhos f
     \item Realizar testes de usabilidade com usuários do público-alvo, como estudantes universitários e pessoas sem grupo fixo, para avaliar a percepção de segurança e a facilidade de uso;
     \item Disponibilizar o aplicativo para iOS e publicá-lo nas lojas de aplicativos;
     \item Utilizar o canal em tempo real já disponível na API para atualizar o chat instantaneamente;
+    \item Oferecer sugestão de endereços durante a digitação e seleção do local da partida em um mapa;
+    \item Permitir a formação de grupos ou times recorrentes, como a opção de repetir uma partida com os mesmos participantes;
+    \item Permitir que o usuário exclua a própria conta e gerencie o consentimento para o tratamento de seus dados, em conformidade com a LGPD;
     \item Implementar consequências efetivas para as ações de moderação, como suspensão temporária ou bloqueio de contas;
     \item Criar um processo de verificação de identidade dos usuários, reforçando o pilar de confiança;
     \item Ampliar o pilar de saúde com metas, frequência de prática e mensagens de incentivo à continuidade;

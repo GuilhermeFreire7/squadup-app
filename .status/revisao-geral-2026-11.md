@@ -8,24 +8,30 @@
 
 ## Status de implementação
 
-Atualizado em 2026-11-03. PRs de `squadup-back` são indicados como "back #N"; os de
+Atualizado em 2026-11-11. PRs de `squadup-back` são indicados como "back #N"; os de
 `squadup-app`, como "app #N". O autor revisa e mergeia cada PR.
 
 | Item | Situação | PR | Build EAS |
 |---|---|---|---|
-| A3 | Mergeado e em produção | back #65 | Não precisa |
-| A3 (ajuste de front) | PR aberto: esconde "Cancelar participação" para o organizador | app #22 | Sim |
 | A1 | Mergeado e em produção (verificado: `GET /matches/match-1` sem token → 401) | back #66 | Não precisa |
-| A4 | Mergeado | back #67 | Não precisa |
-| A2 (back) | PR aberto: `order=desc` em `GET /matches/{id}/messages` | back #68 | Não precisa |
-| A2 (front) + A6 | PR aberto: chat das mais recentes para as mais antigas + polling de 5 s | app #19 | Sim, **depois** do back #68 em produção |
-| A8 | PR aberto: estado de erro, puxar para atualizar, recarga ao voltar ao app | app #20 | Sim |
-| A7 (app) | PR aberto: aquecimento do servidor + aviso de "servidor iniciando" | app #21 | Sim |
-| A7 (operacional) | Pendente (ação do autor): monitor externo chamando `/health` a cada 10 min | — | — |
-| A5 | Pendente (ação do autor): ajustar as datas da demo em produção na semana da defesa | — | — |
-| A9 | Pendente: ajustes de texto do `TCC.tex` (seção 5 deste relatório e linhas abaixo) | — | — |
+| A2 | Mergeado; back em produção (`order=desc` no OpenAPI) | back #68, app #19 | `7bed4c5c` |
+| A3 | Mergeado e em produção; ajuste de front (sem "Cancelar participação" para o organizador) | back #65, app #22 | `7bed4c5c` |
+| A4 | Mergeado e em produção (429 no OpenAPI); falta conferir `ip_source` nos logs | back #67 | Não precisa |
+| A5 | **Pendente (ação do autor):** ajustar as datas da demo em produção na semana da defesa | — | — |
+| A6 | Mergeado (polling do chat a cada 5 s) | app #19 | `7bed4c5c` |
+| A7 | App mergeado; **pendente (autor):** monitor externo chamando `/health` a cada 10 min | app #21 | `7bed4c5c` |
+| A8 | Mergeado (estado de erro, puxar para atualizar, recarga ao voltar ao app) | app #20 | `7bed4c5c` |
+| A9 | Texto do `TCC.tex` atualizado (ver abaixo) | app (branch `docs/tcc-revisao-geral`) | — |
 
-Os PRs de app (#19, #20, #21 e #22) não conflitam entre si e cabem numa única build EAS.
+**Achados do teste em aparelho depois da revisão** (build `daa6ab10`), todos mergeados:
+
+- teclado cobrindo campos (correção D31 insuficiente), texto do chat vazio espelhado, barra de
+  navegação sobre o campo de mensagem, falta de "Sair da conta": app #25;
+- campo de horário impossível de preencher: app #26;
+- campo Local só texto e coordenadas do organizador, não do local do jogo: app #27 (botão
+  "Usar minha localização atual" + geocodificação do endereço pelo serviço do sistema).
+
+As correções #26 e #27 ainda não estão em uma build EAS (a última é `7bed4c5c`).
 
 - **A3, dados de produção:** conferidos só por leitura (`GET /matches` e `GET /matches/{id}`). As
   13 partidas são do seed (`match-1`…`match-13`) e todas têm o organizador como participante
@@ -34,19 +40,24 @@ Os PRs de app (#19, #20, #21 e #22) não conflitam entre si e cabem numa única 
 - **A4, conferir em produção:** nos logs do Render, o evento `rate_limit_key` deve mostrar
   `ip_source: "header"`. Se mostrar `"connection"`, o `True-Client-IP` não chega e o limite
   passa a agrupar todos os usuários; a saída imediata é `RATE_LIMIT_ENABLED=false` no Render.
-- **Linhas do `TCC.tex` afetadas pelos itens já implementados** (entram no A9):
-  - 660 (pós-condição de "Criar partida"): o organizador entra como participante confirmado (A3);
-  - 790–793 ("Cancelar participação"): o organizador não pode cancelar (A3); a linha 792 passa a
-    ser verdadeira;
-  - 695 e 891 (pré-condições de "Visualizar detalhes" e "Visualizar perfil"): usuário autenticado
-    (A1);
-  - 1252–1254 (§4.5): leituras de perfil exigem autenticação (A1) e login/cadastro têm limite de
-    tentativas (A4);
-  - 1580 (§7.2): mensagens atualizadas automaticamente a cada poucos segundos (A6);
-  - 1352 e 1579 (opcional): aquecimento do servidor e aviso ao usuário (A7);
-  - 200, 220, 1330, 1332 e 1568 (contagem de testes): recontar depois dos merges. Hoje: API com
-    192 testes contando o back #68; app com 316 em `dev`, mais 7 (#19), 11 (#20) e 8 (#21);
-    o #22 não muda a contagem.
+- **A9, o que mudou no `TCC.tex`:**
+  - números: 562 testes (370 no app em 55 suítes, 192 na API, 98,9% de cobertura); 150/164
+    commits e 27/63 PRs;
+  - Tab. 2.1: SquadUp em "Grupos" passou a **Parcial**, com parágrafo explicando (grupos só por
+    partida); grupos recorrentes entraram em limitações e trabalhos futuros;
+  - casos de uso: e-mail já cadastrado (I10), sair da conta, organizador como participante e
+    preenchimento do local pela localização atual em "Criar partida" (I11), pré-condição de
+    autenticação em detalhes e perfil (A1), organizador não cancela a própria participação (A3);
+  - §4.1 Geolocalização: coordenadas do local do jogo via geocodificação do sistema;
+  - §4.5: autenticação nas leituras de perfil, limite de tentativas, remoção de tokens (I9);
+  - Cap. 5: implantação pelo ramo `dev` (I8) e mitigação do cold start, nova etapa
+    "revisão geral" no processo, validação em quatro frentes (a quarta é a revisão), tabela de
+    defeitos com 11 itens (segunda rodada no aparelho);
+  - Cap. 7: contador de participações em vez de "histórico" (I6), chat por consulta periódica
+    (I7), limitações de local, grupos e LGPD, e trabalhos futuros correspondentes;
+  - **ficaram para o autor:** os dois `TODO(autor)` (resultado do teste ponta a ponta com push e
+    o cronograma final), e compilar no Overleaf (não há TeX nesta máquina; as checagens estáticas
+    de ambientes, chaves e referências passaram).
 
 ## 1. Resumo executivo
 
