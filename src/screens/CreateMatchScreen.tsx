@@ -14,7 +14,7 @@ import type { AppTabParamList } from "../navigation/types";
 import { createMatch } from "../services/api/matches";
 import { colors, LEVEL_META, SPORT_META } from "../theme";
 import type { ExperienceLevel, Sport } from "../types";
-import { formatDateInput } from "../utils/date";
+import { formatDateInput, formatTimeInput } from "../utils/date";
 
 type Nav = BottomTabNavigationProp<AppTabParamList>;
 
@@ -285,7 +285,7 @@ export default function CreateMatchScreen() {
               <Input
                 label="Horário *"
                 value={time}
-                onChangeText={setTime}
+                onChangeText={(text) => setTime(formatTimeInput(text))}
                 error={timeError}
                 placeholder="HH:MM"
                 keyboardType="number-pad"
