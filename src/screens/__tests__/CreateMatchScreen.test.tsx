@@ -9,6 +9,13 @@ const mockInvalidateMatches = jest.fn();
 const mockCreateMatch = jest.fn();
 const mockRequestLocation = jest.fn();
 let mockDeviceLocation: { latitude: number; longitude: number } | null = null;
+const mockGeocodeAddress = jest.fn();
+const mockReverseGeocode = jest.fn();
+
+jest.mock("../../services/geocoding", () => ({
+  geocodeAddress: (...args: unknown[]) => mockGeocodeAddress(...args),
+  reverseGeocode: (...args: unknown[]) => mockReverseGeocode(...args),
+}));
 
 jest.mock("@react-navigation/native", () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
@@ -40,8 +47,10 @@ jest.spyOn(Alert, "alert");
 beforeEach(() => {
   jest.clearAllMocks();
   mockCreateMatch.mockResolvedValue({ id: "match-new" });
-  mockRequestLocation.mockResolvedValue(undefined);
+  mockRequestLocation.mockResolvedValue(null);
   mockDeviceLocation = null;
+  mockGeocodeAddress.mockResolvedValue(null);
+  mockReverseGeocode.mockResolvedValue(null);
 });
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -309,7 +318,51 @@ describe("CreateMatchScreen — geolocalização", () => {
     expect(mockRequestLocation).toHaveBeenCalledTimes(1);
   });
 
-  it("inclui latitude/longitude no payload quando a localização está disponível", async () => {
+  it("usa as coordenadas do endereço digitado (local do jogo), não as do aparelho", async () => {
+    mockDeviceLocation = { latitude: -23.5, longitude: -46.6 };
+    mockGeocodeAddress.mockResolvedValue({ latitude: -22.98, longitude: -43.19 });
+    render(<CreateMatchScreen />);
+    fillValidForm();
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
+
+    await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
+    expect(mockGeocodeAddress).toHaveBeenCalledWith("Parque Ibirapuera");
+    const payload = mockCreateMatch.mock.calls[0][0];
+    expect(payload.latitude).toBe(-22.98);
+    expect(payload.longitude).toBe(-43.19);
+  });
+
+  it("'Usar minha localização atual' preenche o endereço e envia a posição atual", async () => {
+    mockDeviceLocation = { latitude: -22.97, longitude: -43.18 };
+    mockReverseGeocode.mockResolvedValue("Av. Atlântica, 1702 - Copacabana, Rio de Janeiro");
+    render(<CreateMatchScreen />);
+    fillValidForm();
+
+    fireEvent.press(screen.getByLabelText("Usar minha localização atual"));
+    expect(
+      await screen.findByDisplayValue("Av. Atlântica, 1702 - Copacabana, Rio de Janeiro")
+    ).toBeTruthy();
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
+
+    await waitFor(() => expect(mockCreateMatch).toHaveBeenCalledTimes(1));
+    expect(mockGeocodeAddress).not.toHaveBeenCalled();
+    const payload = mockCreateMatch.mock.calls[0][0];
+    expect(payload.location).toBe("Av. Atlântica, 1702 - Copacabana, Rio de Janeiro");
+    expect(payload.latitude).toBe(-22.97);
+  });
+
+  it("avisa quando não consegue o endereço da localização atual", async () => {
+    mockDeviceLocation = { latitude: -22.97, longitude: -43.18 };
+    render(<CreateMatchScreen />);
+
+    fireEvent.press(screen.getByLabelText("Usar minha localização atual"));
+
+    expect(
+      await screen.findByText("Não encontramos o endereço da sua localização. Digite o local.")
+    ).toBeTruthy();
+  });
+
+  it("endereço não encontrado: usa a localização do aparelho (como antes)", async () => {
     mockDeviceLocation = { latitude: -22.9, longitude: -43.2 };
     render(<CreateMatchScreen />);
     fillValidForm();
@@ -334,17 +387,13 @@ describe("CreateMatchScreen — geolocalização", () => {
 
   it("mostra aviso discreto quando a localização não pôde ser capturada (D26)", async () => {
     render(<CreateMatchScreen />);
-    expect(
-      await screen.findByText("Localização não disponível — partida será criada sem coordenadas")
-    ).toBeTruthy();
+    expect(await screen.findByText(/Localização do aparelho indisponível/)).toBeTruthy();
   });
 
   it("não mostra aviso de localização quando as coordenadas estão disponíveis", async () => {
     mockDeviceLocation = { latitude: -22.9, longitude: -43.2 };
     render(<CreateMatchScreen />);
     await waitFor(() => expect(mockRequestLocation).toHaveBeenCalledTimes(1));
-    expect(
-      screen.queryByText("Localização não disponível — partida será criada sem coordenadas")
-    ).toBeNull();
+    expect(screen.queryByText(/Localização do aparelho indisponível/)).toBeNull();
   });
 });

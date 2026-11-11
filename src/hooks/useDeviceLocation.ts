@@ -10,7 +10,9 @@ export interface UseDeviceLocationResult {
   location: DeviceLocation | null;
   permissionDenied: boolean;
   isLoading: boolean;
-  requestLocation: () => Promise<void>;
+  /** Pede permissão e captura a posição. Também devolve o resultado, para quem precisa dele na hora
+   *  (o estado `location` só reflete o valor novo no próximo render). */
+  requestLocation: () => Promise<DeviceLocation | null>;
 }
 
 export function useDeviceLocation(): UseDeviceLocationResult {
@@ -18,26 +20,29 @@ export function useDeviceLocation(): UseDeviceLocationResult {
   const [permissionDenied, setPermissionDenied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const requestLocation = useCallback(async () => {
+  const requestLocation = useCallback(async (): Promise<DeviceLocation | null> => {
     setIsLoading(true);
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setPermissionDenied(true);
         setLocation(null);
-        return;
+        return null;
       }
 
       const position = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
       });
-      setPermissionDenied(false);
-      setLocation({
+      const coords = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-      });
+      };
+      setPermissionDenied(false);
+      setLocation(coords);
+      return coords;
     } catch {
       setLocation(null);
+      return null;
     } finally {
       setIsLoading(false);
     }
