@@ -1,4 +1,30 @@
-import { calculateAge, formatDateInput, formatMessageTime, parseBirthDate } from "../date";
+import {
+  calculateAge,
+  formatDateInput,
+  formatMessageTime,
+  formatTimeInput,
+  parseBirthDate,
+} from "../date";
+
+describe("formatTimeInput", () => {
+  it("insere os dois-pontos automaticamente enquanto digita", () => {
+    expect(formatTimeInput("2")).toBe("2");
+    expect(formatTimeInput("20")).toBe("20");
+    expect(formatTimeInput("203")).toBe("20:3");
+    expect(formatTimeInput("2030")).toBe("20:30");
+  });
+
+  it("ignora tudo que não é dígito e limita a 4 dígitos", () => {
+    expect(formatTimeInput("20h30")).toBe("20:30");
+    expect(formatTimeInput("203099")).toBe("20:30");
+  });
+
+  it("é idempotente para um horário já formatado e permite apagar o ':'", () => {
+    expect(formatTimeInput("09:00")).toBe("09:00");
+    // apagar o último dígito de "20:3" deixa "20:" no campo → volta a "20"
+    expect(formatTimeInput("20:")).toBe("20");
+  });
+});
 
 describe("formatDateInput", () => {
   it("insere as barras automaticamente enquanto digita", () => {

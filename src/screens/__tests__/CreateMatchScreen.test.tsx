@@ -135,6 +135,17 @@ describe("CreateMatchScreen — validação", () => {
     expect(screen.getByText("Use o formato DD/MM/AAAA")).toBeTruthy();
   });
 
+  it("insere os dois-pontos do horário enquanto digita (teclado numérico não tem ':')", () => {
+    render(<CreateMatchScreen />);
+    const timeInput = screen.getByPlaceholderText("HH:MM");
+
+    fireEvent.changeText(timeInput, "1930");
+
+    expect(screen.getByDisplayValue("19:30")).toBeTruthy();
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
+    expect(screen.queryByText("Use o formato HH:MM")).toBeNull();
+  });
+
   it("exibe erro de horário inválido", () => {
     render(<CreateMatchScreen />);
     fireEvent.changeText(screen.getByPlaceholderText("HH:MM"), "25:00");

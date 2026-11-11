@@ -19,6 +19,18 @@ export function formatDateInput(text: string): string {
   return result;
 }
 
+/**
+ * Insere ":" automaticamente enquanto o usuário digita o horário (`2030` → `20:30`). O teclado
+ * numérico do Android não tem ":", então sem a máscara o campo `HH:MM` era impossível de preencher.
+ * O ":" só entra quando já há dígito de minuto, para o apagar funcionar naturalmente.
+ */
+export function formatTimeInput(text: string): string {
+  const digits = text.replace(/\D/g, "").slice(0, 4);
+  const hours = digits.slice(0, 2);
+  const minutes = digits.slice(2, 4);
+  return minutes ? `${hours}:${minutes}` : hours;
+}
+
 /** Aceita `DD/MM/AAAA`; devolve `null` se o formato ou a data (ex.: 31/02) forem inválidos. */
 export function parseBirthDate(input: string): Date | null {
   const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(input.trim());
