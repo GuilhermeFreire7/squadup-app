@@ -2,7 +2,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Alert, KeyboardAvoidingView, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
 import Button from "../components/Button";
 import Chip from "../components/Chip";
@@ -10,6 +18,7 @@ import Header from "../components/Header";
 import Input from "../components/Input";
 import { useInvalidateMatches } from "../contexts/MatchesContext";
 import { useDeviceLocation } from "../hooks/useDeviceLocation";
+import { useMatchLocationInput } from "../hooks/useMatchLocationInput";
 import type { AppTabParamList } from "../navigation/types";
 import { createMatch } from "../services/api/matches";
 import { colors, LEVEL_META, SPORT_META } from "../theme";
@@ -78,6 +87,14 @@ export default function CreateMatchScreen() {
     isLoading: isLocationLoading,
     requestLocation,
   } = useDeviceLocation();
+  const {
+    text: location,
+    setText: setLocation,
+    fillFromCurrentLocation,
+    isFilling: isFillingLocation,
+    fillError: fillLocationError,
+    resolveCoordinates,
+  } = useMatchLocationInput({ deviceLocation, requestLocation });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [locationChecked, setLocationChecked] = useState(false);
 
@@ -89,7 +106,6 @@ export default function CreateMatchScreen() {
 
   const [sport, setSport] = useState<Sport | null>(null);
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
@@ -163,6 +179,8 @@ export default function CreateMatchScreen() {
 
     setIsSubmitting(true);
     try {
+      // Coordenadas do local do jogo (endereço), não de onde o organizador está agora.
+      const { coords } = await resolveCoordinates();
       await createMatch({
         sport: sport!,
         title: title.trim(),
@@ -174,9 +192,7 @@ export default function CreateMatchScreen() {
         description: description.trim() || undefined,
         allow_beginners: allowBeginners,
         requires_approval: requiresApproval,
-        ...(deviceLocation
-          ? { latitude: deviceLocation.latitude, longitude: deviceLocation.longitude }
-          : {}),
+        ...(coords ? { latitude: coords.latitude, longitude: coords.longitude } : {}),
       });
 
       invalidateMatches();
@@ -254,6 +270,23 @@ export default function CreateMatchScreen() {
             autoCapitalize="words"
             leftIcon="map-marker-outline"
           />
+          <Pressable
+            onPress={() => void fillFromCurrentLocation()}
+            disabled={isFillingLocation}
+            accessibilityRole="button"
+            accessibilityLabel="Usar minha localização atual"
+            className="-mt-3 flex-row items-center gap-1.5 self-start min-h-11 active:opacity-70"
+          >
+            {isFillingLocation ? (
+              <ActivityIndicator size="small" color={colors.primary[500]} />
+            ) : (
+              <MaterialCommunityIcons name="crosshairs-gps" size={16} color={colors.primary[500]} />
+            )}
+            <Text className="text-label text-primary-600">Usar minha localização atual</Text>
+          </Pressable>
+          {fillLocationError ? (
+            <Text className="-mt-4 text-caption text-error-700">{fillLocationError}</Text>
+          ) : null}
           {showLocationWarning ? (
             <View className="-mt-4 flex-row items-start gap-1">
               <MaterialCommunityIcons
@@ -262,7 +295,8 @@ export default function CreateMatchScreen() {
                 color={colors.secondary[400]}
               />
               <Text className="text-caption font-normal text-secondary-500 flex-1">
-                Localização não disponível — partida será criada sem coordenadas
+                Localização do aparelho indisponível. A busca por proximidade usará o endereço
+                digitado, se ele for encontrado.
               </Text>
             </View>
           ) : null}

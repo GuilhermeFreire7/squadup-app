@@ -63,9 +63,26 @@ describe("useDeviceLocation", () => {
     const { result } = renderHook(() => useDeviceLocation());
 
     await act(async () => {
-      await expect(result.current.requestLocation()).resolves.toBeUndefined();
+      await expect(result.current.requestLocation()).resolves.toBeNull();
     });
 
     expect(result.current.location).toBeNull();
+  });
+
+  it("devolve as coordenadas capturadas, além de guardá-las no estado", async () => {
+    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue({
+      status: "granted",
+    });
+    (Location.getCurrentPositionAsync as jest.Mock).mockResolvedValue({
+      coords: { latitude: -22.9, longitude: -43.2 },
+    });
+    const { result } = renderHook(() => useDeviceLocation());
+
+    let returned: unknown;
+    await act(async () => {
+      returned = await result.current.requestLocation();
+    });
+
+    expect(returned).toEqual({ latitude: -22.9, longitude: -43.2 });
   });
 });
