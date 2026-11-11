@@ -8,7 +8,7 @@
 
 ## Status de implementação
 
-Atualizado em 2026-11-11. PRs de `squadup-back` são indicados como "back #N"; os de
+Atualizado em 2026-11-11 (fim da sessão 40). PRs de `squadup-back` são indicados como "back #N"; os de
 `squadup-app`, como "app #N". O autor revisa e mergeia cada PR.
 
 | Item | Situação | PR | Build EAS |
@@ -16,10 +16,10 @@ Atualizado em 2026-11-11. PRs de `squadup-back` são indicados como "back #N"; o
 | A1 | Mergeado e em produção (verificado: `GET /matches/match-1` sem token → 401) | back #66 | Não precisa |
 | A2 | Mergeado; back em produção (`order=desc` no OpenAPI) | back #68, app #19 | `7bed4c5c` |
 | A3 | Mergeado e em produção; ajuste de front (sem "Cancelar participação" para o organizador) | back #65, app #22 | `7bed4c5c` |
-| A4 | Mergeado e em produção (429 no OpenAPI); falta conferir `ip_source` nos logs | back #67 | Não precisa |
-| A5 | **Pendente (ação do autor):** ajustar as datas da demo em produção na semana da defesa | — | — |
+| A4 | Mergeado e em produção; confirmado nos logs do Render: `"ip_source": "header"` (2026-11-11) | back #67 | Não precisa |
+| A5 | Aplicado em produção (2026-11-11): partidas abertas/lotadas/canceladas em 20/12–05/01, conferido por `GET /matches` | back #78 (script) | Não precisa |
 | A6 | Mergeado (polling do chat a cada 5 s) | app #19 | `7bed4c5c` |
-| A7 | App mergeado; **pendente (autor):** monitor externo chamando `/health` a cada 10 min | app #21 | `7bed4c5c` |
+| A7 | App mergeado; keep-alive agendado no GitHub Actions (`/health` a cada 10 min) mergeado | app #21, back #77 | `7bed4c5c` |
 | A8 | Mergeado (estado de erro, puxar para atualizar, recarga ao voltar ao app) | app #20 | `7bed4c5c` |
 | A9 | Texto do `TCC.tex` atualizado (ver abaixo) | app (branch `docs/tcc-revisao-geral`) | — |
 
@@ -37,9 +37,8 @@ As correções #26 e #27 ainda não estão em uma build EAS (a última é `7bed4
   13 partidas são do seed (`match-1`…`match-13`) e todas têm o organizador como participante
   (`match-10`, cancelada, com o organizador `cancelled`). Nenhuma correção de dados foi
   necessária. O script de correção ficou só proposto, não foi executado.
-- **A4, conferir em produção:** nos logs do Render, o evento `rate_limit_key` deve mostrar
-  `ip_source: "header"`. Se mostrar `"connection"`, o `True-Client-IP` não chega e o limite
-  passa a agrupar todos os usuários; a saída imediata é `RATE_LIMIT_ENABLED=false` no Render.
+- **A4, conferido em produção:** a linha de log `rate_limit_key` mostra `"ip_source": "header"`, ou
+  seja, o `True-Client-IP` chega e o limite separa os usuários pelo IP real.
 - **A9, o que mudou no `TCC.tex`:**
   - números: 562 testes (370 no app em 55 suítes, 192 na API, 98,9% de cobertura); 150/164
     commits e 27/63 PRs;
