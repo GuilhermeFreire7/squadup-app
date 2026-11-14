@@ -5,7 +5,7 @@ import { Alert } from "react-native";
 import { approveParticipant, closeMatch, joinMatch, leaveMatch } from "../services/api/matches";
 import { queryKeys } from "../services/queryKeys";
 import type { MatchDetail, ParticipationStatus, PublicUser } from "../types";
-import { useMatchDetail } from "./useMatchDetail";
+import { useMatchDetail, type UseMatchDetailOptions } from "./useMatchDetail";
 
 export interface UseMatchParticipationResult {
   match: MatchDetail | null;
@@ -13,7 +13,7 @@ export interface UseMatchParticipationResult {
   isLoading: boolean;
   /** Falha ao carregar a partida que não é 404 (rede, servidor): vale tentar de novo. */
   isError: boolean;
-  refetch: () => void;
+  refetch: () => Promise<unknown>;
   join: () => Promise<void>;
   cancel: () => void;
   close: () => void;
@@ -22,10 +22,11 @@ export interface UseMatchParticipationResult {
 
 export function useMatchParticipation(
   matchId: string,
-  currentUser: PublicUser | null
+  currentUser: PublicUser | null,
+  options: UseMatchDetailOptions = {}
 ): UseMatchParticipationResult {
   const queryClient = useQueryClient();
-  const { match, isLoading, isError, refetch } = useMatchDetail(matchId);
+  const { match, isLoading, isError, refetch } = useMatchDetail(matchId, options);
 
   const userStatus = useMemo((): ParticipationStatus | null => {
     if (!match || !currentUser) return null;

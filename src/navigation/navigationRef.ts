@@ -10,6 +10,15 @@ export interface PushNotificationData {
   matchId: string;
 }
 
+export function isPushNotificationData(data: unknown): data is PushNotificationData {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    typeof (data as Record<string, unknown>).type === "string" &&
+    typeof (data as Record<string, unknown>).matchId === "string"
+  );
+}
+
 export function navigateFromPushNotification(data: PushNotificationData): void {
   if (!navigationRef.isReady()) return;
 

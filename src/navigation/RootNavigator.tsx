@@ -5,13 +5,17 @@ import { ActivityIndicator, View } from "react-native";
 
 import SlowServerNotice from "../components/SlowServerNotice";
 import { useAuth } from "../contexts/AuthContext";
+import { usePushQueryInvalidation } from "../hooks/usePushQueryInvalidation";
 import { useSlowRequestHint } from "../hooks/useSlowRequestHint";
 import { warmUpServer } from "../services/api/health";
 import { colors } from "../theme";
 import AppNavigator from "./AppNavigator";
 import AuthNavigator from "./AuthNavigator";
-import { navigateFromPushNotification, navigationRef } from "./navigationRef";
-import type { PushNotificationData } from "./navigationRef";
+import {
+  isPushNotificationData,
+  navigateFromPushNotification,
+  navigationRef,
+} from "./navigationRef";
 
 function BootScreen() {
   // A tela de abertura fica visível enquanto a sessão salva é restaurada (GET /users/me), que é
@@ -22,15 +26,6 @@ function BootScreen() {
       <ActivityIndicator size="large" color={colors.primary[500]} />
       <SlowServerNotice visible={isSlow} tone="dark" />
     </View>
-  );
-}
-
-function isPushNotificationData(data: unknown): data is PushNotificationData {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    typeof (data as Record<string, unknown>).type === "string" &&
-    typeof (data as Record<string, unknown>).matchId === "string"
   );
 }
 
@@ -50,6 +45,7 @@ function usePushNotificationNavigation() {
 export default function RootNavigator() {
   const { isAuthenticated, isBooting } = useAuth();
   usePushNotificationNavigation();
+  usePushQueryInvalidation();
   useEffect(() => warmUpServer(), []);
 
   if (isBooting) {

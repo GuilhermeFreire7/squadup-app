@@ -12,8 +12,13 @@ const mockMatchesState: {
   isError: boolean;
 } = { matches: [], isLoading: false, isError: false };
 
+let mockFocusEffect: (() => void) | null = null;
+
 jest.mock("@react-navigation/native", () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
+  useFocusEffect: (effect: () => void) => {
+    mockFocusEffect = effect;
+  },
 }));
 
 jest.mock("react-native-safe-area-context", () => ({
@@ -122,6 +127,17 @@ describe("HomeScreen", () => {
       await list.props.refreshControl.props.onRefresh();
     });
 
+    expect(mockRefetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("ao voltar para a tela, refaz a busca (o primeiro foco não conta)", () => {
+    setMatchesState({ matches: [MATCH] });
+    render(<HomeScreen />);
+
+    act(() => mockFocusEffect?.());
+    expect(mockRefetch).not.toHaveBeenCalled();
+
+    act(() => mockFocusEffect?.());
     expect(mockRefetch).toHaveBeenCalledTimes(1);
   });
 
