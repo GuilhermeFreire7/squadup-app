@@ -130,6 +130,15 @@
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
 
+% Captura de tela com moldura cinza. A largura da imagem desconta o espaçamento e a
+% espessura da moldura, para que o conjunto caiba exatamente na largura disponível
+% (dentro de uma minipage, a largura da minipage).
+\newcommand{\telaemoldurada}[1]{%
+  \fcolorbox{gray}{white}{%
+    \includegraphics[width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax]{#1}%
+  }%
+}
+
 \begin{document}
 \selectlanguage{portuguese}
 
@@ -321,7 +330,7 @@ Esta seção apresenta os principais trabalhos acadêmicos e soluções existent
 
 O uso de aplicativos móveis voltados à prática de atividade física tem sido amplamente estudado como forma de incentivar mudanças de comportamento e aumentar a frequência de exercícios. Segundo Pradal-Cano et al. \citep{pradal-cano_using_2020}, aplicativos desse tipo podem contribuir para o aumento da atividade física, especialmente quando utilizam recursos como monitoramento, metas, \textit{feedback} e notificações.
 
-Apesar desse potencial, grande parte dessas soluções possui foco individual, concentrando-se em métricas pessoais, acompanhamento de desempenho e metas específicas. Embora tais funcionalidades possam estimular alguns usuários, elas não resolvem totalmente barreiras associadas à prática de esportes coletivos, como a dificuldade de encontrar parceiros, combinar horários, escolher locais e formar grupos confiáveis.
+Apesar desse potencial, grande parte dessas soluções possui foco individual, concen\-trando-se em métricas pessoais, acompanhamento de desempenho e metas específicas. Embora tais funcionalidades possam estimular alguns usuários, elas não resolvem totalmente barreiras associadas à prática de esportes coletivos, como a dificuldade de encontrar parceiros, combinar horários, escolher locais e formar grupos confiáveis.
 
 No contexto do SquadUp, esse tipo de estudo demonstra que aplicativos móveis podem atuar como mediadores de comportamento e incentivo à prática física. Entretanto, também evidencia uma limitação relevante: quando a solução se concentra apenas no indivíduo, deixa de tratar adequadamente aspectos sociais necessários para esportes coletivos. Assim, o SquadUp amplia essa perspectiva ao incorporar a conexão entre usuários como parte central da experiência.
 
@@ -410,25 +419,19 @@ Por fim, o critério \textbf{foco social} também foi classificado como \textbf{
 
     \begin{minipage}{0.29\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/concorrentes/hexagon_screen_1.jpeg}
-        }
+        \telaemoldurada{assets/concorrentes/hexagon_screen_1.jpeg}
         \caption*{Tela inicial}
     \end{minipage}
     \hspace{0.025\textwidth}
     \begin{minipage}{0.29\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/concorrentes/hexagon_screen_4.jpeg}
-        }
+        \telaemoldurada{assets/concorrentes/hexagon_screen_4.jpeg}
         \caption*{Interação com usuário}
     \end{minipage}
     \hspace{0.025\textwidth}
     \begin{minipage}{0.29\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/concorrentes/hexagon_screen_3.jpeg}
-        }
+        \telaemoldurada{assets/concorrentes/hexagon_screen_3.jpeg}
         \caption*{Criação de partida}
     \end{minipage}
 
@@ -722,17 +725,13 @@ Este caso de uso permite que o usuário consulte as informações completas de u
 
     \begin{minipage}{0.32\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/detalhes-partida.png}
-        }
+        \telaemoldurada{assets/app/detalhes-partida.png}
         \caption*{Informações gerais}
     \end{minipage}
     \hspace{0.05\textwidth}
     \begin{minipage}{0.32\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/detalhes-partida-2.png}
-        }
+        \telaemoldurada{assets/app/detalhes-partida-2.png}
         \caption*{Informações complementares}
     \end{minipage}
 
@@ -1044,25 +1043,19 @@ A tela de login concentra o acesso à aplicação, seja por um usuário já cada
 
     \begin{minipage}{0.28\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/feed-principal.png}
-        }
+        \telaemoldurada{assets/app/feed-principal.png}
         \caption*{Feed principal}
     \end{minipage}
     \hspace{0.025\textwidth}
     \begin{minipage}{0.28\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/criar-partida.png}
-        }
+        \telaemoldurada{assets/app/criar-partida.png}
         \caption*{Criar partida}
     \end{minipage}
     \hspace{0.025\textwidth}
     \begin{minipage}{0.28\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/detalhes-partida.png}
-        }
+        \telaemoldurada{assets/app/detalhes-partida.png}
         \caption*{Detalhes}
     \end{minipage}
 
@@ -1075,25 +1068,19 @@ A tela de login concentra o acesso à aplicação, seja por um usuário já cada
 
     \begin{minipage}{0.28\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/detalhes-partida-2.png}
-        }
+        \telaemoldurada{assets/app/detalhes-partida-2.png}
         \caption*{Detalhes complementares}
     \end{minipage}
     \hspace{0.025\textwidth}
     \begin{minipage}{0.28\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/perfil.png}
-        }
+        \telaemoldurada{assets/app/perfil.png}
         \caption*{Perfil}
     \end{minipage}
     \hspace{0.025\textwidth}
     \begin{minipage}{0.28\textwidth}
         \centering
-        \fcolorbox{gray}{white}{
-            \includegraphics[width=0.95\textwidth]{assets/app/denunciar.png}
-        }
+        \telaemoldurada{assets/app/denunciar.png}
         \caption*{Denúncia}
     \end{minipage}
 
@@ -1117,7 +1104,7 @@ Esta subseção apresenta os principais conceitos técnicos utilizados ao longo 
 
 \subsubsection{Aplicativos móveis}
 
-Aplicativos móveis são programas desenvolvidos para dispositivos móveis, como smartphones e tablets. Diferentemente de aplicações executadas em navegadores web, aplicativos móveis podem utilizar recursos específicos do dispositivo, como câmera, GPS, notificações e armazenamento local.
+Aplicativos móveis são programas desenvolvidos para dispositivos móveis, como smart\-phones e tablets. Diferentemente de aplicações executadas em navegadores web, aplicativos móveis podem utilizar recursos específicos do dispositivo, como câmera, GPS, notificações e armazenamento local.
 
 No contexto deste trabalho, o SquadUp foi concebido como um aplicativo móvel, permitindo que os usuários encontrem e organizem partidas esportivas diretamente por meio de seus dispositivos.
 
