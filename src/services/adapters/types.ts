@@ -61,6 +61,13 @@ export interface ApiMatchDetail extends ApiMatchSummary {
   participants: ApiParticipant[];
 }
 
+export interface ApiMyMatch extends ApiMatchSummary {
+  is_organizer: boolean;
+  my_status: "confirmed" | "pending" | null;
+  pending_requests: number;
+  is_past: boolean;
+}
+
 export interface ApiMatchRef {
   id: string;
   title: string;

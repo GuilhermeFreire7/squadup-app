@@ -1,5 +1,11 @@
-import type { MatchDetail, MatchRef, MatchSummary, Participant } from "../../types";
-import type { ApiMatchDetail, ApiMatchRef, ApiMatchSummary, ApiParticipant } from "./types";
+import type { MatchDetail, MatchRef, MatchSummary, MyMatch, Participant } from "../../types";
+import type {
+  ApiMatchDetail,
+  ApiMatchRef,
+  ApiMatchSummary,
+  ApiMyMatch,
+  ApiParticipant,
+} from "./types";
 import { toPublicUser } from "./user";
 
 function toShortTime(time: string): string {
@@ -34,6 +40,16 @@ export function toMatchSummary(api: ApiMatchSummary): MatchSummary {
     latitude: api.latitude ?? null,
     longitude: api.longitude ?? null,
     distanceKm: api.distance_km ?? null,
+  };
+}
+
+export function toMyMatch(api: ApiMyMatch): MyMatch {
+  return {
+    ...toMatchSummary(api),
+    isOrganizer: api.is_organizer,
+    myStatus: api.my_status,
+    pendingRequests: api.pending_requests,
+    isPast: api.is_past,
   };
 }
 

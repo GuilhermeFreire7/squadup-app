@@ -1,5 +1,5 @@
 import type { ExperienceLevel, Sport } from "../../types";
-import type { ApiMyProfile, ApiPublicUser } from "../adapters/types";
+import type { ApiMyMatch, ApiMyProfile, ApiPublicUser } from "../adapters/types";
 import { apiClient } from "./client";
 
 interface UpdateMyProfilePayload {
@@ -17,6 +17,10 @@ export async function fetchMyProfile(): Promise<ApiMyProfile> {
 
 export async function updateMyProfile(payload: UpdateMyProfilePayload): Promise<ApiMyProfile> {
   return apiClient.patch<ApiMyProfile>("/users/me", payload);
+}
+
+export async function fetchMyMatches(): Promise<ApiMyMatch[]> {
+  return apiClient.get<ApiMyMatch[]>("/users/me/matches");
 }
 
 export async function registerPushToken(token: string): Promise<void> {

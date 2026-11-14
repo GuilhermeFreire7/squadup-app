@@ -78,6 +78,7 @@ Backend separa **duas shapes**, front usa uma única (`types.Match`):
 |---|---|---|
 | `MatchRead` | `POST /matches`, `GET /matches` (lista), ações (`join`/`leave`/`close`/`approve`) | `organizer_id: str` (só o ID), **sem** `participants`; tem `confirmed_count` e `available_slots` calculados no servidor |
 | `MatchDetailRead` | `GET /matches/{id}` | `MatchRead` + `organizer: PublicProfileRead` (objeto completo) + `participants: ParticipantRead[]` |
+| `MyMatchRead` | `GET /users/me/matches` (2026-11-14, back #82) | `MatchRead` + `is_organizer: bool`, `my_status: "confirmed" \| "pending" \| null`, `pending_requests: int` (só para o organizador), `is_past: bool` (encerrada, cancelada ou data passada no fuso de Brasília). No front: `MyMatch` / `toMyMatch`, chave `["matches", "mine"]` |
 
 Front's `types.Match` sempre assume `organizer: User` (objeto completo) e `participants:
 Participant[]` presentes — isso **quebra ao integrar a listagem real**: `GET /matches` não

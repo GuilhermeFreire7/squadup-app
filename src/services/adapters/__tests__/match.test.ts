@@ -1,8 +1,9 @@
-import { toMatchDetail, toMatchRef, toMatchSummary, toParticipant } from "../match";
+import { toMatchDetail, toMatchRef, toMatchSummary, toMyMatch, toParticipant } from "../match";
 import type {
   ApiMatchDetail,
   ApiMatchRef,
   ApiMatchSummary,
+  ApiMyMatch,
   ApiParticipant,
   ApiPublicUser,
 } from "../types";
@@ -123,5 +124,25 @@ describe("toMatchDetail", () => {
     expect(result.participants).toHaveLength(1);
     expect(result.participants[0].status).toBe("confirmed");
     expect(result.availableSlots).toBe(10);
+  });
+});
+
+describe("toMyMatch", () => {
+  it("acrescenta papel, status, pedidos pendentes e se a partida já passou", () => {
+    const api: ApiMyMatch = {
+      ...API_MATCH_SUMMARY,
+      is_organizer: true,
+      my_status: "confirmed",
+      pending_requests: 2,
+      is_past: false,
+    };
+
+    expect(toMyMatch(api)).toEqual({
+      ...toMatchSummary(API_MATCH_SUMMARY),
+      isOrganizer: true,
+      myStatus: "confirmed",
+      pendingRequests: 2,
+      isPast: false,
+    });
   });
 });
