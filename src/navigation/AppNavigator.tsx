@@ -11,6 +11,8 @@ import FiltersScreen from "../screens/FiltersScreen";
 import HomeScreen from "../screens/HomeScreen";
 import MatchChatScreen from "../screens/MatchChatScreen";
 import MatchDetailScreen from "../screens/MatchDetailScreen";
+import { useMyMatches } from "../hooks/useMyMatches";
+import MyMatchesScreen from "../screens/MyMatchesScreen";
 import MyProfileScreen from "../screens/MyProfileScreen";
 import PostMatchRatingScreen from "../screens/PostMatchRatingScreen";
 import PublicProfileScreen from "../screens/PublicProfileScreen";
@@ -42,12 +44,21 @@ const CreateIcon = ({ color, focused }: IconProps) => (
     color={color}
   />
 );
+const MyMatchesIcon = ({ color, focused }: IconProps) => (
+  <MaterialCommunityIcons
+    name={focused ? "calendar-check" : "calendar-check-outline"}
+    size={24}
+    color={color}
+  />
+);
 const ProfileIcon = ({ color, focused }: IconProps) => (
   <MaterialCommunityIcons name={focused ? "account" : "account-outline"} size={24} color={color} />
 );
 
 function AppTabs() {
   const insets = useSafeAreaInsets();
+  // Contador na aba: pedidos de entrada esperando a aprovação do organizador.
+  const { pendingRequestsTotal } = useMyMatches();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -90,6 +101,19 @@ function AppTabs() {
           tabBarLabel: "Criar",
           tabBarIcon: CreateIcon,
           tabBarAccessibilityLabel: "Criar partida",
+        }}
+      />
+      <Tab.Screen
+        name="MyMatches"
+        component={MyMatchesScreen}
+        options={{
+          tabBarLabel: "Minhas partidas",
+          tabBarIcon: MyMatchesIcon,
+          tabBarAccessibilityLabel:
+            pendingRequestsTotal > 0
+              ? `Minhas partidas, ${pendingRequestsTotal} pedidos para aprovar`
+              : "Minhas partidas",
+          tabBarBadge: pendingRequestsTotal > 0 ? pendingRequestsTotal : undefined,
         }}
       />
       <Tab.Screen

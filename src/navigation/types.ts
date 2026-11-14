@@ -23,5 +23,6 @@ export type AppTabParamList = {
   Home: undefined;
   Search: undefined;
   CreateMatch: undefined;
+  MyMatches: undefined;
   Profile: undefined;
 };

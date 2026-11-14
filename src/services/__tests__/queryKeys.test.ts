@@ -27,6 +27,10 @@ describe("queryKeys", () => {
     expect(queryKeys.userRatings("user-1")).toEqual(["ratings", "user-1"]);
   });
 
+  it("myMatches() fica sob o prefixo matches, para ser invalidada junto com a listagem", () => {
+    expect(queryKeys.myMatches()).toEqual(["matches", "mine"]);
+  });
+
   it("reports() não recebe parâmetro", () => {
     expect(queryKeys.reports()).toEqual(["reports"]);
   });

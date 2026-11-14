@@ -74,6 +74,17 @@ export interface MatchDetail extends MatchSummary {
   participants: Participant[];
 }
 
+/** Equivalente a `MyMatchRead` — partida vista por quem organiza ou participa (`GET /users/me/matches`). */
+export interface MyMatch extends MatchSummary {
+  isOrganizer: boolean;
+  /** `null` quando o organizador não consta como participante (partidas antigas). */
+  myStatus: Exclude<ParticipationStatus, "cancelled"> | null;
+  /** Pedidos de entrada esperando aprovação. Sempre 0 para quem não organiza. */
+  pendingRequests: number;
+  /** Encerrada, cancelada ou com data já passada. */
+  isPast: boolean;
+}
+
 /** Referência leve a uma partida, embutida em Rating/Report — equivalente a `MatchRef` no backend. */
 export interface MatchRef {
   id: string;

@@ -4,6 +4,9 @@ import type { MatchFilters } from "../contexts/MatchFiltersContext";
 export const queryKeys = {
   me: () => ["me"] as const,
   matches: (filters?: MatchFilters) => ["matches", filters] as const,
+  // Sob o prefixo "matches" de propósito: quem já invalida ["matches"] (participar, criar,
+  // push recebido) atualiza também "Minhas partidas", sem precisar conhecer esta chave.
+  myMatches: () => ["matches", "mine"] as const,
   match: (matchId: string) => ["match", matchId] as const,
   publicProfile: (userId: string) => ["publicProfile", userId] as const,
   messages: (matchId: string) => ["messages", matchId] as const,
