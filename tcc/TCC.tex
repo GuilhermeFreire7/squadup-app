@@ -197,7 +197,7 @@ A prática de esportes coletivos é frequentemente dificultada pela falta de gru
 
 O sistema integra três pilares principais: social, logístico e saúde, com ênfase no aspecto social. Além da descoberta de partidas, inclusive por proximidade geográfica, o aplicativo oferece mecanismos de confiança, como avaliação de usuários após as partidas, reputação, denúncia e moderação administrativa, além de chat entre participantes e notificações \textit{push}.
 
-Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 562 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
+Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 570 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
 
 \vspace{.5cm}
 
@@ -217,7 +217,7 @@ The practice of team sports is often hindered by the lack of organized groups, t
 
 The system integrates three main pillars: social, logistical and health-related, with emphasis on the social aspect. In addition to match discovery, including proximity-based search, the application provides trust mechanisms such as post-match user ratings, reputation, reporting and administrative moderation, as well as a match chat and push notifications.
 
-To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 562 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
+To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 570 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
 
 \vspace{.5cm}
 
@@ -631,7 +631,7 @@ Este caso de uso permite que o usuário encontre partidas esportivas disponívei
 
 \begin{enumerate}
     \item O usuário acessa a tela inicial do aplicativo;
-    \item O sistema apresenta uma lista de partidas disponíveis;
+    \item O sistema apresenta uma lista de partidas disponíveis, ordenada por data e horário, com as encerradas ou canceladas no fim;
     \item O usuário visualiza informações resumidas, como modalidade, local, data, horário e quantidade de participantes;
     \item O usuário seleciona uma partida para acessar seus detalhes.
 \end{enumerate}
@@ -670,7 +670,7 @@ Este caso de uso permite que um usuário organize uma nova partida esportiva, de
     \item O usuário informa modalidade esportiva, título, data, horário, local, quantidade de vagas, nível da partida e descrição;
     \item O sistema valida os dados informados;
     \item O sistema obtém as coordenadas geográficas do local informado e cria a partida, incluindo o organizador como participante confirmado;
-    \item A partida passa a ser exibida na listagem de partidas disponíveis.
+    \item O sistema exibe os detalhes da partida criada, que passa a constar na listagem de partidas disponíveis.
 \end{enumerate}
 
 \textbf{Fluxos alternativos:}
@@ -1237,7 +1237,7 @@ Com base nos casos de uso, foram definidas as seguintes entidades, cujos relacio
     \item \textbf{Dispositivo de notificação}: registra os identificadores de dispositivos aptos a receber notificações \textit{push} de cada usuário.
 \end{itemize}
 
-O local da partida não constitui uma entidade própria: ele é representado por um texto descritivo, sempre obrigatório, complementado por coordenadas de latitude e longitude quando o organizador permite o uso da localização do dispositivo. Valores que podem ser derivados de outras tabelas também recebem tratamento específico: a nota média de um usuário não é armazenada, sendo calculada a partir das avaliações recebidas, e a situação de lotação de uma partida é sempre recalculada a partir da contagem de participações confirmadas, nunca alterada diretamente. Essa decisão evita inconsistências entre informações duplicadas.
+O local da partida não constitui uma entidade própria: ele é representado por um texto descritivo, sempre obrigatório, complementado, quando possível, por coordenadas de latitude e longitude, obtidas a partir do endereço informado ou da localização do dispositivo. Valores que podem ser derivados de outras tabelas também recebem tratamento específico: a nota média de um usuário não é armazenada, sendo calculada a partir das avaliações recebidas, e a situação de lotação de uma partida é sempre recalculada a partir da contagem de participações confirmadas, nunca alterada diretamente. Essa decisão evita inconsistências entre informações duplicadas.
 
 \begin{figure}[H]
     \centering
@@ -1306,7 +1306,7 @@ Na API, o código segue uma estrutura modular em rotas, serviços, modelos e esq
 
 \subsection{Processo de desenvolvimento}
 
-O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 150 \textit{commits} e o da API, 164, com 27 e 63 \textit{pull requests} incorporados, respectivamente.
+O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 156 \textit{commits} e o da API, 172, com 30 e 79 \textit{pull requests} incorporados, respectivamente.
 
 As principais etapas foram:
 
@@ -1333,9 +1333,9 @@ Os testes automatizados foram tratados como parte da definição de pronto de ca
 \hline
 \textbf{Componente} & \textbf{Ferramentas} & \textbf{Testes} & \textbf{Escopo principal} \\
 \hline
-Aplicativo & Jest e React Native Testing Library & 370 (55 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores, geocodificação e utilitários de validação \\
+Aplicativo & Jest e React Native Testing Library & 371 (55 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores, geocodificação e utilitários de validação \\
 \hline
-API & Pytest e pytest-cov & 192 (cobertura de 98,9\%) & Rotas, regras de negócio, autenticação e renovação de sessão, limite de tentativas, permissões, cálculo de distância, notificações e configuração \\
+API & Pytest e pytest-cov & 199 (cobertura de 98,7\%) & Rotas, regras de negócio, autenticação e renovação de sessão, limite de tentativas, permissões, cálculo de distância, notificações e configuração \\
 \hline
 \end{tabular}
 \end{table}
@@ -1368,7 +1368,7 @@ A primeira foi a verificação ponta a ponta dos fluxos por meio de chamadas dir
 
 A segunda foi a navegação automatizada pela interface do aplicativo, executado em um navegador, com a ferramenta Playwright. Um roteiro automatizado autentica-se na API real e percorre as principais telas, capturando as imagens apresentadas no Capítulo 3. Além de produzir as figuras deste trabalho, esse roteiro funciona como um teste de fumaça da integração entre interface e API.
 
-A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico, em duas rodadas: a primeira entre julho e agosto, com a API ainda no Railway, e a segunda em novembro, com a API no Render. Essas rodadas revelaram onze defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos. A maior parte recebeu testes automatizados que impedem sua reincidência; os que dependem do comportamento da plataforma, como o teclado e a inversão de texto, só podem ser confirmados no próprio aparelho.
+A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico, em duas rodadas: a primeira entre julho e agosto, com a API ainda no Railway, e a segunda em novembro, com a API no Render. Essas rodadas revelaram doze defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos. A maior parte recebeu testes automatizados que impedem sua reincidência; os que dependem do comportamento da plataforma, como o teclado e a inversão de texto, só podem ser confirmados no próprio aparelho.
 
 \begin{table}[H]
 \centering
@@ -1400,6 +1400,8 @@ O texto da conversa sem mensagens aparecia espelhado & No Android, a lista inver
 A barra de navegação do sistema cobria o campo de mensagem & Modo de tela cheia sem reserva da área segura inferior & Espaço da área segura abaixo do campo enquanto o teclado está fechado \\
 \hline
 Não havia como sair da conta & A função de encerrar a sessão existia, mas nenhuma tela a disponibilizava & Opção ``Sair da conta'' no perfil, com confirmação \\
+\hline
+Partida recém-criada aparecia no fim da listagem & A consulta da API não definia uma ordenação, e o banco devolvia as partidas na ordem em que estavam gravadas & Ordenação por data e horário, com as próximas partidas primeiro e as encerradas ou canceladas no fim \\
 \hline
 \end{tabular}
 \end{table}
@@ -1581,9 +1583,9 @@ O SquadUp implementa o ciclo completo de uso previsto nos casos de uso: cadastro
 
 Em relação aos objetivos específicos definidos no Capítulo 1, o pilar social, eixo central do projeto, foi atendido pelos perfis públicos, pela reputação construída a partir de avaliações, pelo chat e pelos mecanismos de denúncia e moderação. O pilar logístico foi atendido pela listagem e pelos filtros de partidas, pelo controle de vagas e pela busca por proximidade. O pilar de saúde, tratado de forma inicial e secundária desde a concepção, está presente por meio do número de participações em partidas exibido no perfil do usuário.
 
-Do ponto de vista técnico, a solução é sustentada por 562 testes automatizados, sendo 370 no aplicativo e 192 na API, esta com cobertura de 98,9\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
+Do ponto de vista técnico, a solução é sustentada por 570 testes automatizados, sendo 371 no aplicativo e 199 na API, esta com cobertura de 98,7\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
 
-Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram onze defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, máscaras de entrada, exibição em tela cheia, conectividade, divergências de regras de validação entre aplicativo e API e à falta da opção de encerrar a sessão. A revisão geral do código, por sua vez, encontrou problemas que os testes em aparelho dificilmente revelariam, como falhas de autorização e regras de negócio incompletas.
+Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram doze defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, máscaras de entrada, exibição em tela cheia, conectividade, divergências de regras de validação entre aplicativo e API, à ordem da listagem de partidas e à falta da opção de encerrar a sessão. A revisão geral do código, por sua vez, encontrou problemas que os testes em aparelho dificilmente revelariam, como falhas de autorização e regras de negócio incompletas.
 
 \subsection{Limitações}
 
