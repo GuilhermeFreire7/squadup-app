@@ -38,4 +38,13 @@ describe("navigateFromPushNotification", () => {
 
     expect(navigateSpy).toHaveBeenCalledWith("MatchDetail", { matchId: "match-3" });
   });
+
+  it.each(["join_request", "participant_joined"] as const)(
+    "navega para MatchDetail em %s (aviso ao organizador)",
+    (type) => {
+      navigateFromPushNotification({ type, matchId: "match-4" });
+
+      expect(navigateSpy).toHaveBeenCalledWith("MatchDetail", { matchId: "match-4" });
+    }
+  );
 });
