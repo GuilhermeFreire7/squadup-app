@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   Pressable,
@@ -23,6 +23,8 @@ import { useMatchFiltersContext } from "../contexts/MatchFiltersContext";
 import { useMatchesContext } from "../contexts/MatchesContext";
 import type { AppRootStackParamList } from "../navigation/types";
 import { useMatchFilters } from "../hooks/useMatchFilters";
+import { usePullToRefresh } from "../hooks/usePullToRefresh";
+import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
 import { colors, SPORT_META } from "../theme";
 import type { Sport } from "../types";
 
@@ -71,17 +73,9 @@ export default function HomeScreen() {
   const { filters, setFilters, activeFilterCount } = useMatchFiltersContext();
   const { matches, isLoading, isError, refetch } = useMatchesContext();
   const filteredMatches = useMatchFilters(matches, searchText);
-  // Só o "puxar para atualizar" mostra o indicador; as buscas em segundo plano (ex.: ao voltar
-  // para o app) atualizam a lista sem piscar o spinner.
-  const [isPullRefreshing, setIsPullRefreshing] = useState(false);
-  const handleRefresh = useCallback(async () => {
-    setIsPullRefreshing(true);
-    try {
-      await refetch();
-    } finally {
-      setIsPullRefreshing(false);
-    }
-  }, [refetch]);
+  const { refreshing: isPullRefreshing, onRefresh: handleRefresh } = usePullToRefresh(refetch);
+  // Partidas de outros usuários aparecem ao voltar para a Home, sem precisar puxar a lista.
+  useRefreshOnFocus(refetch);
 
   const firstName = user?.name.split(" ")[0] ?? "";
 

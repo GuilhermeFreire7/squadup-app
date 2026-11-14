@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react-native";
 import React from "react";
 
 import { createQueryWrapper } from "../../test-utils/queryClientWrapper";
@@ -81,10 +81,12 @@ function renderWithQueryClient() {
 
 const mockGoBack = jest.fn();
 const mockUseRoute = jest.fn();
+const mockUseIsFocused = jest.fn(() => true);
 
 jest.mock("@react-navigation/native", () => ({
   useNavigation: () => ({ goBack: mockGoBack, navigate: jest.fn() }),
   useRoute: () => mockUseRoute(),
+  useIsFocused: () => mockUseIsFocused(),
 }));
 
 jest.mock("react-native-safe-area-context", () => ({
@@ -297,5 +299,25 @@ describe("MatchDetailScreen — falha ao carregar", () => {
 
     await waitFor(() => expect(screen.getByText("Partida não encontrada.")).toBeTruthy());
     expect(screen.queryByText("Tentar de novo")).toBeNull();
+  });
+});
+
+describe("MatchDetailScreen — atualização", () => {
+  beforeEach(() => {
+    mockUseRoute.mockReturnValue({ params: { matchId: "match-1" } });
+  });
+
+  it("puxar para atualizar busca a partida de novo", async () => {
+    mockFetchOnce(apiMatchDetail());
+    renderWithQueryClient();
+    await waitFor(() => expect(screen.getByText("Pelada de domingo na arena")).toBeTruthy());
+
+    mockFetchOnce(apiMatchDetail({ title: "Pelada remarcada" }));
+    const scroll = screen.getByTestId("match-detail-scroll");
+    await act(async () => {
+      await scroll.props.refreshControl.props.onRefresh();
+    });
+
+    expect(screen.getByText("Pelada remarcada")).toBeTruthy();
   });
 });

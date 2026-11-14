@@ -1,9 +1,9 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useMemo } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Avatar from "../components/Avatar";
@@ -20,6 +20,7 @@ import SlotsBar from "../components/SlotsBar";
 import SportTile from "../components/SportTile";
 import { useAuth } from "../contexts/AuthContext";
 import { useMatchParticipation } from "../hooks/useMatchParticipation";
+import { usePullToRefresh } from "../hooks/usePullToRefresh";
 import type { AppRootStackParamList } from "../navigation/types";
 import { colors, LEVEL_META, shadows, SPORT_META, type IconName } from "../theme";
 import { formatMatchDate } from "../utils/date";
@@ -58,8 +59,11 @@ export default function MatchDetailScreen() {
   const insets = useSafeAreaInsets();
   const { matchId } = route.params;
   const { user } = useAuth();
+  // Polling só com a tela em foco: com o chat ou um perfil aberto por cima, ele para.
+  const isFocused = useIsFocused();
   const { match, userStatus, isLoading, isError, refetch, join, cancel, close, approve } =
-    useMatchParticipation(matchId, user);
+    useMatchParticipation(matchId, user, { poll: isFocused });
+  const { refreshing, onRefresh } = usePullToRefresh(refetch);
 
   const confirmedCount = useMemo(
     () => (match ? match.participants.filter((p) => p.status === "confirmed").length : 0),
@@ -80,7 +84,7 @@ export default function MatchDetailScreen() {
       <View className="flex-1 bg-secondary-50">
         <Header title="Detalhes da partida" onBack={() => navigation.goBack()} />
         {isError ? (
-          <ErrorState title="Não foi possível carregar a partida" onRetry={refetch} />
+          <ErrorState title="Não foi possível carregar a partida" onRetry={() => void refetch()} />
         ) : (
           <EmptyState icon="calendar-remove-outline" title="Partida não encontrada." />
         )}
@@ -159,9 +163,18 @@ export default function MatchDetailScreen() {
       <Header title="Detalhes da partida" onBack={() => navigation.goBack()} />
 
       <ScrollView
+        testID="match-detail-scroll"
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 8 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary[500]]}
+            tintColor={colors.primary[500]}
+          />
+        }
       >
         <View className="p-5 gap-4">
           {/* Hero */}
