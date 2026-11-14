@@ -6,7 +6,12 @@ export const navigationRef = createNavigationContainerRef<AppRootStackParamList>
 
 /** Contrato de `data` definido pelo backend (`notification_service.py`): `{ type, matchId }`. */
 export interface PushNotificationData {
-  type: "new_message" | "match_closed" | "participation_approved";
+  type:
+    | "new_message"
+    | "match_closed"
+    | "participation_approved"
+    | "join_request"
+    | "participant_joined";
   matchId: string;
 }
 
@@ -19,6 +24,8 @@ export function navigateFromPushNotification(data: PushNotificationData): void {
       return;
     case "match_closed":
     case "participation_approved":
+    case "join_request":
+    case "participant_joined":
       navigationRef.navigate("MatchDetail", { matchId: data.matchId });
   }
 }

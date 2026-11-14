@@ -17,3 +17,5 @@ yarn-error.*
 .env.local
 .DS_Store
 .claude
+# Firebase (push no Android): vai para o EAS como variável de arquivo, não para o Git
+google-services.json

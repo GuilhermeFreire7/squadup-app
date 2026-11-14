@@ -218,6 +218,17 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 > auditoria) vive em [`progress.md`](progress.md) — esta seção só guarda a observação mais
 > recente, para servir de ponto de retomada rápido no início da próxima sessão.
 
+- **Sessão 41, teste ponta a ponta da build `0851a8bb` (2026-11-14, dois aparelhos):** cadastro,
+  criar partida e chat funcionaram. Três falhas: (1) **nenhum push chega**: `push_tokens` em
+  produção tem 0 linhas, porque o APK não tem `google-services.json` nem chave FCM v1 no EAS, e o
+  `catch` silencioso de `useNotificationRegistration` escondia o erro do token; (2) o organizador
+  não era avisado de pedidos de entrada (back #81); (3) nada se atualiza sozinho e não existe
+  "Minhas partidas". Plano aprovado: (1) push ao organizador + FCM (branch
+  `feat/push-fcm-organizador`, com `app.config.js` lendo `GOOGLE_SERVICES_JSON` do EAS),
+  (2) atualização quase em tempo real (push em primeiro plano invalida as consultas; detalhe com
+  polling), (3) aba "Minhas partidas"; (4) central de notificações se der tempo.
+  **Pendente do autor:** criar o projeto Firebase, baixar `google-services.json` para a raiz e
+  subir a chave FCM v1 em expo.dev → Credentials. Sem o arquivo, a build EAS falha.
 - **Checkpointer — Sessão 41 (2026-11-14, teste da build `c2495e7e`):** build EAS `c2495e7e`
   (`dev` @ `c45f3db`, com #26 e #27) gerada e aprovada no aparelho. Dois ajustes no fluxo de criar
   partida: (1) o alerta nativo "Partida criada!" sai; o app volta a aba para o Início, abre o
