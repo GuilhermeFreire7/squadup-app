@@ -218,6 +218,14 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
 > auditoria) vive em [`progress.md`](progress.md) — esta seção só guarda a observação mais
 > recente, para servir de ponto de retomada rápido no início da próxima sessão.
 
+- **Checkpointer — Sessão 41 (2026-11-14, teste da build `c2495e7e`):** build EAS `c2495e7e`
+  (`dev` @ `c45f3db`, com #26 e #27) gerada e aprovada no aparelho. Dois ajustes no fluxo de criar
+  partida: (1) o alerta nativo "Partida criada!" sai; o app volta a aba para o Início, abre o
+  detalhe da partida nova e limpa o formulário (branch `feat/criar-partida-abre-detalhe`, precisa
+  de build); (2) a partida nova aparecia no fim da Home porque `GET /matches` não tinha
+  `ORDER BY`. Corrigido no back #79 (próximas por data e horário; encerradas no fim), sem build.
+  - **Próxima tarefa concreta:** revisar e mergear os dois PRs; gerar build com o PR do front;
+    preencher os dois `TODO(autor)` do TCC.
 - **Checkpointer — Sessão 40 (2026-11-11, testes em aparelho e TCC):** builds EAS `daa6ab10` e
   `7bed4c5c` geradas. O teste em aparelho achou problemas corrigidos nos app #25 (teclado
   edge-to-edge, chat espelhado, barra de navegação, logout), #26 (máscara de horário) e #27 (local

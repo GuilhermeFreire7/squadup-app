@@ -1,6 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import type { CompositeNavigationProp } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -19,13 +21,16 @@ import Input from "../components/Input";
 import { useInvalidateMatches } from "../contexts/MatchesContext";
 import { useDeviceLocation } from "../hooks/useDeviceLocation";
 import { useMatchLocationInput } from "../hooks/useMatchLocationInput";
-import type { AppTabParamList } from "../navigation/types";
+import type { AppRootStackParamList, AppTabParamList } from "../navigation/types";
 import { createMatch } from "../services/api/matches";
 import { colors, LEVEL_META, SPORT_META } from "../theme";
 import type { ExperienceLevel, Sport } from "../types";
 import { formatDateInput, formatTimeInput } from "../utils/date";
 
-type Nav = BottomTabNavigationProp<AppTabParamList>;
+type Nav = CompositeNavigationProp<
+  BottomTabNavigationProp<AppTabParamList, "CreateMatch">,
+  NativeStackNavigationProp<AppRootStackParamList>
+>;
 
 const SPORTS: Sport[] = ["football", "futsal", "volleyball", "basketball", "tennis", "other"];
 const LEVELS: ExperienceLevel[] = ["beginner", "intermediate", "advanced"];
@@ -121,6 +126,20 @@ export default function CreateMatchScreen() {
   const [timeError, setTimeError] = useState("");
   const [maxParticipantsError, setMaxParticipantsError] = useState("");
 
+  /** A aba "Criar" continua montada: limpa o formulário para a próxima partida. */
+  function resetForm() {
+    setSport(null);
+    setTitle("");
+    setLocation("");
+    setDate("");
+    setTime("");
+    setMaxParticipants("");
+    setLevel("intermediate");
+    setDescription("");
+    setAllowBeginners(false);
+    setRequiresApproval(false);
+  }
+
   function validate(): boolean {
     let valid = true;
 
@@ -181,7 +200,7 @@ export default function CreateMatchScreen() {
     try {
       // Coordenadas do local do jogo (endereço), não de onde o organizador está agora.
       const { coords } = await resolveCoordinates();
-      await createMatch({
+      const created = await createMatch({
         sport: sport!,
         title: title.trim(),
         location: location.trim(),
@@ -196,12 +215,12 @@ export default function CreateMatchScreen() {
       });
 
       invalidateMatches();
+      resetForm();
 
-      Alert.alert(
-        "Partida criada!",
-        `"${title.trim()}" foi criada com sucesso.\n${SPORT_META[sport!].label} · ${date} às ${time}`,
-        [{ text: "Ver partidas", onPress: () => navigation.navigate("Home") }]
-      );
+      // Em vez de um alerta de sucesso, abre a partida criada. A aba volta para o Início
+      // antes, para que o "voltar" do detalhe caia na lista (já com a partida nova).
+      navigation.navigate("Home");
+      navigation.navigate("MatchDetail", { matchId: created.id });
     } catch {
       Alert.alert("Não foi possível criar a partida", "Tente novamente em instantes.");
     } finally {

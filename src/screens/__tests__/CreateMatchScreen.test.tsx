@@ -219,30 +219,40 @@ describe("CreateMatchScreen — submissão válida", () => {
     await waitFor(() => expect(mockInvalidateMatches).toHaveBeenCalledTimes(1));
   });
 
-  it("exibe Alert de sucesso após submissão válida", async () => {
+  it("abre o detalhe da partida criada, sem alerta de sucesso", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
     fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
     await waitFor(() =>
-      expect(Alert.alert).toHaveBeenCalledWith(
-        "Partida criada!",
-        expect.stringContaining("Pelada de teste no parque"),
-        expect.any(Array)
-      )
+      expect(mockNavigate).toHaveBeenCalledWith("MatchDetail", { matchId: "match-new" })
     );
+    expect(Alert.alert).not.toHaveBeenCalled();
   });
 
-  it("inclui o esporte e a data no Alert de sucesso", async () => {
+  it("volta a aba para o Início antes de abrir o detalhe", async () => {
     render(<CreateMatchScreen />);
     fillValidForm();
     fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
 
-    await waitFor(() => expect(Alert.alert).toHaveBeenCalled());
-    const message = (Alert.alert as jest.Mock).mock.calls[0][1] as string;
-    expect(message).toContain("Futebol");
-    expect(message).toContain("01/06/2026");
-    expect(message).toContain("18:00");
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledTimes(2));
+    expect(mockNavigate.mock.calls[0]).toEqual(["Home"]);
+    expect(mockNavigate.mock.calls[1][0]).toBe("MatchDetail");
+  });
+
+  it("limpa o formulário após criar a partida", async () => {
+    render(<CreateMatchScreen />);
+    fillValidForm();
+    fireEvent.press(screen.getByRole("button", { name: "Criar partida" }));
+
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalled());
+    expect(screen.getByPlaceholderText("Ex: Pelada de domingo na arena").props.value).toBe("");
+    expect(screen.getByPlaceholderText("Ex: Arena Botafogo — Rua Gen. Polidoro").props.value).toBe(
+      ""
+    );
+    expect(screen.getByPlaceholderText("DD/MM/AAAA").props.value).toBe("");
+    expect(screen.getByPlaceholderText("HH:MM").props.value).toBe("");
+    expect(screen.getByPlaceholderText("Ex: 10").props.value).toBe("");
   });
 
   it("exibe Alert de erro quando createMatch falha", async () => {
@@ -256,6 +266,11 @@ describe("CreateMatchScreen — submissão válida", () => {
         "Não foi possível criar a partida",
         expect.any(String)
       )
+    );
+    expect(mockNavigate).not.toHaveBeenCalled();
+    // Mantém o que foi digitado para o usuário tentar de novo.
+    expect(screen.getByPlaceholderText("Ex: Pelada de domingo na arena").props.value).toBe(
+      "Pelada de teste no parque"
     );
   });
 });
