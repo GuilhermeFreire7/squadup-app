@@ -224,8 +224,14 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
   detalhe da partida nova e limpa o formulário (branch `feat/criar-partida-abre-detalhe`, precisa
   de build); (2) a partida nova aparecia no fim da Home porque `GET /matches` não tinha
   `ORDER BY`. Corrigido no back #79 (próximas por data e horário; encerradas no fim), sem build.
-  - **Próxima tarefa concreta:** revisar e mergear os dois PRs; gerar build com o PR do front;
-    preencher os dois `TODO(autor)` do TCC.
+  - Os dois foram mergeados (app #30, back #79). A nova ordem foi conferida em produção por leitura de
+    `GET /matches`. Build EAS `37002ef9` (`dev` @ `054c995`) gerada:
+    https://expo.dev/artifacts/eas/odfXjc7QIk2nZbz6oEk-SO2qivVippRTaX4F6RhY0CQ.apk
+  - `TCC.tex` atualizado na branch `docs/tcc-criar-partida-ordenacao`: números (570 testes, commits e
+    PRs), 12º defeito na tabela (ordem da listagem), casos de uso de listagem e de criação, e a
+    origem das coordenadas no modelo de dados.
+  - **Próxima tarefa concreta:** testar a build `37002ef9` no aparelho; mergear o PR do TCC e
+    compilar no Overleaf; preencher os dois `TODO(autor)` do TCC.
 - **Checkpointer — Sessão 40 (2026-11-11, testes em aparelho e TCC):** builds EAS `daa6ab10` e
   `7bed4c5c` geradas. O teste em aparelho achou problemas corrigidos nos app #25 (teclado
   edge-to-edge, chat espelhado, barra de navegação, logout), #26 (máscara de horário) e #27 (local
