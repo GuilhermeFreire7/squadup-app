@@ -230,8 +230,16 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
   - `TCC.tex` atualizado na branch `docs/tcc-criar-partida-ordenacao`: números (570 testes, commits e
     PRs), 12º defeito na tabela (ordem da listagem), casos de uso de listagem e de criação, e a
     origem das coordenadas no modelo de dados.
-  - **Próxima tarefa concreta:** testar a build `37002ef9` no aparelho; mergear o PR do TCC e
-    compilar no Overleaf; preencher os dois `TODO(autor)` do TCC.
+  - **Ícone do app (branch `feat/icone-app`):** `icon.png`, `adaptive-icon.png`, `splash-icon.png`
+    e `favicon.png` ainda eram os placeholders do template Expo. Foram trocados pelo símbolo do
+    logo (o pin com as pessoas, sem o nome), gerado a partir de `assets/squadup_logo.svg`. Também há
+    um ícone de notificação novo (silhueta branca, `notification-icon.png`, configurado no plugin
+    `expo-notifications` com a cor `#2563EB`); antes o Android mostrava um quadrado genérico.
+    Precisa de build EAS (muda o projeto nativo).
+  - Dados de produção (back #80): datas da demo alinhadas aos títulos e fora do Natal, e as duas
+    partidas de teste de 14/11 e 15/11 canceladas.
+  - **Próxima tarefa concreta:** mergear o back #80, o TCC #31 e o PR do ícone; gerar uma build com
+    o ícone e fazer nela o teste ponta a ponta; preencher os dois `TODO(autor)` do TCC.
 - **Checkpointer — Sessão 40 (2026-11-11, testes em aparelho e TCC):** builds EAS `daa6ab10` e
   `7bed4c5c` geradas. O teste em aparelho achou problemas corrigidos nos app #25 (teclado
   edge-to-edge, chat espelhado, barra de navegação, logout), #26 (máscara de horário) e #27 (local
