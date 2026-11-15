@@ -6,6 +6,12 @@
  * Uso: npx playwright test scripts/capture-tcc-screenshots.ts --config=scripts/playwright.config.ts
  * Pré-requisito: `npm run web` já rodando em http://localhost:8081 e um backend acessível
  * com o usuário de teste abaixo já cadastrado (ver `.status/queue.md`, sessão 28).
+ *
+ * Como as capturas de 2026-11-15 foram feitas (5 abas, com "Minhas partidas"): banco SQLite
+ * novo e descartável (`alembic upgrade head` + `python -m app.seed`), com data, horário e
+ * status das partidas `match-*` copiados de produção (só leitura), `user-1` promovido a admin
+ * só nesse banco, e `TCC_SCREENSHOT_EMAIL=guilherme.freire@squadup.dev` com a senha do seed.
+ * A primeira carga do Metro web leva ~1 min: abrir http://localhost:8081 antes de rodar.
  */
 import { expect, test } from "@playwright/test";
 
@@ -115,6 +121,14 @@ test("captura telas principais do app", async ({ page }) => {
   await page.getByRole("tab", { name: "Criar partida" }).click();
   await expect(page.getByText("Organize o jogo e chame a galera")).toBeVisible({ timeout: 10000 });
   await shot(page, "criar-partida");
+
+  // O rótulo da aba ganha "N pedidos para aprovar" quando há pendências: casar pelo início.
+  await page.getByRole("tab", { name: /^Minhas partidas/ }).click();
+  await expect(page.getByText("As que você organiza e as de que participa")).toBeVisible({
+    timeout: 10000,
+  });
+  await expect(page.getByText("Próximas", { exact: true })).toBeVisible({ timeout: 10000 });
+  await shot(page, "minhas-partidas");
 
   await page.getByRole("tab", { name: "Perfil" }).click();
   await page.waitForTimeout(800);

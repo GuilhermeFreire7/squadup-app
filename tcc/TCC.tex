@@ -206,7 +206,7 @@ A prática de esportes coletivos é frequentemente dificultada pela falta de gru
 
 O sistema integra três pilares principais: social, logístico e saúde, com ênfase no aspecto social. Além da descoberta de partidas, inclusive por proximidade geográfica, o aplicativo oferece mecanismos de confiança, como avaliação de usuários após as partidas, reputação, denúncia e moderação administrativa, além de chat entre participantes e notificações \textit{push}.
 
-Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 570 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
+Para fundamentar a proposta, foi realizada uma revisão bibliográfica sobre aplicativos de atividade física, suporte social e soluções semelhantes disponíveis no mercado, além da análise de aplicativos concorrentes, que identificou lacunas relacionadas à segurança, à confiança e à compatibilidade entre participantes. A solução foi implementada com React Native no aplicativo, FastAPI na API e PostgreSQL no banco de dados, e validada por meio de 613 testes automatizados, integração contínua e testes em dispositivo Android físico. O trabalho descreve os casos de uso, a arquitetura, a implementação, os testes realizados, os resultados obtidos e as limitações da solução.
 
 \vspace{.5cm}
 
@@ -226,7 +226,7 @@ The practice of team sports is often hindered by the lack of organized groups, t
 
 The system integrates three main pillars: social, logistical and health-related, with emphasis on the social aspect. In addition to match discovery, including proximity-based search, the application provides trust mechanisms such as post-match user ratings, reputation, reporting and administrative moderation, as well as a match chat and push notifications.
 
-To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 570 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
+To support the proposal, a literature review was conducted on physical activity applications, social support and similar solutions available on the market, together with an analysis of competitor applications, which identified gaps related to safety, trust and compatibility between participants. The solution was implemented with React Native for the application, FastAPI for the API and PostgreSQL for the database, and validated through 613 automated tests, continuous integration and tests on a physical Android device. This work describes the use cases, the architecture, the implementation, the tests performed, the results obtained and the limitations of the solution.
 
 \vspace{.5cm}
 
@@ -560,7 +560,7 @@ Essa divisão permite separar as funcionalidades de uso cotidiano da aplicação
 
 \subsection{Casos de uso}
 
-Os casos de uso descrevem as principais interações entre os atores e o SquadUp. São contemplados os fluxos associados à autenticação, às telas principais da aplicação (busca de partidas, criação de partida, visualização de detalhes, participação, visualização de perfil), às ações complementares de organização de partidas (cancelamento de participação, aprovação de participantes e encerramento de partida), à comunicação entre participantes, à construção de reputação por meio de avaliações e aos mecanismos de segurança da comunidade (denúncia e moderação).
+Os casos de uso descrevem as principais interações entre os atores e o SquadUp. São contemplados os fluxos associados à autenticação, às telas principais da aplicação (busca de partidas, criação de partida, visualização de detalhes, participação, acompanhamento das próprias partidas, visualização de perfil), às ações complementares de organização de partidas (cancelamento de participação, aprovação de participantes e encerramento de partida), à comunicação entre participantes, à construção de reputação por meio de avaliações e aos mecanismos de segurança da comunidade (denúncia e moderação).
 
 \subsubsection{Cadastrar-se e autenticar-se}
 
@@ -757,15 +757,52 @@ Este caso de uso permite que o usuário confirme sua participação em uma parti
     \item O usuário seleciona a opção de participar;
     \item O sistema verifica a disponibilidade de vagas;
     \item O sistema registra a participação do usuário;
-    \item A partida passa a considerar o usuário como participante confirmado.
+    \item A partida passa a considerar o usuário como participante confirmado;
+    \item O organizador da partida é avisado da nova participação por notificação \textit{push}.
 \end{enumerate}
 
 \textbf{Fluxos alternativos:}
 
 \begin{itemize}
     \item Caso a partida esteja lotada, o sistema informa que não há vagas disponíveis;
-    \item Caso a participação dependa de aprovação, o sistema registra a solicitação como pendente.
+    \item Caso a participação dependa de aprovação, o sistema registra a solicitação como pendente e avisa o organizador por notificação \textit{push}, para que ele a analise.
 \end{itemize}
+
+\subsubsection{Acompanhar minhas partidas}
+
+Este caso de uso permite que o usuário encontre, em um só lugar, as partidas que organiza e aquelas das quais participa, sem precisar procurá-las na listagem geral.
+
+\textbf{Ator primário:} Usuário.
+
+\textbf{Pré-condições:} o usuário deve estar autenticado.
+
+\textbf{Pós-condições:} nenhuma alteração é realizada; o usuário pode abrir os detalhes de qualquer partida listada.
+
+\textbf{Fluxo principal:}
+
+\begin{enumerate}
+    \item O usuário acessa a aba de suas partidas;
+    \item O sistema lista as partidas que o usuário organiza ou das quais participa, de forma confirmada ou aguardando aprovação, separando as próximas das anteriores;
+    \item Para cada partida, o sistema indica o papel do usuário: organizador, participante confirmado ou aguardando aprovação;
+    \item Nas partidas que organiza, o sistema indica quantas solicitações de participação aguardam sua aprovação;
+    \item O usuário seleciona uma partida e o sistema exibe seus detalhes.
+\end{enumerate}
+
+\textbf{Fluxos alternativos:}
+
+\begin{itemize}
+    \item Caso o usuário ainda não organize nem participe de nenhuma partida, o sistema informa que a lista está vazia e oferece o acesso à busca de partidas;
+    \item Caso existam solicitações pendentes em partidas organizadas pelo usuário, o sistema exibe a quantidade total no ícone da aba.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \fcolorbox{gray}{white}{
+        \includegraphics[width=0.32\textwidth]{assets/app/minhas-partidas.png}
+    }
+    \caption{Aba de partidas do usuário, com o papel em cada partida}
+    \label{fig:app_minhas_partidas}
+\end{figure}
 
 \subsubsection{Cancelar participação}
 
@@ -1036,7 +1073,7 @@ Este caso de uso permite que um administrador analise as denúncias registradas 
 
 As telas apresentadas nesta seção foram definidas a partir dos casos de uso priorizados e representam os principais pontos de interação do usuário com o SquadUp. O fluxo geral da aplicação permite que o usuário se autentique, encontre uma partida na tela inicial, consulte seus detalhes, confirme participação, converse com os demais participantes, visualize informações de outros participantes, avalie-os após a partida, crie novas partidas e utilize mecanismos de denúncia quando necessário.
 
-A tela de login concentra o acesso à aplicação, seja por um usuário já cadastrado, seja por um usuário recém-criado a partir do fluxo de cadastro. A tela inicial concentra a descoberta de partidas disponíveis. A tela de criação permite que usuários organizem novas atividades esportivas. As telas de detalhes apresentam as informações necessárias para a decisão de participação, incluindo, para o organizador, as ações de aprovação de participantes e encerramento da partida. A tela de chat fortalece a comunicação entre participantes confirmados antes do encontro presencial. A tela de perfil fortalece o pilar social da aplicação ao permitir que usuários conheçam melhor outros participantes, enquanto a avaliação pós-partida consolida a reputação construída a partir de partidas concluídas. Por fim, as telas de denúncia e o painel administrativo de moderação representam os mecanismos de segurança da aplicação, contribuindo para a manutenção da comunidade.
+A tela de login concentra o acesso à aplicação, seja por um usuário já cadastrado, seja por um usuário recém-criado a partir do fluxo de cadastro. A tela inicial concentra a descoberta de partidas disponíveis. A tela de criação permite que usuários organizem novas atividades esportivas, e a aba de partidas do usuário reúne as que ele organiza ou das quais participa. As telas de detalhes apresentam as informações necessárias para a decisão de participação, incluindo, para o organizador, as ações de aprovação de participantes e encerramento da partida. A tela de chat fortalece a comunicação entre participantes confirmados antes do encontro presencial. A tela de perfil fortalece o pilar social da aplicação ao permitir que usuários conheçam melhor outros participantes, enquanto a avaliação pós-partida consolida a reputação construída a partir de partidas concluídas. Por fim, as telas de denúncia e o painel administrativo de moderação representam os mecanismos de segurança da aplicação, contribuindo para a manutenção da comunidade.
 
 \begin{figure}[H]
     \centering
@@ -1160,7 +1197,7 @@ No SquadUp, a geolocalização foi utilizada para facilitar a descoberta de part
 
 Notificações \textit{push} são mensagens enviadas por um servidor e exibidas diretamente pelo sistema operacional do dispositivo, mesmo quando o aplicativo não está em primeiro plano. Esse recurso permite que o usuário seja avisado de eventos relevantes sem a necessidade de manter a aplicação aberta.
 
-No SquadUp, notificações \textit{push} são utilizadas para avisar o usuário sobre três eventos considerados essenciais para os pilares social e logístico do sistema: o recebimento de uma nova mensagem em uma partida da qual participa, a aprovação de uma solicitação de participação pendente e o encerramento de uma partida pelo organizador. Ao tocar em uma notificação, o usuário é encaminhado diretamente para a tela correspondente ao evento. Assim como a geolocalização, o recurso é aditivo: a recusa da permissão de notificações pelo usuário não compromete nenhum fluxo funcional da aplicação, apenas deixa de emitir o aviso do sistema operacional.
+No SquadUp, notificações \textit{push} são utilizadas para avisar o usuário sobre eventos considerados essenciais para os pilares social e logístico do sistema: o recebimento de uma nova mensagem em uma partida da qual participa, a aprovação de uma solicitação de participação pendente e o encerramento de uma partida pelo organizador. O organizador também é avisado quando alguém solicita entrada em sua partida ou passa a participar dela. Ao tocar em uma notificação, o usuário é encaminhado diretamente para a tela correspondente ao evento; se o aplicativo estiver aberto, a notificação também atualiza os dados exibidos na tela. Assim como a geolocalização, o recurso é aditivo: a recusa da permissão de notificações pelo usuário não compromete nenhum fluxo funcional da aplicação, apenas deixa de emitir o aviso do sistema operacional.
 
 \subsubsection{Arquitetura cliente-servidor}
 
@@ -1199,7 +1236,7 @@ A arquitetura do SquadUp segue o modelo cliente-servidor, organizada em três ca
 
 \subsubsection{Camada de apresentação}
 
-A camada de apresentação é composta por um aplicativo \textit{mobile} desenvolvido em React Native com a plataforma Expo. Essa camada é responsável pela interface com o usuário, pela navegação entre telas e pela comunicação com os serviços disponibilizados pela API. O aplicativo contempla telas como cadastro, login, perfil, listagem de partidas, filtros, detalhes da partida, criação de partida, conversa da partida, avaliação de usuários, denúncia e painel administrativo. O estado proveniente do servidor é gerenciado por uma camada de \textit{cache} de requisições, enquanto os dados de sessão do usuário são mantidos em um contexto global da aplicação.
+A camada de apresentação é composta por um aplicativo \textit{mobile} desenvolvido em React Native com a plataforma Expo. Essa camada é responsável pela interface com o usuário, pela navegação entre telas e pela comunicação com os serviços disponibilizados pela API. O aplicativo contempla telas como cadastro, login, perfil, listagem de partidas, filtros, detalhes da partida, criação de partida, partidas do usuário, conversa da partida, avaliação de usuários, denúncia e painel administrativo. O estado proveniente do servidor é gerenciado por uma camada de \textit{cache} de requisições, enquanto os dados de sessão do usuário são mantidos em um contexto global da aplicação.
 
 \subsubsection{Camada de aplicação}
 
@@ -1285,7 +1322,7 @@ Infraestrutura & GitHub e GitHub Actions; Render (hospedagem da API); Neon (Post
 
 O aplicativo e a API foram mantidos em repositórios independentes, o que permitiu evoluir, testar e implantar cada parte separadamente.
 
-No aplicativo, o código foi organizado por responsabilidade: telas (18 no total), componentes visuais reutilizáveis, \textit{hooks} com a lógica de cada funcionalidade, contextos globais (sessão do usuário e filtros de busca), serviços de comunicação com a API e utilitários. Seguindo o princípio de separar apresentação de regras de negócio, os componentes visuais recebem dados prontos e não acessam a API diretamente; essa responsabilidade fica com os \textit{hooks} e os serviços. Uma camada de adaptadores converte o formato dos dados recebidos da API para os tipos usados nas telas, isolando a interface de mudanças no contrato da API.
+No aplicativo, o código foi organizado por responsabilidade: telas (19 no total), componentes visuais reutilizáveis, \textit{hooks} com a lógica de cada funcionalidade, contextos globais (sessão do usuário e filtros de busca), serviços de comunicação com a API e utilitários. Seguindo o princípio de separar apresentação de regras de negócio, os componentes visuais recebem dados prontos e não acessam a API diretamente; essa responsabilidade fica com os \textit{hooks} e os serviços. Uma camada de adaptadores converte o formato dos dados recebidos da API para os tipos usados nas telas, isolando a interface de mudanças no contrato da API.
 
 O cliente HTTP do aplicativo concentra comportamentos transversais: anexa o \textit{token} de acesso a cada requisição, renova automaticamente a sessão quando o \textit{token} expira, repete a requisição em caso de falha momentânea de conexão e traduz as respostas de erro da API em mensagens compreensíveis para o usuário.
 
@@ -1293,7 +1330,7 @@ Na API, o código segue uma estrutura modular em rotas, serviços, modelos e esq
 
 \subsection{Processo de desenvolvimento}
 
-O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 156 \textit{commits} e o da API, 172, com 30 e 79 \textit{pull requests} incorporados, respectivamente.
+O desenvolvimento foi incremental e organizado em fases, cada uma implementada em um ramo próprio do repositório e incorporada ao ramo principal por meio de \textit{pull requests}. O progresso, as decisões técnicas e as dívidas técnicas identificadas foram registrados continuamente em documentos de acompanhamento mantidos nos próprios repositórios. Ao final do projeto, o repositório do aplicativo somava 167 \textit{commits} e o da API, 180, com 35 e 69 \textit{pull requests} incorporados, respectivamente.
 
 As principais etapas foram:
 
@@ -1320,9 +1357,9 @@ Os testes automatizados foram tratados como parte da definição de pronto de ca
 \hline
 \textbf{Componente} & \textbf{Ferramentas} & \textbf{Testes} & \textbf{Escopo principal} \\
 \hline
-Aplicativo & Jest e React Native Testing Library & 371 (55 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores, geocodificação e utilitários de validação \\
+Aplicativo & Jest e React Native Testing Library & 397 (61 suítes) & Renderização e interação das telas, \textit{hooks}, contextos de sessão, cliente HTTP, adaptadores, geocodificação e utilitários de validação \\
 \hline
-API & Pytest e pytest-cov & 199 (cobertura de 98,7\%) & Rotas, regras de negócio, autenticação e renovação de sessão, limite de tentativas, permissões, cálculo de distância, notificações e configuração \\
+API & Pytest e pytest-cov & 216 (cobertura de 98,7\%) & Rotas, regras de negócio, autenticação e renovação de sessão, limite de tentativas, permissões, cálculo de distância, notificações e configuração \\
 \hline
 \end{tabular}
 \end{table}
@@ -1355,13 +1392,13 @@ A primeira foi a verificação ponta a ponta dos fluxos por meio de chamadas dir
 
 A segunda foi a navegação automatizada pela interface do aplicativo, executado em um navegador, com a ferramenta Playwright. Um roteiro automatizado autentica-se na API real e percorre as principais telas, capturando as imagens apresentadas no Capítulo 3. Além de produzir as figuras deste trabalho, esse roteiro funciona como um teste de fumaça da integração entre interface e API.
 
-A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico, em duas rodadas: a primeira entre julho e agosto, com a API ainda no Railway, e a segunda em novembro, com a API no Render. Essas rodadas revelaram doze defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos. A maior parte recebeu testes automatizados que impedem sua reincidência; os que dependem do comportamento da plataforma, como o teclado e a inversão de texto, só podem ser confirmados no próprio aparelho.
+A terceira, e mais reveladora, foi o uso do aplicativo instalado em um aparelho Android físico, em duas rodadas: a primeira entre julho e agosto, com a API ainda no Railway, e a segunda em novembro, com a API no Render. Essas rodadas revelaram treze defeitos que não haviam sido detectados pelos testes automatizados nem pela execução no navegador, resumidos na Tabela \ref{tab:defeitos}. Todos foram corrigidos. A maior parte recebeu testes automatizados que impedem sua reincidência; os que dependem do comportamento da plataforma, como o teclado e a inversão de texto, só podem ser confirmados no próprio aparelho.
 
 \begin{table}[H]
 \centering
 \caption{Defeitos identificados nos testes em dispositivo físico}
 \label{tab:defeitos}
-\small
+\footnotesize
 \begin{tabular}{|p{4.6cm}|p{4.7cm}|p{4.7cm}|}
 \hline
 \textbf{Defeito} & \textbf{Causa} & \textbf{Correção} \\
@@ -1390,6 +1427,8 @@ Não havia como sair da conta & A função de encerrar a sessão existia, mas ne
 \hline
 Partida recém-criada aparecia no fim da listagem & A consulta da API não definia uma ordenação, e o banco devolvia as partidas na ordem em que estavam gravadas & Ordenação por data e horário, com as próximas partidas primeiro e as encerradas ou canceladas no fim \\
 \hline
+Nenhuma notificação \textit{push} chegava aos aparelhos & A versão instalável não incluía a configuração do Firebase Cloud Messaging, exigida pelo Android para entregar notificações, e a falha ao registrar o aparelho era descartada sem aviso & Configuração do serviço no aplicativo e nas credenciais de compilação; a API passou a registrar as recusas do serviço de envio \\
+\hline
 \end{tabular}
 \end{table}
 
@@ -1397,10 +1436,7 @@ Esses resultados reforçam que testes automatizados e execução em navegador, e
 
 A quarta frente foi uma revisão geral do código do aplicativo e da API, realizada em novembro, com foco em segurança, desempenho, confiabilidade e usabilidade. Entre os problemas identificados e corrigidos, destacam-se: a leitura de perfis e de participantes sem autenticação; a ausência de limite de tentativas no login e no cadastro; o organizador de uma partida criada pelo aplicativo não constar como participante, o que o impedia de encerrar a partida pela tela de detalhes e de ser avaliado; as coordenadas da partida corresponderem à posição do organizador no momento da criação, e não ao local do jogo; e o chat, que deixava de exibir as mensagens mais recentes em conversas longas e não se atualizava enquanto aberto. Os demais pontos levantados, como otimizações de desempenho e a conformidade plena com a LGPD, foram registrados como limitações e trabalhos futuros no Capítulo 7.
 
-% TODO(autor): após o teste ponta a ponta com o APK gerado para a API no Render
-% (cadastro -> criar partida -> chat -> filtro de proximidade -> push), substituir o
-% parágrafo abaixo pelo resultado obtido, citando qualquer defeito encontrado.
-Após a migração da hospedagem, foi gerada uma nova versão do aplicativo apontando para a API de produção, utilizada para repetir em sequência o fluxo completo de uso: cadastro, criação de partida, conversa no chat, busca por proximidade e recebimento de notificações \textit{push}.
+Após a migração da hospedagem, o fluxo completo de uso foi repetido com a versão instalável apontando para a API de produção, em dois aparelhos Android e com duas contas: cadastro, criação de partida com aprovação obrigatória, solicitação de participação, aprovação pelo organizador, conversa no chat e encerramento da partida. O cadastro, a criação e o chat funcionaram, mas o teste revelou o décimo terceiro defeito da Tabela \ref{tab:defeitos}, pois nenhuma notificação \textit{push} era entregue, e três problemas de usabilidade: o organizador não era avisado das solicitações de participação; não havia um lugar para encontrar as próprias partidas, que precisavam ser procuradas na listagem geral; e as telas só refletiam as ações do outro usuário quando atualizadas manualmente. Para resolvê-los, o organizador passou a receber notificações de solicitações e de novos participantes, foi criada a aba de partidas do usuário, com a contagem de solicitações pendentes, e as telas passaram a se atualizar ao receber uma notificação e, no caso dos detalhes da partida, a consultar o servidor periodicamente enquanto abertas. Repetido o roteiro com a nova versão, todas as notificações foram entregues: solicitação de participação, aprovação, nova mensagem e encerramento da partida.
 
 Não foi realizado um teste de usabilidade formal com usuários externos ao projeto. A validação da experiência de uso ficou restrita ao autor e ao orientador, o que constitui uma limitação deste trabalho, discutida no Capítulo 7.
 
@@ -1566,13 +1602,13 @@ A partir dessa fundamentação, foram definidos os pilares do sistema, seus caso
 
 \subsection{Resultados alcançados}
 
-O SquadUp implementa o ciclo completo de uso previsto nos casos de uso: cadastro e autenticação, descoberta de partidas com filtros por modalidade, data, local e proximidade geográfica, criação de partidas com preenchimento opcional do local a partir da localização atual, participação com aprovação opcional pelo organizador, encerramento de partidas, chat entre participantes, avaliação pós-partida em cinco critérios, construção de reputação, denúncia de usuários e moderação administrativa. Notificações \textit{push} avisam o usuário sobre novas mensagens, aprovação de participação e encerramento de partidas.
+O SquadUp implementa o ciclo completo de uso previsto nos casos de uso: cadastro e autenticação, descoberta de partidas com filtros por modalidade, data, local e proximidade geográfica, criação de partidas com preenchimento opcional do local a partir da localização atual, participação com aprovação opcional pelo organizador, acompanhamento das partidas que o usuário organiza ou das quais participa, encerramento de partidas, chat entre participantes, avaliação pós-partida em cinco critérios, construção de reputação, denúncia de usuários e moderação administrativa. Notificações \textit{push} avisam o usuário sobre novas mensagens, aprovação de participação e encerramento de partidas, e o organizador sobre solicitações de participação e novos participantes.
 
 Em relação aos objetivos específicos definidos no Capítulo 1, o pilar social, eixo central do projeto, foi atendido pelos perfis públicos, pela reputação construída a partir de avaliações, pelo chat e pelos mecanismos de denúncia e moderação. O pilar logístico foi atendido pela listagem e pelos filtros de partidas, pelo controle de vagas e pela busca por proximidade. O pilar de saúde, tratado de forma inicial e secundária desde a concepção, está presente por meio do número de participações em partidas exibido no perfil do usuário.
 
-Do ponto de vista técnico, a solução é sustentada por 570 testes automatizados, sendo 371 no aplicativo e 199 na API, esta com cobertura de 98,7\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
+Do ponto de vista técnico, a solução é sustentada por 613 testes automatizados, sendo 397 no aplicativo e 216 na API, esta com cobertura de 98,7\% do código, e por \textit{pipelines} de integração contínua que verificam qualidade de código, tipos, segurança e consistência do banco de dados a cada alteração. O cronograma foi cumprido com antecipação nas etapas de implementação e integração, o que permitiu ampliar o escopo original com geolocalização real e notificações \textit{push}, funcionalidades inicialmente previstas como trabalhos futuros.
 
-Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram doze defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, máscaras de entrada, exibição em tela cheia, conectividade, divergências de regras de validação entre aplicativo e API, à ordem da listagem de partidas e à falta da opção de encerrar a sessão. A revisão geral do código, por sua vez, encontrou problemas que os testes em aparelho dificilmente revelariam, como falhas de autorização e regras de negócio incompletas.
+Um aprendizado relevante do projeto foi a importância da validação em dispositivo físico. Os testes em um aparelho Android real revelaram treze defeitos não detectados pelos testes automatizados nem pela execução em navegador, relacionados a dependências nativas, teclado, máscaras de entrada, exibição em tela cheia, conectividade, divergências de regras de validação entre aplicativo e API, à ordem da listagem de partidas, à falta da opção de encerrar a sessão e à configuração das notificações \textit{push}. O teste com dois aparelhos revelou ainda lacunas de usabilidade que só aparecem quando duas pessoas interagem pela mesma partida, como a falta de aviso ao organizador e de atualização automática das telas. A revisão geral do código, por sua vez, encontrou problemas que os testes em aparelho dificilmente revelariam, como falhas de autorização e regras de negócio incompletas.
 
 \subsection{Limitações}
 
@@ -1582,7 +1618,7 @@ Algumas limitações devem ser consideradas na avaliação dos resultados:
     \item Não foi realizado teste de usabilidade com usuários externos ao projeto. A experiência de uso foi avaliada pelo autor e pelo orientador, de modo que não há evidência empírica de como o público-alvo percebe a aplicação;
     \item A aplicação foi gerada e validada apenas para Android, uma vez que a distribuição para iOS exige conta paga de desenvolvedor;
     \item A hospedagem em planos gratuitos suspende a API após períodos de inatividade, o que torna a primeira requisição seguinte lenta; o aplicativo apenas atenua o efeito, aquecendo o servidor ao abrir e avisando o usuário durante a espera;
-    \item O chat não utiliza um canal em tempo real: enquanto a conversa está aberta, o aplicativo consulta novas mensagens a cada poucos segundos, e quem está fora da conversa é avisado por notificação \textit{push}. A API já oferece um canal em tempo real (\textit{WebSocket}), ainda não utilizado pelo aplicativo;
+    \item O aplicativo não utiliza um canal em tempo real: enquanto o chat ou os detalhes de uma partida estão abertos, ele consulta o servidor a cada poucos segundos, e as demais mudanças chegam por notificação \textit{push}, que também atualiza a tela aberta. Quem nega a permissão de notificações só vê essas mudanças ao abrir ou atualizar a tela. A API já oferece um canal em tempo real (\textit{WebSocket}), ainda não utilizado pelo aplicativo;
     \item O local da partida é informado em texto e convertido em coordenadas pelo serviço do próprio sistema operacional, que pode não reconhecer endereços informais; não há sugestão de endereços durante a digitação nem seleção do local em um mapa;
     \item Os participantes formam um grupo apenas no contexto de cada partida, sem grupos ou times recorrentes entre partidas;
     \item O usuário não pode excluir a própria conta, e o cadastro não apresenta termo de consentimento para o tratamento de dados pessoais, recursos necessários para atender plenamente à LGPD;
@@ -1598,7 +1634,8 @@ A partir das limitações identificadas, são sugeridos os seguintes trabalhos f
 \begin{itemize}
     \item Realizar testes de usabilidade com usuários do público-alvo, como estudantes universitários e pessoas sem grupo fixo, para avaliar a percepção de segurança e a facilidade de uso;
     \item Disponibilizar o aplicativo para iOS e publicá-lo nas lojas de aplicativos;
-    \item Utilizar o canal em tempo real já disponível na API para atualizar o chat instantaneamente;
+    \item Utilizar o canal em tempo real já disponível na API para atualizar o chat e as partidas instantaneamente;
+    \item Criar uma central de notificações no aplicativo, com o histórico dos avisos recebidos;
     \item Oferecer sugestão de endereços durante a digitação e seleção do local da partida em um mapa;
     \item Permitir a formação de grupos ou times recorrentes, como a opção de repetir uma partida com os mesmos participantes;
     \item Permitir que o usuário exclua a própria conta e gerencie o consentimento para o tratamento de seus dados, em conformidade com a LGPD;
