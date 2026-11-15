@@ -227,8 +227,16 @@ no backend (D16); único contrato genuinamente quebrado é a ação de moderaç�
   `feat/push-fcm-organizador`, com `app.config.js` lendo `GOOGLE_SERVICES_JSON` do EAS),
   (2) atualização quase em tempo real (push em primeiro plano invalida as consultas; detalhe com
   polling), (3) aba "Minhas partidas"; (4) central de notificações se der tempo.
-  **Pendente do autor:** criar o projeto Firebase, baixar `google-services.json` para a raiz e
-  subir a chave FCM v1 em expo.dev → Credentials. Sem o arquivo, a build EAS falha.
+  **Concluído (2026-11-15):** mergeados app #33, #34, #35 e back #81, #82. Firebase configurado
+  pelo autor (projeto `squadup-3e837`; `google-services.json` na raiz, fora do Git; chave FCM V1
+  no projeto **pessoal** `@guilhermefreire7/squadup` do expo.dev, não no da empresa). Variável de
+  arquivo `GOOGLE_SERVICES_JSON` (secreta) criada no EAS para preview e production. **Build EAS
+  `12836776`** (`dev` @ `da15ab6`):
+  https://expo.dev/artifacts/eas/HZ9ZelG8WO_K3VKfznGNUd3fdQM_gVDehXSLJRl6WA8.apk. Teste repetido
+  em dois aparelhos: todos os pushes chegaram (nova solicitação, aprovação, mensagem,
+  encerramento); `push_tokens` em produção passou de 0 para 2. Sobrou a partida de teste aberta
+  "Basquete da Lagoa" (01/01/2027, conta de teste). TCC atualizado na branch
+  `docs/tcc-push-minhas-partidas`. Item 4 (central de notificações) segue opcional.
 - **Checkpointer — Sessão 41 (2026-11-14, teste da build `c2495e7e`):** build EAS `c2495e7e`
   (`dev` @ `c45f3db`, com #26 e #27) gerada e aprovada no aparelho. Dois ajustes no fluxo de criar
   partida: (1) o alerta nativo "Partida criada!" sai; o app volta a aba para o Início, abre o
